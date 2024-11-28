@@ -63,6 +63,9 @@ public class ThirteenS extends RulesOfThirteenS {
 		setNumberOfBots();
 		super.numberOfPlayer = this.numberOfPersons + this.numberOfBots;
 		checkTurn = new boolean[numberOfPlayer];
+		for(int i = 0; i < numberOfPlayer; i++) {
+			checkTurn[i] = false;
+		}
 	}
 
 	public void addPlayer() {
@@ -87,6 +90,9 @@ public class ThirteenS extends RulesOfThirteenS {
 			System.out.println("- Deal cards in turn " + (i + 1) + ": ");
 			for (int j = 0; j < numberOfPlayer; ++j) {
 				CardOfThirteenS card = (CardOfThirteenS) deckOfThirteenS.getCardTop();
+				if(card.getRank() == 3 && card.getSuit() == 1){
+					checkTurn[j] = true;
+				}
 				playersThirteenS.get(j).addCard(card);
 				playersThirteenS.get(j).printCardInHand();
 			}
@@ -164,9 +170,12 @@ public class ThirteenS extends RulesOfThirteenS {
 	}
 
 	public void turnOfGame() {
-		int index = 1;
-		resetTurn();
-		System.out.println("- Turn" + index + ":");
+		int index = 0;
+		if(!checkEndTurn()){
+			resetTurn();
+			index++;
+			System.out.println("-Turn " + index + " :");
+		}
 		boolean checkEndGame = false;
 		while (!checkEndGame) {
 			for (int i = 0; i < numberOfPlayer; i++) {

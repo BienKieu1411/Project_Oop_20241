@@ -86,7 +86,7 @@ public class BotThirteenS extends PlayerThirteenS {
 	public ArrayList<CardOfThirteenS> selectionOfBot(ArrayList<CardOfThirteenS> cardsPreTurn) {
 		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
 		if(cardsPreTurn.isEmpty()) {
-			if(((CardOfThirteenS) cardsInHand.getFirst()).getRank() != ((CardOfThirteenS) cardsInHand.get(1)).getRank())
+			if(cardsInHand.size() == 1 || ((CardOfThirteenS) cardsInHand.getFirst()).getRank() != ((CardOfThirteenS) cardsInHand.get(1)).getRank())
 				listCardsPlayed.add((CardOfThirteenS) cardsInHand.getFirst());
 			else{
 				listCardsPlayed.add((CardOfThirteenS) cardsInHand.getFirst());
