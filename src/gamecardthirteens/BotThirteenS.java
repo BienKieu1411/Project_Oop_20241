@@ -43,54 +43,73 @@ public class BotThirteenS extends PlayerThirteenS {
 		return played;
 	}
 
+	private ArrayList<CardOfThirteenS> checkSet (String type, ArrayList<CardOfThirteenS> cardsPreTurn){
+		int n = 0;
+		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
+		if(type.equals("Once")) n = 1;
+		if(type.equals("Double")) n = 2;
+		if(type.equals("Triple")) n = 3;
+		if(type.equals("Four-Fold")) n = 4;
+		for(int i = 0; i < cardsInHand.size() - n + 1; i++) {
+			for (int j = 0; j < n; ++j) {
+				listCardsPlayed.add((CardOfThirteenS) cardsInHand.get(i+j));
+			}
+			if(rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
+				return listCardsPlayed;
+			else listCardsPlayed.clear();
+		}
+		return listCardsPlayed;
+	}
+
+	private  ArrayList<CardOfThirteenS> checkLobby (int n, ArrayList<CardOfThirteenS> cardsPreTurn){
+		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
+		ArrayList<CardOfThirteenS> list = new ArrayList<>();
+		list.add((CardOfThirteenS) cardsInHand.getFirst());
+		for(int i = 1; i < cardsInHand.size(); i++) {
+			if(((CardOfThirteenS) cardsInHand.get(i)).getRank() != list.getLast().getRank()) {
+				list.add((CardOfThirteenS) cardsInHand.get(i));
+			}
+		}
+		for(int i = 0; i < list.size() - n; i++) {
+			for(int j = i; j < i + n; j++) {
+				listCardsPlayed.add(list.get(j));
+			}
+			if(rules.getTypeOfCards(listCardsPlayed).equals("Lobby")){
+				if(rules.compareCards(listCardsPlayed, cardsPreTurn))
+					return listCardsPlayed;
+			}
+			listCardsPlayed.clear();
+		}
+		return listCardsPlayed;
+	}
+
 	public ArrayList<CardOfThirteenS> selectionOfBot(ArrayList<CardOfThirteenS> cardsPreTurn) {
 		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
 		if(cardsPreTurn.isEmpty()) {
-			listCardsPlayed.add((CardOfThirteenS) cardsInHand.get(0));
+			if(((CardOfThirteenS) cardsInHand.getFirst()).getRank() != ((CardOfThirteenS) cardsInHand.get(1)).getRank())
+				listCardsPlayed.add((CardOfThirteenS) cardsInHand.getFirst());
+			else{
+				listCardsPlayed.add((CardOfThirteenS) cardsInHand.getFirst());
+				listCardsPlayed.add((CardOfThirteenS) cardsInHand.get(1));
+			}
 			return listCardsPlayed;
 		}
 		String typeCardsPreTurn = rules.getTypeOfCards(cardsPreTurn);
+		int size = cardsPreTurn.size();
 		if(typeCardsPreTurn.equals("Once")) {
-			for(Object card : cardsInHand) {
-				listCardsPlayed.add((CardOfThirteenS) card);
-				if(rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
-					return listCardsPlayed;
-				else listCardsPlayed.clear();
-			}
-			return listCardsPlayed;
+			return checkSet("Once", cardsPreTurn);
 		}
 		if(typeCardsPreTurn.equals("Double")) {
-			for(int i = 0; i < cardsInHand.size() - 1; i++) {
-				for (int j = 0; j < 2; ++j) {
-					listCardsPlayed.add((CardOfThirteenS) cardsInHand.get(i+j));
-				}
-				if(rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
-					return listCardsPlayed;
-				else listCardsPlayed.clear();
-			}
-			return listCardsPlayed;
+			return checkSet("Double", cardsPreTurn);
 		}
 		if(typeCardsPreTurn.equals("Triple")) {
-			for(int i = 0; i < cardsInHand.size() - 2; i++) {
-				for (int j = 0; j < 3; ++j) {
-				listCardsPlayed.add((CardOfThirteenS) cardsInHand.get(i+j));
-				}
-				if(rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
-					return listCardsPlayed;
-				else listCardsPlayed.clear();
-			}
-			return listCardsPlayed;
+			return checkSet("Triple", cardsPreTurn);
 		}
 		if(typeCardsPreTurn.equals("Four-Fold")) {
-			for(int i = 0; i < cardsInHand.size() - 3; i++) {
-				for (int j = 0; j < 4; ++j) {
-					listCardsPlayed.add((CardOfThirteenS) cardsInHand.get(i+j));
-				}
-				if(rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
-					return listCardsPlayed;
-				else listCardsPlayed.clear();
-			}
-			return listCardsPlayed;
+			return checkSet("Four-Fold", cardsPreTurn);
+		}
+		if(typeCardsPreTurn.equals("Lobby")){
+			return checkLobby(size, cardsPreTurn);
 		}
 		return listCardsPlayed;
 	}

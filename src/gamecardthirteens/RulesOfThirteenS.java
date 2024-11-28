@@ -30,10 +30,11 @@ public class RulesOfThirteenS {
 			return card1.getRank() > card2.getRank();
 		}*/
 	// So sánh 2 bộ bài với nhau
-	private boolean compareCards(ArrayList<CardOfThirteenS> card1s, ArrayList<CardOfThirteenS> card2s) {
+	protected boolean compareCards(ArrayList<CardOfThirteenS> card1s, ArrayList<CardOfThirteenS> card2s) {
 		card1s = sortCards(card1s);
 		card2s = sortCards(card2s);
-		return card1s.get(card1s.size() - 1).compareCard(card2s.get(card2s.size() - 1)) == 1;
+		if(card1s.size() != card2s.size()) return false;
+		return card1s.getLast().compareCard(card2s.getLast()) == 1;
 	}
 
 	protected String getTypeOfCards(ArrayList<CardOfThirteenS> cards) {
@@ -50,10 +51,6 @@ public class RulesOfThirteenS {
 		if (checkPine(cards))
 			return "Pine";
 		return "Invalid";
-	}
-
-	public String typeOfCards(ArrayList<CardOfThirteenS> cards) {
-		return getTypeOfCards(cards);
 	}
 
 	protected boolean checkCardsDrop(ArrayList<CardOfThirteenS> cards, ArrayList<CardOfThirteenS> cardsPreTurn) {
@@ -146,7 +143,7 @@ public class RulesOfThirteenS {
 		if (cards.size() < 3)
 			return false;
 		cards = sortCards(cards);
-		if (cards.get(cards.size() - 1).getRank() == 15)
+		if (cards.getLast().getRank() == 15)
 			return false;
 		for (int i = 1; i < cards.size(); ++i)
 			if (cards.get(i).getRank() - cards.get(i - 1).getRank() != 1)
