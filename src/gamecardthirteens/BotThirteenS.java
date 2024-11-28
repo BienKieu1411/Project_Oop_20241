@@ -3,7 +3,6 @@ package gamecardthirteens;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class BotThirteenS extends PlayerThirteenS {
 	private final RulesOfThirteenS rules = new RulesOfThirteenS();
@@ -46,9 +45,29 @@ public class BotThirteenS extends PlayerThirteenS {
 		return played;
 	}
 
-	private ArrayList<CardOfThirteenS> checkSet (String type, ArrayList<CardOfThirteenS> cardsPreTurn){
-		int n = 0;
+	private ArrayList<CardOfThirteenS> checkSet (String type, int n, ArrayList<CardOfThirteenS> cardsPreTurn){
 		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
+		if(type.equals("Lobby")){
+			ArrayList<CardOfThirteenS> list = new ArrayList<>();
+			list.add((CardOfThirteenS) cardsInHand.getFirst());
+			for(int i = 1; i < cardsInHand.size(); i++) {
+				CardOfThirteenS card = (CardOfThirteenS) cardsInHand.get(i);
+				if(card.getRank() != list.getLast().getRank()) {
+					if(card.getRank() == 15) break;
+					list.add(card);
+				}
+			}
+			for(int i = 0; i < list.size() - n; i++) {
+				for(int j = i; j < i + n; j++) {
+					listCardsPlayed.add(list.get(j));
+				}
+				if(rules.getTypeOfCards(listCardsPlayed).equals("Lobby")){
+					if(rules.compareCards(listCardsPlayed, cardsPreTurn))
+						return listCardsPlayed;
+				}
+				listCardsPlayed.clear();
+			}
+		}
 		if(type.equals("Once")) n = 1;
 		if(type.equals("Double")) n = 2;
 		if(type.equals("Triple")) n = 3;
@@ -64,65 +83,26 @@ public class BotThirteenS extends PlayerThirteenS {
 		return listCardsPlayed;
 	}
 
-	private  ArrayList<CardOfThirteenS> checkLobby (int n, ArrayList<CardOfThirteenS> cardsPreTurn){
-		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
-		ArrayList<CardOfThirteenS> list = new ArrayList<>();
-		list.add((CardOfThirteenS) cardsInHand.getFirst());
-		for(int i = 1; i < cardsInHand.size(); i++) {
-			CardOfThirteenS card = (CardOfThirteenS) cardsInHand.get(i);
-			if(card.getRank() != list.getLast().getRank()) {
-				if(card.getRank() == 15) break;
-				list.add(card);
-			}
-		}
-		for(int i = 0; i < list.size() - n; i++) {
-			for(int j = i; j < i + n; j++) {
-				listCardsPlayed.add(list.get(j));
-			}
-			if(rules.getTypeOfCards(listCardsPlayed).equals("Lobby")){
-				if(rules.compareCards(listCardsPlayed, cardsPreTurn))
-					return listCardsPlayed;
-			}
-			listCardsPlayed.clear();
-		}
-		return listCardsPlayed;
-	}
-
 	public ArrayList<CardOfThirteenS> selectionOfBot(ArrayList<CardOfThirteenS> cardsPreTurn) {
-		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
 		if(cardsPreTurn.isEmpty()) {
-			Random Rand = new Random();
-			int randInt = Rand.nextInt(2);
-			List<String> listType = new ArrayList<>(List.of("Four-Fold", "Triple", "Double", "Once"));
-			if(randInt == 0) {
-				for(int i = cardsInHand.size(); i > 2; --i) {
-					listCardsPlayed = checkLobby(i, cardsPreTurn);
-					if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
+			ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
+			List<String> listType = new ArrayList<>(List.of("Lobby", "Four-Fold", "Triple", "Double", "Once", "Lobby"));
+			Collections.shuffle(listType);
+			for(String type : listType) {
+				if(type.equals("Lobby")){
+					for(int i = cardsInHand.size(); i > 2; --i) {
+						listCardsPlayed = checkSet("Lobby", i, cardsPreTurn);
+						if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
+					}
 				}
-				Collections.shuffle(listType);
-				for(String type : listType) {
-					listCardsPlayed = checkSet(type, cardsPreTurn);
-					if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
-				}
-			}
-			else{
-				Collections.shuffle(listType);
-				for(String type : listType) {
-					listCardsPlayed = checkSet(type, cardsPreTurn);
-					if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
-				}
-				for(int i = cardsInHand.size(); i > 2; --i) {
-					listCardsPlayed = checkLobby(i, cardsPreTurn);
-					if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
+				else {
+					listCardsPlayed = checkSet(type, cardsPreTurn.size(), cardsPreTurn);
+					if (!listCardsPlayed.isEmpty()) return listCardsPlayed;
 				}
 			}
 			return listCardsPlayed;
 		}
 		String typeCardsPreTurn = rules.getTypeOfCards(cardsPreTurn);
-		int size = cardsPreTurn.size();
-		if(typeCardsPreTurn.equals("Lobby")){
-			return checkLobby(size, cardsPreTurn);
-		}
-		return checkSet(typeCardsPreTurn, cardsPreTurn);
+		return checkSet(typeCardsPreTurn, cardsPreTurn.size(), cardsPreTurn);
 	}
 }
