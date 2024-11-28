@@ -1,6 +1,9 @@
 package gamecardthirteens;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class BotThirteenS extends PlayerThirteenS {
 	private final RulesOfThirteenS rules = new RulesOfThirteenS();
@@ -88,35 +91,38 @@ public class BotThirteenS extends PlayerThirteenS {
 	public ArrayList<CardOfThirteenS> selectionOfBot(ArrayList<CardOfThirteenS> cardsPreTurn) {
 		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
 		if(cardsPreTurn.isEmpty()) {
-			for(int i = cardsInHand.size(); i > 2; --i) {
-				listCardsPlayed = checkLobby(i, cardsPreTurn);
-				if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
-            }
-
-			String[] listType = {"Four-Fold", "Triple", "Double", "Once"};
-			for(String type : listType) {
-				listCardsPlayed = checkSet(type, cardsPreTurn);
-				if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
+			Random Rand = new Random();
+			int randInt = Rand.nextInt(2);
+			List<String> listType = new ArrayList<>(List.of("Four-Fold", "Triple", "Double", "Once"));
+			if(randInt == 0) {
+				for(int i = cardsInHand.size(); i > 2; --i) {
+					listCardsPlayed = checkLobby(i, cardsPreTurn);
+					if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
+				}
+				Collections.shuffle(listType);
+				for(String type : listType) {
+					listCardsPlayed = checkSet(type, cardsPreTurn);
+					if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
+				}
+			}
+			else{
+				Collections.shuffle(listType);
+				for(String type : listType) {
+					listCardsPlayed = checkSet(type, cardsPreTurn);
+					if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
+				}
+				for(int i = cardsInHand.size(); i > 2; --i) {
+					listCardsPlayed = checkLobby(i, cardsPreTurn);
+					if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
+				}
 			}
 			return listCardsPlayed;
 		}
 		String typeCardsPreTurn = rules.getTypeOfCards(cardsPreTurn);
 		int size = cardsPreTurn.size();
-		if(typeCardsPreTurn.equals("Once")) {
-			return checkSet("Once", cardsPreTurn);
-		}
-		if(typeCardsPreTurn.equals("Double")) {
-			return checkSet("Double", cardsPreTurn);
-		}
-		if(typeCardsPreTurn.equals("Triple")) {
-			return checkSet("Triple", cardsPreTurn);
-		}
-		if(typeCardsPreTurn.equals("Four-Fold")) {
-			return checkSet("Four-Fold", cardsPreTurn);
-		}
 		if(typeCardsPreTurn.equals("Lobby")){
 			return checkLobby(size, cardsPreTurn);
 		}
-		return listCardsPlayed;
+		return checkSet(typeCardsPreTurn, cardsPreTurn);
 	}
 }
