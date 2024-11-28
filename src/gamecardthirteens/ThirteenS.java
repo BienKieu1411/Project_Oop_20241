@@ -29,14 +29,12 @@ public class ThirteenS extends RulesOfThirteenS {
 			System.out.print("Enter number of players: ");
 			if (scanner.hasNextInt()) {
 				int input = scanner.nextInt();
-				if (input >= 1 && input <= 4) {
-					scanner.nextLine();
-					numberOfPersons = input;
+				scanner.nextLine();
+				numberOfPersons = input;
+				if (numberOfPersons >= 1 && numberOfPersons <= 4)
 					break;
-				}
 			}
 			System.out.println("Invalid input");
-			scanner.nextLine();
 		}
 	}
 
@@ -50,11 +48,10 @@ public class ThirteenS extends RulesOfThirteenS {
 				scanner.nextLine();
 				numberOfBots = input;
 				int totalPlayers = numberOfPersons + numberOfBots;
-				if (totalPlayers >= 1 && totalPlayers <= 4)
+				if (totalPlayers >= 2 && totalPlayers <= 4)
 					break;
 			}
 			System.out.println("Invalid input");
-			scanner.nextLine();
 		}
 	}
 
@@ -135,8 +132,7 @@ public class ThirteenS extends RulesOfThirteenS {
 			CardOfThirteenS card = new CardOfThirteenS(rankandsuit[0], rankandsuit[1]);
 			if ((player.getCardsInHand()).contains(card)) {
 				cards.add(card);
-			}
-			else {
+			} else {
 				System.out.println("Invalid, please select again!");
 				return false;
 			}
