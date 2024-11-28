@@ -33,6 +33,8 @@ public class RulesOfThirteenS {
 	protected boolean compareCards(ArrayList<CardOfThirteenS> card1s, ArrayList<CardOfThirteenS> card2s) {
 		card1s = sortCards(card1s);
 		card2s = sortCards(card2s);
+		if(card1s.isEmpty()) return false;
+		if(card2s.isEmpty()) return true;
 		if(card1s.size() != card2s.size()) return false;
 		return card1s.getLast().compareCard(card2s.getLast()) == 1;
 	}

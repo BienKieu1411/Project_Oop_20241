@@ -54,9 +54,9 @@ public class BotThirteenS extends PlayerThirteenS {
 			for (int j = 0; j < n; ++j) {
 				listCardsPlayed.add((CardOfThirteenS) cardsInHand.get(i+j));
 			}
-			if(rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
+			if(rules.getTypeOfCards(listCardsPlayed).equals(type) && rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
 				return listCardsPlayed;
-			else listCardsPlayed.clear();
+			listCardsPlayed.clear();
 		}
 		return listCardsPlayed;
 	}
@@ -66,8 +66,10 @@ public class BotThirteenS extends PlayerThirteenS {
 		ArrayList<CardOfThirteenS> list = new ArrayList<>();
 		list.add((CardOfThirteenS) cardsInHand.getFirst());
 		for(int i = 1; i < cardsInHand.size(); i++) {
-			if(((CardOfThirteenS) cardsInHand.get(i)).getRank() != list.getLast().getRank()) {
-				list.add((CardOfThirteenS) cardsInHand.get(i));
+			CardOfThirteenS card = (CardOfThirteenS) cardsInHand.get(i);
+			if(card.getRank() != list.getLast().getRank()) {
+				if(card.getRank() == 15) break;
+				list.add(card);
 			}
 		}
 		for(int i = 0; i < list.size() - n; i++) {
@@ -86,11 +88,15 @@ public class BotThirteenS extends PlayerThirteenS {
 	public ArrayList<CardOfThirteenS> selectionOfBot(ArrayList<CardOfThirteenS> cardsPreTurn) {
 		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
 		if(cardsPreTurn.isEmpty()) {
-			if(cardsInHand.size() == 1 || ((CardOfThirteenS) cardsInHand.getFirst()).getRank() != ((CardOfThirteenS) cardsInHand.get(1)).getRank())
-				listCardsPlayed.add((CardOfThirteenS) cardsInHand.getFirst());
-			else{
-				listCardsPlayed.add((CardOfThirteenS) cardsInHand.getFirst());
-				listCardsPlayed.add((CardOfThirteenS) cardsInHand.get(1));
+			for(int i = cardsInHand.size(); i > 2; --i) {
+				listCardsPlayed = checkLobby(i, cardsPreTurn);
+				if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
+            }
+
+			String[] listType = {"Four-Fold", "Triple", "Double", "Once"};
+			for(String type : listType) {
+				listCardsPlayed = checkSet(type, cardsPreTurn);
+				if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
 			}
 			return listCardsPlayed;
 		}
