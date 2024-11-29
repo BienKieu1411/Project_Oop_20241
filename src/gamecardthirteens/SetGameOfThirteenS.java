@@ -43,6 +43,7 @@ public class SetGameOfThirteenS{
         }
     }
 
+    // Tổng số người chơi là tổng của người và Bot
     public int setNumberOfPlayer() {
         setNumberOfPersons();
         setNumberOfBots();
@@ -50,6 +51,7 @@ public class SetGameOfThirteenS{
         return numberOfPlayer;
     }
 
+    // Thêm người chơi vào trò chơi
     public ArrayList<PlayerThirteenS> addPlayer() {
         this.playersThirteenS = new ArrayList<>();
         for (int i = 0; i < numberOfPersons; i++) {
@@ -68,6 +70,7 @@ public class SetGameOfThirteenS{
         return playersThirteenS;
     }
 
+    // Chia bài cho người chơi, mỗi người 13 lá
     protected DeckOfThirteenS dealCard(DeckOfThirteenS deckOfThirteenS) {
         deckOfThirteenS.shuffleDeck();
         for (int i = 0; i < 13; ++i) {

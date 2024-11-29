@@ -11,7 +11,7 @@ public class RulesOfThirteenS {
 	public RulesOfThirteenS() {
 	}
 
-	// So sánh 2 bộ bài với nhau
+	// So sánh 2 bộ với nhau
 	protected boolean compareCards(ArrayList<CardOfThirteenS> card1s, ArrayList<CardOfThirteenS> card2s) {
 		card1s = checkSet.sortCards(card1s);
 		card2s = checkSet.sortCards(card2s);
@@ -21,6 +21,7 @@ public class RulesOfThirteenS {
 		return card1s.getLast().compareCard(card2s.getLast()) == 1;
 	}
 
+	// Kiểu của bộ bài: Đơn, Đôi, Tam, Tứ, Sảnh, Thông.
 	protected String getTypeOfCards(ArrayList<CardOfThirteenS> cards) {
 		if (cards.size() == 1)
 			return "Once";
@@ -37,6 +38,7 @@ public class RulesOfThirteenS {
 		return "Invalid";
 	}
 
+	// Kiểm tra xem bộ mà người đánh có thoả mãn lớn hơn bộ của đối thủ không
 	protected boolean checkCardsDrop(ArrayList<CardOfThirteenS> cards, ArrayList<CardOfThirteenS> cardsPreTurn) {
 		if (cards.isEmpty())
 			return false;
@@ -83,6 +85,7 @@ public class RulesOfThirteenS {
 	}
 
 	// Kiểm tra điều kiện kết thúc trò chơi(khi có người hết bài trên tay)
+	// Người chơi sẽ được xếp hạng: Nhất, Nhì, Ba, ... cho đến người chơi cuối còn bài trên tay
 	protected void endOfGame(ArrayList<PlayerThirteenS> playersThirteenS, int numberOfPlayer) {
 		for (int i = 0; i < playersThirteenS.size(); i++) {
 			if (playersThirteenS.get(i).getCardsInHand().isEmpty()) {

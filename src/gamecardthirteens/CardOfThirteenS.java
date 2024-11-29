@@ -31,14 +31,17 @@ public class CardOfThirteenS extends Card {
         };
     }
 
+	// Trả về dạng String của Rank lá bài
 	public String printRank() {
 		return this.rank;
 	}
 
+	// Trả về dạng String của Suit lá bài
 	public String printSuit() {
 		return this.suit;
 	}
 
+	// Ghi đè phương thức equals giúp dễ dàng so sánh 2 lá bài bằng nhau
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -49,6 +52,7 @@ public class CardOfThirteenS extends Card {
 		return rank.equals(card.rank) && suit.equals(card.suit);
 	}
 
+	// Giúp so sánh lá bài nào lớn hơn
 	public int compareCard(CardOfThirteenS other) {
 		int rankComparison = Integer.compare(this.getRank(), other.getRank());
 		if (rankComparison != 0)
