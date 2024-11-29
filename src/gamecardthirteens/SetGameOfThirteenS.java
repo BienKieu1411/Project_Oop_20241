@@ -60,7 +60,7 @@ public class SetGameOfThirteenS{
             playersThirteenS.add(person);
         }
         for (int i = 0; i < numberOfBots; i++) {
-            String nameOfBot = "Bot " + (i + 1);
+            String nameOfBot = "Bot" + (i + 1);
             PlayerThirteenS bot = new BotThirteenS(nameOfBot);
             playersThirteenS.add(bot);
         }

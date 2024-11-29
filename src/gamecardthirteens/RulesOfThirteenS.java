@@ -3,9 +3,9 @@ package gamecardthirteens;
 import java.util.ArrayList;
 
 public class RulesOfThirteenS {
-	public int numberOfPlayer;
+	protected int numberOfPlayer;
 	protected DeckOfThirteenS deckOfThirteenS = new DeckOfThirteenS();
-	public ArrayList<PlayerThirteenS> playersThirteenS = new ArrayList<>();
+	protected ArrayList<PlayerThirteenS> playersThirteenS = new ArrayList<>();
 	protected CheckSetOfThirteenS checkSet = new CheckSetOfThirteenS();
 
 	public RulesOfThirteenS() {
@@ -83,7 +83,7 @@ public class RulesOfThirteenS {
 	}
 
 	// Kiểm tra điều kiện kết thúc trò chơi(khi có người hết bài trên tay)
-	protected int endOfGame() {
+	protected int endOfGame(ArrayList<PlayerThirteenS> playersThirteenS, int numberOfPlayer) {
 		for (int i = 0; i < playersThirteenS.size(); i++) {
 			if (playersThirteenS.get(i).getCardsInHand().isEmpty()) {
 				System.out.println(playersThirteenS.get(i).getNameOfPlayer() + " got " +
