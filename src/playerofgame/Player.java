@@ -3,6 +3,7 @@ package playerofgame;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+// Dùng template để dễ dàng tạo người chơi của game bất kì, dễ dàng mở rộng
 public class Player<T> {
 	protected String nameOfPlayer;
 	protected ArrayList<T> cardsInHand;

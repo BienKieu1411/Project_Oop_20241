@@ -61,6 +61,7 @@ public class SetGameOfThirteenS{
             person.setNameOfPlayer(nameOfPerson);
             playersThirteenS.add(person);
         }
+        // Dùng upcasting và ghi đè để tạo bot
         for (int i = 0; i < numberOfBots; i++) {
             String nameOfBot = "Bot" + (i + 1);
             PlayerThirteenS bot = new BotThirteenS(nameOfBot);
