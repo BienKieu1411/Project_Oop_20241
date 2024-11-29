@@ -68,17 +68,19 @@ public class BotThirteenS extends PlayerThirteenS {
 				listCardsPlayed.clear();
 			}
 		}
-		if(type.equals("Once")) n = 1;
-		if(type.equals("Double")) n = 2;
-		if(type.equals("Triple")) n = 3;
-		if(type.equals("Four-Fold")) n = 4;
-		for(int i = 0; i < cardsInHand.size() - n + 1; i++) {
-			for (int j = 0; j < n; ++j) {
-				listCardsPlayed.add(cardsInHand.get(i+j));
+		else {
+			if (type.equals("Once")) n = 1;
+			if (type.equals("Double")) n = 2;
+			if (type.equals("Triple")) n = 3;
+			if (type.equals("Four-Fold")) n = 4;
+			for (int i = 0; i < cardsInHand.size() - n + 1; i++) {
+				for (int j = 0; j < n; ++j) {
+					listCardsPlayed.add(cardsInHand.get(i + j));
+				}
+				if (rules.getTypeOfCards(listCardsPlayed).equals(type) && rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
+					return listCardsPlayed;
+				listCardsPlayed.clear();
 			}
-			if(rules.getTypeOfCards(listCardsPlayed).equals(type) && rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
-				return listCardsPlayed;
-			listCardsPlayed.clear();
 		}
 		return listCardsPlayed;
 	}
@@ -91,7 +93,7 @@ public class BotThirteenS extends PlayerThirteenS {
 			for(String type : listType) {
 				if(type.equals("Lobby")){
 					for(int i = cardsInHand.size(); i > 2; --i) {
-						listCardsPlayed = checkSet("Lobby", i, cardsPreTurn);
+						listCardsPlayed = checkSet(type, i, cardsPreTurn);
 						if(!listCardsPlayed.isEmpty()) return listCardsPlayed;
 					}
 				}

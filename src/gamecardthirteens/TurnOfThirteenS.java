@@ -86,6 +86,7 @@ public class TurnOfThirteenS{
             }
             System.out.println();
             player.printCardInHand();
+            System.out.println();
             this.cardPreTurn = cards;
             return true;
         }
@@ -118,6 +119,7 @@ public class TurnOfThirteenS{
                         playersThirteenS.get(i).setSelection();
                         getSelection = playersThirteenS.get(i).getSelection(cardPreTurn);
                         if (getSelection.equals("Skip")) {
+                            System.out.println();
                             checkTurn[i] = false;
                             break;
                         }
