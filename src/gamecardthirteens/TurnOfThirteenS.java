@@ -138,12 +138,17 @@ public class TurnOfThirteenS{
                         }
                     }
                 }
-                if (rules.endOfGame(playersThirteenS, numberOfPlayer) != -1) {
-                    if(playersThirteenS.size() == 1){
-                        System.out.println(playersThirteenS.getFirst().getNameOfPlayer() + " got Fourth place!");
-                        checkEndGame = true;
-                        break;
-                    }
+                rules.endOfGame(playersThirteenS, numberOfPlayer);
+                if(playersThirteenS.size() == 1){
+                    System.out.println(playersThirteenS.getFirst().getNameOfPlayer() + " got " +
+                            switch (numberOfPlayer) {
+                                case 2 -> "Second";
+                                case 3 -> "Third";
+                                case 4 -> "Fourth";
+                                default -> "";
+                            } + " place!");
+                    checkEndGame = true;
+                    break;
                 }
             }
         }

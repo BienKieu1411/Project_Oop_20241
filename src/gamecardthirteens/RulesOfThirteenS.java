@@ -83,7 +83,7 @@ public class RulesOfThirteenS {
 	}
 
 	// Kiểm tra điều kiện kết thúc trò chơi(khi có người hết bài trên tay)
-	protected int endOfGame(ArrayList<PlayerThirteenS> playersThirteenS, int numberOfPlayer) {
+	protected void endOfGame(ArrayList<PlayerThirteenS> playersThirteenS, int numberOfPlayer) {
 		for (int i = 0; i < playersThirteenS.size(); i++) {
 			if (playersThirteenS.get(i).getCardsInHand().isEmpty()) {
 				System.out.println(playersThirteenS.get(i).getNameOfPlayer() + " got " +
@@ -95,9 +95,8 @@ public class RulesOfThirteenS {
 				} + " place!");
 				System.out.println();
 				playersThirteenS.remove(i);
-				return 1;
+				return;
 			}
 		}
-		return -1;
 	}
 }
