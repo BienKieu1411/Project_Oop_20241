@@ -1,9 +1,5 @@
 package deckofcards;
 
-import gamecardthirteens.CardOfThirteenS;
-
-import java.util.Objects;
-
 public class Card {
 	protected String suit;// Chât của lá bài
 	protected String rank;// Điểm của lá bài
@@ -27,8 +23,6 @@ public class Card {
 
 	@Override
 	public int hashCode() {
-		Objects Objects = null;
-		return Objects.hash(rank, suit);
+		return java.util.Objects.hash(rank, suit);
 	}
-
 }

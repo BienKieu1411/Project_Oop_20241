@@ -2,7 +2,6 @@ package deckofcards;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Deck<T> {
 	protected ArrayList<T> deck;
@@ -14,6 +13,6 @@ public class Deck<T> {
 
 	// Lấy ra 1 quân bài ở trên cùng bộ bài
 	public T getCardTop() {
-		return deck.remove(deck.size() - 1);
+		return deck.removeLast();
 	}
 }
