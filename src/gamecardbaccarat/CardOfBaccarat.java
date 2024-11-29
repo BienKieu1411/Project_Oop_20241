@@ -19,12 +19,11 @@ public class CardOfBaccarat extends Card {
 
 	// Get Suit
 	public int getSuit() {
-		if (this.suit.equals("D"))
-            return 4;
-		if (this.suit.equals("H"))
-            return 3;
-		if (this.suit.equals("S"))
-            return 2;
-		return 1;
-	}
+        return switch (this.suit) {
+            case "D" -> 4;
+            case "H" -> 3;
+            case "S" -> 2;
+            default -> 1;
+        };
+    }
 }

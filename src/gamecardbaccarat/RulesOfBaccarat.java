@@ -6,7 +6,7 @@ public class RulesOfBaccarat {
 	protected int numberOfPlayer;
 	protected int moneyPlayer;
 	protected DeckOfBaccarat deckOfBaccarat = new DeckOfBaccarat();
-	protected ArrayList<PlayerBaccarat> playersBaccarat = new ArrayList<PlayerBaccarat>();
+	protected ArrayList<PlayerBaccarat> playersBaccarat = new ArrayList<>();
 
 	// Tìm ra người thắng cuộc
 	public void winnerBaccarat() {
@@ -38,7 +38,7 @@ public class RulesOfBaccarat {
 		CardOfBaccarat biggestCard = player.biggestCardInHand();
 		int scoreOfPlayer = 0;
 		for (int i = 0; i < 3; ++i) {
-			scoreOfPlayer += ((CardOfBaccarat) player.getCardsInHand().get(i)).getRank();
+			scoreOfPlayer += (player.getCardsInHand().get(i)).getRank();
 			if (scoreOfPlayer > 10)
 				scoreOfPlayer -= 10;
 		}

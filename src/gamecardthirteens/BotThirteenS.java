@@ -49,9 +49,9 @@ public class BotThirteenS extends PlayerThirteenS {
 		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
 		if(type.equals("Lobby")){
 			ArrayList<CardOfThirteenS> list = new ArrayList<>();
-			list.add((CardOfThirteenS) cardsInHand.getFirst());
+			list.add(cardsInHand.getFirst());
 			for(int i = 1; i < cardsInHand.size(); i++) {
-				CardOfThirteenS card = (CardOfThirteenS) cardsInHand.get(i);
+				CardOfThirteenS card = cardsInHand.get(i);
 				if(card.getRank() != list.getLast().getRank()) {
 					if(card.getRank() == 15) break;
 					list.add(card);
@@ -74,7 +74,7 @@ public class BotThirteenS extends PlayerThirteenS {
 		if(type.equals("Four-Fold")) n = 4;
 		for(int i = 0; i < cardsInHand.size() - n + 1; i++) {
 			for (int j = 0; j < n; ++j) {
-				listCardsPlayed.add((CardOfThirteenS) cardsInHand.get(i+j));
+				listCardsPlayed.add(cardsInHand.get(i+j));
 			}
 			if(rules.getTypeOfCards(listCardsPlayed).equals(type) && rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
 				return listCardsPlayed;

@@ -1,6 +1,5 @@
 package gamecardbaccarat;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Baccarat extends RulesOfBaccarat {
@@ -65,5 +64,5 @@ public class Baccarat extends RulesOfBaccarat {
 	}
 
 	// Scannner dùng để nhập các giá trị người chơi truyền vào
-	private Scanner scanner = new Scanner(System.in);
+	private final Scanner scanner = new Scanner(System.in);
 }

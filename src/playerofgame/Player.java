@@ -7,7 +7,7 @@ public class Player<T> {
 	protected String nameOfPlayer;
 	protected ArrayList<T> cardsInHand;
 
-	public Player(String nameOfPlayer, ArrayList<T> cardsInHand) {
+	public Player(String nameOfPlayer) {
 		this.nameOfPlayer = nameOfPlayer;
 		this.cardsInHand = new ArrayList<>();
 	}

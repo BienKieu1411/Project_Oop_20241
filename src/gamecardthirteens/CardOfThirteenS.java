@@ -10,30 +10,26 @@ public class CardOfThirteenS extends Card {
 	// Điểm cuả lá bài
 	// Note: 2 -> A -> K -> Q -> J ...
 	public int getRank() {
-		if (this.rank.equals("2"))
-			return 15;
-		if (this.rank.equals("A"))
-			return 14;
-		if (this.rank.equals("K"))
-			return 13;
-		if (this.rank.equals("Q"))
-			return 12;
-		if (this.rank.equals("J"))
-			return 11;
-		return Integer.parseInt(rank);
-	}
+        return switch (this.rank) {
+            case "2" -> 15;
+            case "A" -> 14;
+            case "K" -> 13;
+            case "Q" -> 12;
+            case "J" -> 11;
+            default -> Integer.parseInt(rank);
+        };
+    }
 
 	// Chất của lá bài
 	// Note: H -> D -> C -> S
 	public int getSuit() {
-		if (this.suit.equals("H"))
-			return 4;
-		if (this.suit.equals("D"))
-			return 3;
-		if (this.suit.equals("C"))
-			return 2;
-		return 1;
-	}
+        return switch (this.suit) {
+            case "H" -> 4;
+            case "D" -> 3;
+            case "C" -> 2;
+            default -> 1;
+        };
+    }
 
 	public String printRank() {
 		return this.rank;

@@ -1,19 +1,16 @@
 package gamecardthirteens;
 
 import playerofgame.Player;
-
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Scanner;
 
-public class PlayerThirteenS extends Player {
+public class PlayerThirteenS extends Player<CardOfThirteenS> {
 	protected String getSelection;
 	protected String listCardPlayed;
-	private RulesOfThirteenS rules = new RulesOfThirteenS();
+	private final CheckSetOfThirteenS checkSet = new CheckSetOfThirteenS();
 
 	public PlayerThirteenS(String name) {
-		ArrayList<CardOfThirteenS> cards = new ArrayList<>();
-		super(name, cards);
+		super(name);
 	}
 
 	public String getSelection(ArrayList<CardOfThirteenS> cardsPreTurn) {
@@ -33,7 +30,7 @@ public class PlayerThirteenS extends Player {
 	}
 
 	public void sortCardsInHand() {
-		super.cardsInHand = rules.sortCards(super.cardsInHand);
+		this.cardsInHand = checkSet.sortCards(this.cardsInHand);
 	}
 
 	private final Scanner scanner = new Scanner(System.in);

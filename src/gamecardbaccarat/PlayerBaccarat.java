@@ -1,17 +1,13 @@
 package gamecardbaccarat;
 
-import gamecardthirteens.CardOfThirteenS;
 import playerofgame.Player;
 
-import java.util.ArrayList;
-
-public class PlayerBaccarat extends Player {
+public class PlayerBaccarat extends Player<CardOfBaccarat> {
 	private int moneyPlayer;// Số tiền của người chơi
 
 	// Constructor
 	public PlayerBaccarat() {
-		ArrayList<CardOfThirteenS> cards = new ArrayList<CardOfThirteenS>();
-		super("Player", cards);
+		super("Player");
 		this.moneyPlayer = 0;
 	}
 
@@ -22,9 +18,9 @@ public class PlayerBaccarat extends Player {
 
 	// Tìm lá bài cao nhất trong tay người chơi
 	public CardOfBaccarat biggestCardInHand() {
-		CardOfBaccarat card = (CardOfBaccarat) cardsInHand.getFirst();
+		CardOfBaccarat card = cardsInHand.getFirst();
 		for (int i = 1; i < cardsInHand.size(); i++) {
-			CardOfBaccarat cardinhand = (CardOfBaccarat) cardsInHand.get(i);
+			CardOfBaccarat cardinhand = cardsInHand.get(i);
 			if (compareCard(cardinhand, card))
 				card = cardinhand;
 		}
