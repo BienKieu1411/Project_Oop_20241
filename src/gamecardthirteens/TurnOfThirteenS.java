@@ -1,10 +1,12 @@
 package gamecardthirteens;
 
+import deckofcards.Card;
+
 import java.util.ArrayList;
 
 public class TurnOfThirteenS{
     private boolean[] checkTurn;
-    private ArrayList<CardOfThirteenS> cardPreTurn = new ArrayList<>();
+    private ArrayList<Card> cardPreTurn = new ArrayList<>();
     private boolean checkSkip = false;
     private final RulesOfThirteenS rules = new RulesOfThirteenS();
     private int numberOfPlayer;
@@ -25,7 +27,7 @@ public class TurnOfThirteenS{
             checkTurn[i] = false;
         }
         for(PlayerThirteenS player : playersThirteenS){
-            for(CardOfThirteenS card : player.getCardsInHand()){
+            for(Card card : player.getCardsInHand()){
                 if(card.getRank() == 3 && card.getSuit() == 1){
                     checkTurn[playersThirteenS.indexOf(player)] = true;
                     return;
@@ -52,7 +54,7 @@ public class TurnOfThirteenS{
 
     // Lấy lựa chọn của người chơi
     public boolean playCards(PlayerThirteenS player) {
-        ArrayList<CardOfThirteenS> cards = new ArrayList<>();// Những lá bài chọn để đánh
+        ArrayList<Card> cards = new ArrayList<>();// Những lá bài chọn để đánh
         System.out.println("Select card (enter in format Rank-Suit, write on one line, separated by spaces) to play or enter 'Sort' to sort cards in hand or enter 'Skip' to skip turn:");
         player.setListCardPlayed();
         String listCardPlayed = player.getListCardPlayed();
@@ -72,7 +74,7 @@ public class TurnOfThirteenS{
                 System.out.println("Invalid, please select again!");
                 return false;
             }
-            CardOfThirteenS card = new CardOfThirteenS(rankandsuit[0], rankandsuit[1]);
+            Card card = new Card(rankandsuit[0], rankandsuit[1]);
             if ((player.getCardsInHand()).contains(card)) {
                 cards.add(card);
             } else {
@@ -88,7 +90,7 @@ public class TurnOfThirteenS{
 
         if (rules.checkCardsDrop(cards, cardPreTurn)) {
             System.out.print(player.getNameOfPlayer() + " plays cards: ");
-            for (CardOfThirteenS card : cards) {
+            for (Card card : cards) {
                 System.out.print(card.printRank() + "-" + card.printSuit() + " ");
                 player.dropCard(card);
             }

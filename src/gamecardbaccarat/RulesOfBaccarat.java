@@ -1,9 +1,9 @@
 package gamecardbaccarat;
 
+import rulesofgame.Rules;
 import java.util.ArrayList;
 
-public class RulesOfBaccarat {
-	protected int numberOfPlayer;
+public class RulesOfBaccarat extends Rules {
 	protected int moneyPlayer;
 	protected DeckOfBaccarat deckOfBaccarat = new DeckOfBaccarat();
 	protected ArrayList<PlayerBaccarat> playersBaccarat = new ArrayList<>();

@@ -1,5 +1,7 @@
 package gamecardthirteens;
 
+import deckofcards.Card;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,7 +9,7 @@ import java.util.List;
 public class BotThirteenS extends PlayerThirteenS {
 	private final RulesOfThirteenS rules = new RulesOfThirteenS();
 	private boolean checkSort = false;
-	private ArrayList<CardOfThirteenS> listCards =  new ArrayList<>();
+	private ArrayList<Card> listCards =  new ArrayList<>();
 
 	//Phương thức khởi dựng
 	public BotThirteenS(String name) {
@@ -22,7 +24,7 @@ public class BotThirteenS extends PlayerThirteenS {
 
 	// Ghi đè phương thức getSelection để đưa ra lựa chọn của Bot
 	@Override
-	public String getSelection(ArrayList<CardOfThirteenS> cardsPreTurn) {
+	public String getSelection(ArrayList<Card> cardsPreTurn) {
 		// Bot sẽ tự động chọn 'Sort' ở lượt đầu
 		if (!checkSort) {
 			checkSort = true;
@@ -46,20 +48,20 @@ public class BotThirteenS extends PlayerThirteenS {
 	@Override
 	public String getListCardPlayed() {
 		String played = "";
-		for(CardOfThirteenS card : listCards) {
+		for(Card card : listCards) {
 			played = played.concat(card.printRank()).concat("-").concat(card.printSuit()).concat(" ");
 		}
 		return played;
 	}
 
 	// Phương thức checkSet để check và tìm bộ thoả mãn
-	private ArrayList<CardOfThirteenS> checkSet (String type, int n, ArrayList<CardOfThirteenS> cardsPreTurn){
-		ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
+	private ArrayList<Card> checkSet (String type, int n, ArrayList<Card> cardsPreTurn){
+		ArrayList<Card> listCardsPlayed = new ArrayList<>();
 		if(type.equals("Lobby")){
-			ArrayList<CardOfThirteenS> list = new ArrayList<>();
+			ArrayList<Card> list = new ArrayList<>();
 			list.add(cardsInHand.getFirst());
 			for(int i = 1; i < cardsInHand.size(); i++) {
-				CardOfThirteenS card = cardsInHand.get(i);
+				Card card = cardsInHand.get(i);
 				// Chỉ lấy 1 quân bài trong các quân bài có Rank giống nhau
 				if(card.getRank() != list.getLast().getRank()) {
 					// Nếu tìm thấy 2 trong tay thì dừng lại
@@ -99,9 +101,9 @@ public class BotThirteenS extends PlayerThirteenS {
 		return listCardsPlayed;
 	}
 
-	public ArrayList<CardOfThirteenS> selectionOfBot(ArrayList<CardOfThirteenS> cardsPreTurn) {
+	public ArrayList<Card> selectionOfBot(ArrayList<Card> cardsPreTurn) {
 		if(cardsPreTurn.isEmpty()) {
-			ArrayList<CardOfThirteenS> listCardsPlayed = new ArrayList<>();
+			ArrayList<Card> listCardsPlayed = new ArrayList<>();
 			// Tạo listType để sắp xếp random, để sự lựa chọn của Bot khi bắt đầu đánh lượt mới là ngẫu nhiên, khó đoán cho người chơi
 			List<String> listType = new ArrayList<>(List.of("Lobby", "Four-Fold", "Triple", "Double", "Once", "Lobby"));
 			Collections.shuffle(listType);

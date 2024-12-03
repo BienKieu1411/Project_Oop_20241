@@ -1,4 +1,4 @@
 package gamecardbaccarat;
 
-public class BotBaccarat {
+public class BotBaccarat extends PlayerBaccarat{
 }

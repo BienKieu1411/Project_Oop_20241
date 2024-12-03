@@ -1,30 +1,26 @@
-package gamecardthirteens;
+package rulesofgame;
 
+import deckofcards.Card;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class CheckSetOfThirteenS {
-    // Check các kiểu bộ có thể có trong game bài tiến lên
-    public CheckSetOfThirteenS(){
-
-    }
-
+public class CheckSet {
     // Sắp xếp bộ theo giá trị tăng dần
-    protected ArrayList<CardOfThirteenS> sortCards(ArrayList<CardOfThirteenS> cards) {
-        cards.sort(Comparator.comparingInt(CardOfThirteenS::getRank).thenComparingInt(CardOfThirteenS::getSuit));
+    public ArrayList<Card> sortCards(ArrayList<Card> cards) {
+        cards.sort(Comparator.comparingInt(Card::getRank).thenComparingInt(Card::getSuit));
         return cards;
 
     }
 
     // Kiểm tra đôi
-    protected boolean checkDoubleCard(ArrayList<CardOfThirteenS> cards) {
+    public boolean checkDoubleCard(ArrayList<Card> cards) {
         if (cards.size() != 2)
             return false;
         return cards.get(0).getRank() == cards.get(1).getRank();
     }
 
     //Kiểm tra tam
-    protected boolean checkTripleCard(ArrayList<CardOfThirteenS> cards) {
+    public boolean checkTripleCard(ArrayList<Card> cards) {
         if (cards.size() != 3) return false;
         for (int i = 0; i < 2; ++i)
             if (cards.get(i).getRank() != cards.get(i + 1).getRank())
@@ -33,7 +29,7 @@ public class CheckSetOfThirteenS {
     }
 
     //Kiểm tra tứ
-    protected boolean checkFourFoldCard(ArrayList<CardOfThirteenS> cards) {
+    public boolean checkFourFoldCard(ArrayList<Card> cards) {
         if (cards.size() != 4)
             return false;
         for (int i = 0; i < 3; ++i)
@@ -43,7 +39,7 @@ public class CheckSetOfThirteenS {
     }
 
     //Kiểm tra sảnh
-    protected boolean checkLobby(ArrayList<CardOfThirteenS> cards) {
+    public boolean checkLobby(ArrayList<Card> cards) {
         if (cards.size() < 3)
             return false;
         cards = sortCards(cards);
@@ -56,7 +52,7 @@ public class CheckSetOfThirteenS {
     }
 
     //Kiểm tra thông
-    protected boolean checkPine(ArrayList<CardOfThirteenS> cards) {
+    public boolean checkPine(ArrayList<Card> cards) {
         if (cards.size() % 2 == 1 || cards.size() < 6)
             return false;
         cards = sortCards(cards);

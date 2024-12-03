@@ -21,19 +21,10 @@ public class PlayerBaccarat extends Player<CardOfBaccarat> {
 		CardOfBaccarat card = cardsInHand.getFirst();
 		for (int i = 1; i < cardsInHand.size(); i++) {
 			CardOfBaccarat cardinhand = cardsInHand.get(i);
-			if (compareCard(cardinhand, card))
+			if (cardinhand.compareCard(card) != 0)
 				card = cardinhand;
 		}
 		return card;
-	}
-
-	// So Sánh 2 lá bài
-	protected boolean compareCard(CardOfBaccarat card1, CardOfBaccarat card2) {
-		if (card1.getSuit() > card2.getSuit())
-			return true;
-		if (card1.getSuit() < card2.getSuit())
-			return false;
-		return card1.getRank() > card2.getRank();
 	}
 
 	// In ra người chơi + các lá bài

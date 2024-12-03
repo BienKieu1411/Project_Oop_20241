@@ -1,21 +1,23 @@
 package gamecardthirteens;
 
+import deckofcards.Card;
 import playerofgame.Player;
+import rulesofgame.CheckSet;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 // Kế thừa từ Player
-public class PlayerThirteenS extends Player<CardOfThirteenS> {
+public class PlayerThirteenS extends Player<Card> {
 	protected String getSelection;
 	protected String listCardPlayed;
-	private final CheckSetOfThirteenS checkSet = new CheckSetOfThirteenS();
+	private final CheckSet checkSet = new CheckSet();
 
 	public PlayerThirteenS(String name) {
 		super(name);
 	}
 
 	// Lựa chọn mà người chơi đã chọn
-	public String getSelection(ArrayList<CardOfThirteenS> cardsPreTurn) {
+	public String getSelection(ArrayList<Card> cardsPreTurn) {
 		return getSelection;
 	}
 

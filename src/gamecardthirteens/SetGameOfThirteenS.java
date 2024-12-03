@@ -1,5 +1,7 @@
 package gamecardthirteens;
 
+import deckofcards.Card;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -77,7 +79,7 @@ public class SetGameOfThirteenS{
         for (int i = 0; i < 13; ++i) {
             System.out.println("- Deal cards in turn " + (i + 1) + ": ");
             for (int j = 0; j < numberOfPlayer; ++j) {
-                CardOfThirteenS card = deckOfThirteenS.getCardTop();
+                Card card = deckOfThirteenS.getCardTop();
                 this.playersThirteenS.get(j).addCard(card);
                 this.playersThirteenS.get(j).printCardInHand();
             }
