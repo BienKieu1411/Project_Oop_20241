@@ -19,8 +19,6 @@ public class Main{
             case 2:
                 ThirteenS thirteenS = new ThirteenS();
                 break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + selectedGame);
         }
     }
 }
