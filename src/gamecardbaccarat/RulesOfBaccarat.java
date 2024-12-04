@@ -6,11 +6,10 @@ import java.util.ArrayList;
 
 public class RulesOfBaccarat extends Rules {
 	protected int numberOfPlayer;
-	protected DeckOfBaccarat deckOfBaccarat = new DeckOfBaccarat();
 	protected ArrayList<PlayerBaccarat> playersBaccarat = new ArrayList<>();
 
 	// Tìm ra người thắng cuộc
-	public void winnerBaccarat() {
+	public String winnerBaccarat() {
 		int index = 0;
 		int maxPoint = 0;
 		// So sánh điểm
@@ -28,10 +27,8 @@ public class RulesOfBaccarat extends Rules {
 				playersBaccarat.get(i).setMoneyPlayer(0);
 			}
 		}
-		// In ra người thắng cuộc
-		System.out.println("----------------------------------------");
-		System.out.println("Player " + playersBaccarat.get(index).getNameOfPlayer() + " wins!");
-		System.out.println("----------------------------------------");
+		return playersBaccarat.get(index).getNameOfPlayer();
+
 	}
 
 	// Tính điểm của người chơi
@@ -46,4 +43,6 @@ public class RulesOfBaccarat extends Rules {
 		// Tính điểm theo trọng số : điểm cao nhất -> lá bài có chất cao nhất -> lá bài có điểm cao nhất
 		return 100 * scoreOfPlayer + 10 * biggestCard.getSuit() + biggestCard.getRank();
 	}
+
+
 }

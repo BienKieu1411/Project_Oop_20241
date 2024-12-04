@@ -9,6 +9,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class MainMenu {
+    public static BaccaratDataManager baccarat;
+
     public Scene createMainMenu(Stage stage) {
         AnchorPane root = new AnchorPane();
         root.setPrefSize(1200, 675);

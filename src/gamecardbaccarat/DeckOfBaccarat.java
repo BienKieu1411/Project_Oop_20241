@@ -20,4 +20,5 @@ public class DeckOfBaccarat extends Deck {
 			}
 		}
 	}
+
 }

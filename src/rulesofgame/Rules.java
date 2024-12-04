@@ -33,4 +33,8 @@ public class Rules {
             return "Pine";
         return "Invalid";
     }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayer;
+    }
 }

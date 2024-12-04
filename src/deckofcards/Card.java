@@ -1,8 +1,12 @@
 package deckofcards;
 
+import javafx.scene.image.Image;
+
 public class Card {
 	protected String suit;// Chât của lá bài
 	protected String rank;// Điểm của lá bài
+	protected final static Image BACK_IMAGE = new Image("/cardsimage/BACK.png");
+	protected Image frontImage;    // Mặt trước lá bài
 
 //      ♥ H (Hearts) : Chất cơ
 //      ♦ D (Diamonds) : Chất rô
@@ -13,6 +17,7 @@ public class Card {
 	public Card(String rank, String suit) {
 		this.rank = rank;
 		this.suit = suit;
+		frontImage = new Image("/cardsimage/" + toString() + ".png");
 	}
 
 
@@ -70,6 +75,13 @@ public class Card {
 	}
 
 	// In ra lá bài
+	public Image getFrontImage() {
+		return frontImage;
+	}
+	public static Image getBackImage() {
+		return BACK_IMAGE;
+	}
+
 	@Override
 	public String toString() {
 		return rank + '-' + suit;
