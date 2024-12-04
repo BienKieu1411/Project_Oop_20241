@@ -1,13 +1,14 @@
 package gamecardbaccarat;
 
+import deckofcards.Card;
 import playerofgame.Player;
 
-public class PlayerBaccarat extends Player<CardOfBaccarat> {
+public class PlayerBaccarat extends Player {
 	private int moneyPlayer;// Số tiền của người chơi
 
 	// Constructor
-	public PlayerBaccarat() {
-		super("Player");
+	public PlayerBaccarat(String name) {
+		super(name);
 		this.moneyPlayer = 0;
 	}
 
@@ -17,11 +18,11 @@ public class PlayerBaccarat extends Player<CardOfBaccarat> {
 	}
 
 	// Tìm lá bài cao nhất trong tay người chơi
-	public CardOfBaccarat biggestCardInHand() {
-		CardOfBaccarat card = cardsInHand.getFirst();
+	public Card biggestCardInHand() {
+		Card card = cardsInHand.getFirst();
 		for (int i = 1; i < cardsInHand.size(); i++) {
-			CardOfBaccarat cardinhand = cardsInHand.get(i);
-			if (cardinhand.compareCard(card) != 0)
+			Card cardinhand = cardsInHand.get(i);
+			if (cardinhand.compareCard(card) > 0)
 				card = cardinhand;
 		}
 		return card;

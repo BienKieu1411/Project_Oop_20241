@@ -1,10 +1,11 @@
 package gamecardbaccarat;
 
+import deckofcards.Card;
 import rulesofgame.Rules;
 import java.util.ArrayList;
 
 public class RulesOfBaccarat extends Rules {
-	protected int moneyPlayer;
+	protected int numberOfPlayer;
 	protected DeckOfBaccarat deckOfBaccarat = new DeckOfBaccarat();
 	protected ArrayList<PlayerBaccarat> playersBaccarat = new ArrayList<>();
 
@@ -35,7 +36,7 @@ public class RulesOfBaccarat extends Rules {
 
 	// Tính điểm của người chơi
 	public int getScoreOfPlayer(PlayerBaccarat player) {
-		CardOfBaccarat biggestCard = player.biggestCardInHand();
+		Card biggestCard = player.biggestCardInHand();
 		int scoreOfPlayer = 0;
 		for (int i = 0; i < 3; ++i) {
 			scoreOfPlayer += (player.getCardsInHand().get(i)).getRank();

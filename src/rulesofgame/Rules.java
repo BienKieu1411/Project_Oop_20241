@@ -14,7 +14,7 @@ public class Rules {
         if(card1s.isEmpty()) return false;
         if(card2s.isEmpty()) return true;
         if(card1s.size() != card2s.size()) return false;
-        return card1s.getLast().compareCard(card2s.getLast()) == 1;
+        return card1s.getLast().compareCard(card2s.getLast()) > 0;
     }
 
     // Kiểu của bộ bài: Đơn, Đôi, Tam, Tứ, Sảnh, Thông.

@@ -4,7 +4,7 @@ import deckofcards.Deck;
 import deckofcards.Card;
 import java.util.ArrayList;
 
-public class DeckOfThirteenS extends Deck<Card> {
+public class DeckOfThirteenS extends Deck{
 	// Constructor
 	// Note: Bộ bài 52 lá đầy đủ các chất và điểm
 	public DeckOfThirteenS() {

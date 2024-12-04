@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 // Kế thừa từ Player
-public class PlayerThirteenS extends Player<Card> {
+public class PlayerThirteenS extends Player {
 	protected String getSelection;
 	protected String listCardPlayed;
 	private final CheckSet checkSet = new CheckSet();
