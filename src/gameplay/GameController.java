@@ -9,7 +9,6 @@ public class GameController {
         System.out.println("Starting game: " + game);
         System.out.println("Mode: " + (withPlayer ? "With Player" : "With Bot"));
         System.out.println("Player Count: " + playerCount);
-        System.out.println(playerNames);
         switch (game){
             case "ThirteenS":
                 GamePlayThirteenS thirteenS = new GamePlayThirteenS(stage, playerCount, withPlayer, playerNames);

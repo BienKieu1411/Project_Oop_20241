@@ -16,12 +16,6 @@ public class BotThirteenS extends PlayerThirteenS {
 		super(name);
 	}
 
-	// Ghi đè phương thức setSelection
-	@Override
-	public void setSelection() {
-
-	}
-
 	// Ghi đè phương thức getSelection để đưa ra lựa chọn của Bot
 	@Override
 	public String getSelection(ArrayList<Card> cardsPreTurn) {
@@ -38,20 +32,10 @@ public class BotThirteenS extends PlayerThirteenS {
 		return "Skip";
 	}
 
-	// Ghi đè phương thức setListCardPlayed
-	@Override
-	public void setListCardPlayed() {
-
-	}
-
 	// Ghi đè phương thức getListCardPlayed để đưa ra bộ bài Bot đánh, bộ phải thoả mãn chặn được bộ ở lượt trước.
 	@Override
-	public String getListCardPlayed() {
-		String played = "";
-		for(Card card : listCards) {
-			played = played.concat(card.printRank()).concat("-").concat(card.printSuit()).concat(" ");
-		}
-		return played;
+	public ArrayList<Card> getListCardPlayed() {
+		return listCardPlayed;
 	}
 
 	// Phương thức checkSet để check và tìm bộ thoả mãn

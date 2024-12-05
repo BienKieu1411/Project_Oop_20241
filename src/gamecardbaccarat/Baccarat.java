@@ -4,7 +4,6 @@ public class Baccarat extends RulesOfBaccarat {
 	// Khỏi tạo Constructor: khi khởi tạo 1 đối tượng Baccarat mới sẽ chạy luôn chương trình
 	public Baccarat() {
 		SetGameBaccarat setGame = new SetGameBaccarat();
-		setGame.setNumberOfPlayer(4);
 		setGame.setMoney();
 		super.playersBaccarat = setGame.addPlayer();
 		winnerBaccarat();

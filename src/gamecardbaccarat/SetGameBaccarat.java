@@ -1,13 +1,13 @@
 package gamecardbaccarat;
 
-import rulesofgame.SetGame;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class SetGameBaccarat extends SetGame {
+public class SetGameBaccarat {
     private ArrayList<PlayerBaccarat> playersBaccarat;
     private int moneyPlayer;
+    protected int numberOfPlayer;
 
     public SetGameBaccarat() {
     }
