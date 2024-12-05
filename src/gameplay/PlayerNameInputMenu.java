@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -61,9 +62,22 @@ public class PlayerNameInputMenu {
             nameField.setPrefWidth(300);
             nameField.setStyle("-fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 14;");
             nameFields.add(nameField);
+            nameField.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    int currentIndex = nameFields.indexOf(nameField);
+                    if (currentIndex + 1 < nameFields.size()) {
+                        // Chuyển sang TextField tiếp theo
+                        nameFields.get(currentIndex + 1).requestFocus();
+                    } else {
+                        // Nếu là TextField cuối cùng, thực hiện hành động khác (ví dụ: Submit)
+                        System.out.println("All fields filled or final action triggered.");
+                    }
+                }
+            });
 
             fieldContainer.getChildren().addAll(playerLabel, nameField);
             inputBox.getChildren().add(fieldContainer);
+
         }
 
         // Start button

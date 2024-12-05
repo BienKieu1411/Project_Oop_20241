@@ -31,7 +31,7 @@ public class SetGameOfThirteenS extends SetGame {
             PlayerThirteenS person = new PlayerThirteenS("You");
             playersThirteenS.add(person);
             // Dùng upcasting và ghi đè để tạo bot
-            for (int i = 0; i < numberOfPlayer-1; i++) {
+            for (int i = 0; i < numberOfPlayer - 1; i++) {
                 String nameOfBot = "Bot" + (i + 1);
                 PlayerThirteenS bot = new BotThirteenS(nameOfBot);
                 playersThirteenS.add(bot);
@@ -41,11 +41,10 @@ public class SetGameOfThirteenS extends SetGame {
     }
 
     // Chia bài cho người chơi, mỗi người 13 lá
-    public DeckOfThirteenS dealCard(AnchorPane gameRoot, DeckOfThirteenS deckOfThirteenS) {
+    public DeckOfThirteenS dealCard(DeckOfThirteenS deckOfThirteenS) {
         deckOfThirteenS.shuffleDeck();
         for (int i = 0; i < 13; ++i) {
-            System.out.println("- Deal cards in turn " + (i + 1) + ": ");
-            for (int j = 0; j < numberOfPlayer; ++j) {
+            for (int j = 0; j < numberOfPlayer; ++j){
                 Card card = deckOfThirteenS.getCardTop();
                 this.playersThirteenS.get(j).addCard(card);
                 this.playersThirteenS.get(j).printCardInHand();

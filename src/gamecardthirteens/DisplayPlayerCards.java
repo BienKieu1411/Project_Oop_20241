@@ -4,6 +4,7 @@ import deckofcards.Card;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+
 import java.util.ArrayList;
 
 public class DisplayPlayerCards {
@@ -19,11 +20,11 @@ public class DisplayPlayerCards {
 
     public void displayPlayerHands(AnchorPane gameRoot, ArrayList<PlayerThirteenS> players) {
         // Chỉ xóa các lá bài, giữ nguyên nền và nút
-        gameRoot.getChildren().removeIf(node -> node instanceof Pane && node.getId() != null && node.getId().equals("PlayerCardsPane"));
-
+        gameRoot.getChildren().removeIf(node -> node instanceof Pane && "PlayerCardsPane".equals(node.getId()));
         for (int i = 0; i < players.size(); i++) {
             ArrayList<Card> playerHand = players.get(i).getCardsInHand(); // Lấy bài của người chơi
             Pane playerPane = new Pane(); // Tạo nhóm lá bài cho từng người chơi
+            playerPane.setId("PlayerCardsPane");
             double offsetX, offsetY;
 
             switch (i) {
@@ -67,6 +68,5 @@ public class DisplayPlayerCards {
 
             gameRoot.getChildren().add(playerPane); // Thêm nhóm bài vào giao diện
         }
-
     }
 }

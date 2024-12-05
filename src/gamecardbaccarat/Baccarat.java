@@ -7,7 +7,6 @@ public class Baccarat extends RulesOfBaccarat {
 		setGame.setNumberOfPlayer(4);
 		setGame.setMoney();
 		super.playersBaccarat = setGame.addPlayer();
-		super.deckOfBaccarat = setGame.dealCard(deckOfBaccarat);
 		winnerBaccarat();
 		printPlayerInformation();
 	}
