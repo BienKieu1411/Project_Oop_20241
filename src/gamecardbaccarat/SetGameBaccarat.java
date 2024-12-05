@@ -3,55 +3,49 @@ package gamecardbaccarat;
 import rulesofgame.SetGame;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class SetGameBaccarat extends SetGame {
     private ArrayList<PlayerBaccarat> playersBaccarat;
     private int moneyPlayer;
 
-    private static SetGameBaccarat instance;
-
-    public static SetGameBaccarat getInstance() {
-        if (instance == null) {
-            instance = new SetGameBaccarat();
-        }
-        return instance;
+    public SetGameBaccarat() {
     }
 
     // Thêm người chơi vào trò chơi
     public ArrayList<PlayerBaccarat> addPlayer() {
         this.playersBaccarat = new ArrayList<>();
-        // Tạo người chơi
-        for (int i = 0; i < numberOfPersons; i++) {
-            String nameOfPerson = "Player " + (i + 1);
+        for (int i = 0; i < numberOfPlayer; i++) {
+            System.out.print("Player " + (i + 1) + ": ");
+            String nameOfPerson = scanner.nextLine();  // Nhập tên người chơi
             PlayerBaccarat person = new PlayerBaccarat(nameOfPerson);
             person.addMoneyPlayer(this.moneyPlayer);
             playersBaccarat.add(person);
         }
-        // Tạo bot
-        for (int i = 0; i < numberOfBots; i++) {
+        // Dùng upcasting và ghi đè để tạo bot
+        for (int i = 0; i < numberOfPlayer; i++) {
             String nameOfBot = "Bot" + (i + 1);
             PlayerBaccarat bot = new BotBaccarat(nameOfBot);
             bot.addMoneyPlayer(this.moneyPlayer);
             playersBaccarat.add(bot);
         }
-        // Trộn lại danh sách người chơi và bot
         Collections.shuffle(playersBaccarat);
         return playersBaccarat;
     }
-
-    // Phương thức thiết lập số tiền ban đầu cho người chơi
-    public void setMoney(int money) {
+    // Nhập vào số tiền ban đầu cho người chơi
+    public void setMoney() {
+        System.out.print("Enter each player's starting amount ($): ");
+        int money = scanner.nextInt();
+        scanner.nextLine();
         this.moneyPlayer = money;
     }
 
-    // Phương thức chia bài cho người chơi
+    // Chia bài cho người chơi
     public DeckOfBaccarat dealCard(DeckOfBaccarat deckOfBaccarat) {
-        // Xáo trộn bộ bài trước khi chia
         deckOfBaccarat.shuffleDeck();
-        // Chia bài cho người chơi và bot
         for (int i = 0; i < 3; ++i) {
             System.out.println("- Deal cards in turn " + (i + 1) + ": ");
-            for (int j = 0; j < playersBaccarat.size(); ++j) {
+            for (int j = 0; j < numberOfPlayer; ++j) {
                 playersBaccarat.get(j).addCard(deckOfBaccarat.getCardTop());
                 playersBaccarat.get(j).printCardInHand();
             }
@@ -59,7 +53,5 @@ public class SetGameBaccarat extends SetGame {
         return deckOfBaccarat;
     }
 
-    public ArrayList<PlayerBaccarat> getPlayersBaccarat() {
-        return playersBaccarat;
-    }
+    private final Scanner scanner = new Scanner(System.in);
 }

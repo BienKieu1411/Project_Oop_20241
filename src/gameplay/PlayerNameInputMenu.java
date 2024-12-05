@@ -1,0 +1,106 @@
+package gameplay;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlayerNameInputMenu {
+
+    public Scene createPlayerNameInputScene(Stage stage, String game, int playerCount, boolean withPlayer) {
+        if (!withPlayer) {
+            // If playing with bots, skip name input and start the game
+            GameController.startGame(stage, game, playerCount, false, null);
+            return null;
+        }
+
+        // Create the root VBox container
+        VBox root = new VBox(20);
+        root.setPadding(new Insets(30));
+        root.setAlignment(Pos.CENTER);
+
+        // Set background image
+        ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/CardStart.jpg")));
+        background.setFitWidth(1200);
+        background.setFitHeight(675);
+        background.setPreserveRatio(true);
+
+        // Title
+        Label title = new Label("Enter Player Names");
+        title.setFont(Font.font("Arial", 32));
+        title.setTextFill(Color.web("#F4D03F"));
+        title.setEffect(new DropShadow(10, Color.BLACK));
+
+        // Input fields in styled boxes
+        List<TextField> nameFields = new ArrayList<>();
+        VBox inputBox = new VBox(15);
+        inputBox.setAlignment(Pos.CENTER);
+
+        for (int i = 0; i < playerCount; i++) {
+            HBox fieldContainer = new HBox(10);
+            fieldContainer.setAlignment(Pos.CENTER);
+
+            Label playerLabel = new Label("Player " + (i + 1) + ":");
+            playerLabel.setFont(Font.font("Arial", 18));
+            playerLabel.setTextFill(Color.WHITE);
+
+            TextField nameField = new TextField();
+            nameField.setPromptText("Enter name");
+            nameField.setPrefWidth(300);
+            nameField.setStyle("-fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 14;");
+            nameFields.add(nameField);
+
+            fieldContainer.getChildren().addAll(playerLabel, nameField);
+            inputBox.getChildren().add(fieldContainer);
+        }
+
+        // Start button
+        Button startButton = new Button("Start Game");
+        startButton.setFont(Font.font("Arial", 18));
+        startButton.setTextFill(Color.WHITE);
+        startButton.setStyle("-fx-background-color: linear-gradient(to bottom, #1D89F4, #1B62C5); -fx-background-radius: 10; -fx-font-size: 16px;");
+        startButton.setOnMouseEntered(event -> startButton.setStyle("-fx-background-color: linear-gradient(to bottom, #1B62C5, #1D89F4); -fx-background-radius: 10; -fx-font-size: 16px;"));
+        startButton.setOnMouseExited(event -> startButton.setStyle("-fx-background-color: linear-gradient(to bottom, #1D89F4, #1B62C5); -fx-background-radius: 10; -fx-font-size: 16px;"));
+
+        startButton.setOnAction(event -> {
+            List<String> playerNames = new ArrayList<>();
+            boolean allValid = true;
+
+            for (int i = 0; i < playerCount; i++) {
+                String name = nameFields.get(i).getText().trim();
+                if (name.isEmpty()) {
+                    nameFields.get(i).setStyle("-fx-border-color: red; -fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 14;");
+                    allValid = false;
+                } else {
+                    playerNames.add(name);
+                }
+            }
+
+            if (allValid) {
+                GameController.startGame(stage, game, playerCount, withPlayer, playerNames);
+            }
+        });
+
+        // Set the background and add all components
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().add(background);
+        stackPane.getChildren().add(root);
+
+        // Add the components to the root VBox
+        root.getChildren().addAll(title, inputBox, startButton);
+
+        return new Scene(stackPane, 1200, 675);
+    }
+}

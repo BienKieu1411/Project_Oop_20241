@@ -1,6 +1,8 @@
 package gamecardthirteens;
 
 import deckofcards.Card;
+import javafx.application.Platform;
+import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 
@@ -105,7 +107,7 @@ public class TurnOfThirteenS{
     }
 
     // Bắt đầu turn chính của game, game chỉ dừng lại khi đã có xếp hạng của các người chơi tham gia
-    public void turnOfGame(ArrayList<PlayerThirteenS> playersThirteenS) {
+    public void turnOfGame(AnchorPane gameRoot, ArrayList<PlayerThirteenS> playersThirteenS) {
         int index = 0;
         // Nếu không ai có 3 bích thì sẽ random người đánh trước
         if(!checkEndTurn(playersThirteenS)){

@@ -1,25 +1,22 @@
 package gamecardthirteens;
 
+import javafx.application.Platform;
+import javafx.scene.layout.AnchorPane;
+
+import java.util.List;
+
 public class ThirteenS extends RulesOfThirteenS {
 
-    public ThirteenS() {
+    public ThirteenS(AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
 		SetGameOfThirteenS setGame = new SetGameOfThirteenS();
 		// số người chơi
-		super.numberOfPlayer = setGame.setNumberOfPlayer();
+		super.numberOfPlayer = playerCount;
+		setGame.setNumberOfPlayer(playerCount);
 		// thêm người chơi
-		super.playersThirteenS = setGame.addPlayer();
+		super.playersThirteenS = setGame.addPlayer(withPlayer, playerNames);
 		// chia bài
-		super.deckOfThirteenS = setGame.dealCard(deckOfThirteenS);
+		super.deckOfThirteenS = setGame.dealCard(gameRoot, deckOfThirteenS);
 		// nếu có người chơi sở hữu 4 quân 2 trên tay thì sẽ thắng luôn và không xếp hạng các người chơi còn lại
-		if (checkWinner() == -1) {
-            TurnOfThirteenS newTurn = new TurnOfThirteenS();
-			// tạo turn mới
-			newTurn.setNumberOfPlayer(super.numberOfPlayer);
-			newTurn.setTurn(playersThirteenS);
-			// bắt đầu turn chính
-			newTurn.turnOfGame(playersThirteenS);
-		} else {
-			System.out.println(playersThirteenS.get(checkWinner()).getNameOfPlayer() + " wins the game!");
-		}
+		new DisplayPlayerCards(gameRoot, this.playersThirteenS, numberOfPlayer);
 	}
 }

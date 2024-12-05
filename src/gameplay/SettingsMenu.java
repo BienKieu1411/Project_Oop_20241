@@ -8,7 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class SettingsMenu {
-    private boolean isImageMode = true;
+    public boolean isImageMode = true;
 
     public Scene createSettingsScene(Stage stage) {
         AnchorPane root = new AnchorPane();

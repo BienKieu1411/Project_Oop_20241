@@ -1,12 +1,15 @@
 package deckofcards;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Card {
 	protected String suit;// Chât của lá bài
 	protected String rank;// Điểm của lá bài
-	protected final static Image BACK_IMAGE = new Image("/cardsimage/BACK.png");
-	protected Image frontImage;    // Mặt trước lá bài
+	protected boolean isSelected = false;
+	protected boolean isFaceUp = false;
+	private Image frontImage; // Ảnh mặt trước
+	private Image backImage;  // Ảnh mặt sau
 
 //      ♥ H (Hearts) : Chất cơ
 //      ♦ D (Diamonds) : Chất rô
@@ -17,7 +20,9 @@ public class Card {
 	public Card(String rank, String suit) {
 		this.rank = rank;
 		this.suit = suit;
-		frontImage = new Image("/cardsimage/" + toString() + ".png");
+		this.frontImage = new Image(getClass().getResourceAsStream("/cardsimage/" + toString() + ".png"));
+		this.backImage = new Image(getClass().getResourceAsStream("/cardsimage/BACK.png"));
+		this.isFaceUp = false; // Mặc định là úp bài
 	}
 
 
@@ -74,14 +79,33 @@ public class Card {
 		return Integer.compare(this.getSuit(), other.getSuit());
 	}
 
-	// In ra lá bài
-	public Image getFrontImage() {
-		return frontImage;
-	}
-	public static Image getBackImage() {
-		return BACK_IMAGE;
+	public ImageView getFrontView() {
+		ImageView imageView = new ImageView(frontImage);
+		imageView.setFitWidth(70);  // Đặt chiều rộng
+		imageView.setFitHeight(100); // Đặt chiều cao
+		return imageView;
 	}
 
+	public ImageView getBackView() {
+		ImageView imageView = new ImageView(backImage);
+		imageView.setFitWidth(70);  // Đặt chiều rộng
+		imageView.setFitHeight(100); // Đặt chiều cao
+		return imageView;
+	}
+
+	public boolean isFaceUp() {
+		return isFaceUp;
+	}
+
+	public void setFaceUp(boolean isFaceUp) {
+		this.isFaceUp = isFaceUp;
+	}
+
+	public ImageView getCurrentView() {
+		return isFaceUp ? getFrontView() : getBackView();
+	}
+
+	// In ra lá bài
 	@Override
 	public String toString() {
 		return rank + '-' + suit;
