@@ -8,6 +8,7 @@ public class MainApplication extends Application {
     public void start(Stage primaryStage) {
         MainMenu mainMenu = new MainMenu();
         primaryStage.setScene(mainMenu.createMainMenu(primaryStage));
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Game Card - Team 12");
         primaryStage.show();
     }
