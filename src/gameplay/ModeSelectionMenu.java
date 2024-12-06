@@ -7,28 +7,31 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+
 public class ModeSelectionMenu {
     public Scene createModeSelectionScene(Stage stage, String game) {
         AnchorPane root = new AnchorPane();
         root.setPrefSize(1200, 675);
 
-        // Background
-        ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/CardStart.jpg")));
-        background.setFitWidth(1200);
-        background.setFitHeight(675);
-        background.setPreserveRatio(true);
+/*        // Background
+        ImageView background = MainMenu.BACKGROUND_IMAGE;
+        background.setPreserveRatio(true);*/
 
         // Buttons
-        Button withPlayerButton = createButton("Play with Player", 200, 50, "-fx-background-color: linear-gradient(to bottom, #1D89F4, #1B62C5);");
+        Button withPlayerButton = MainMenu.createButton("Play with Player", "linear-gradient(to bottom, #1D89F4, #1B62C5)", 200, 50);
         withPlayerButton.setOnMouseClicked(event -> stage.setScene(new PlayerCountMenu().createPlayerCountScene(stage, game, true)));
 
-        Button withBotButton = createButton("Play with Bot", 200, 50, "-fx-background-color: linear-gradient(to bottom, #F3B91D, #CF8A08);");
+        Button withBotButton = MainMenu.createButton("Play with Bot", "linear-gradient(to bottom, #F3B91D, #CF8A08)", 200, 50);
         withBotButton.setOnMouseClicked(event -> stage.setScene(new PlayerCountMenu().createPlayerCountScene(stage, game, false)));
 
-        Button backButton = createButton("Back", 200, 50, "-fx-background-color: linear-gradient(to bottom, #F45A4A, #D93324);");
+        Button backButton = MainMenu.createButton("Back", "linear-gradient(to bottom, #F45A4A, #D93324)", 200, 50);
         backButton.setOnMouseClicked(event -> stage.setScene(new GameSelectionMenu().createGameSelectionScene(stage)));
 
-        // Layout
+        // Thêm hiệu ứng cho nút
+        MainMenu.addHoverEffect(Arrays.asList(withPlayerButton, withBotButton,backButton));
+
+        // Set vị trí cho các nút
         withPlayerButton.setLayoutX(500);
         withPlayerButton.setLayoutY(300);
         withBotButton.setLayoutX(500);
@@ -36,14 +39,8 @@ public class ModeSelectionMenu {
         backButton.setLayoutX(500);
         backButton.setLayoutY(440);
 
-        root.getChildren().addAll(background, withPlayerButton, withBotButton, backButton);
+        root.getChildren().addAll(MainMenu.BACKGROUND_IMAGE, withPlayerButton, withBotButton, backButton);
         return new Scene(root, 1200, 675);
     }
 
-    private Button createButton(String text, double width, double height, String style) {
-        Button button = new Button(text);
-        button.setPrefSize(width, height);
-        button.setStyle(style + " -fx-background-radius: 5; -fx-border-radius: 10; -fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: white;");
-        return button;
-    }
 }

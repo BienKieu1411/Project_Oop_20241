@@ -80,8 +80,6 @@ public class DisplayBaccarat {
                     transition.setToX(offsetX + j * gap - cardBackView.getLayoutX());
                     transition.setToY(offsetY - cardBackView.getLayoutY());
                 }
-
-
                 sequentialTransition.getChildren().add(transition);
             }
         }

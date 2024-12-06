@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Baccarat extends RulesOfBaccarat {
+	private boolean[] checkTurn;
 	// Khỏi tạo Constructor: khi khởi tạo 1 đối tượng Baccarat mới sẽ chạy luôn chương trình
 	public Baccarat(AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
 		// Số người chơi

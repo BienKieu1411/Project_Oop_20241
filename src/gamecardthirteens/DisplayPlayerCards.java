@@ -83,7 +83,6 @@ public class DisplayPlayerCards {
                     cardView.setLayoutX(offsetX + j * gap);
                     cardView.setLayoutY(offsetY);
                 }
-
                 playerCardsPane.getChildren().add(cardView);
             }
         }
@@ -130,12 +129,24 @@ public class DisplayPlayerCards {
     }
 
     private void resetButtonStates() {
-        // Đặt lại trạng thái của các nút
-        buttonPlay.setStyle("-fx-background-color: gray;");
-        buttonDiscard.setStyle("-fx-background-color: gray;");
-        buttonSort.setStyle("-fx-background-color: gray;");
-        buttonUnselectCard.setStyle("-fx-background-color: gray;");
+        // Đặt lại trạng thái của các nút với hiệu ứng đẹp hơn
+        buttonPlay.setStyle(getButtonStyle());
+        buttonDiscard.setStyle(getButtonStyle());
+        buttonSort.setStyle(getButtonStyle());
+        buttonUnselectCard.setStyle(getButtonStyle());
     }
+
+    private String getButtonStyle() {
+        return "-fx-background-color: linear-gradient(to bottom, #3c8dbc, #2c73ab); " +
+                "-fx-text-fill: white; " +
+                "-fx-font-size: 14px; " +
+                "-fx-padding: 10px; " +
+                "-fx-background-radius: 5px; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1); " +
+                "-fx-background-insets: 0,1,2,3; " +
+                "-fx-background-radius: 5,4,3,2;";
+    }
+
 
     private void playSelectedCards() {
         // Thực hiện hành động khi chơi bài
