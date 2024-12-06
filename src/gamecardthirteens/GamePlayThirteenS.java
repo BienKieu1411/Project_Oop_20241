@@ -37,7 +37,7 @@ public class GamePlayThirteenS {
         }
 
         // Cập nhật nội dung trò chơi
-        ThirteenS thirteenS = new ThirteenS(gameRoot, playerCount, withPlayer, playerNames);
+        ThirteenS thirteenS = new ThirteenS(stage, gameRoot, playerCount, withPlayer, playerNames);
 
         // Đặt Scene vào Stage
         stage.setScene(scene);

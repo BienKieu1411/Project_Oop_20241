@@ -1,9 +1,11 @@
 package gamecardthirteens;
 
 import deckofcards.Card;
+import gameplay.DealCardAnimation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -15,15 +17,16 @@ public class ThirteenS extends RulesOfThirteenS {
 	private ArrayList<Card> cardPreTurn = new ArrayList<>();
 	private boolean checkSkip = false;
 
-    public ThirteenS(AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
+    public ThirteenS(Stage stage, AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
 		// số người chơi
 		super.numberOfPlayer = playerCount;
 		// thêm người chơi
 		addPlayer(withPlayer, playerNames);
 		// chia bài
-		dealCard();
-		setTurn();
-		turnOfGame(gameRoot, playersThirteenS);
+		dealCard(gameRoot, () -> {
+			setTurn();
+			turnOfGame(stage, gameRoot, playersThirteenS);
+		});
 	}
 
 	// Thêm người chơi vào trò chơi
@@ -50,7 +53,7 @@ public class ThirteenS extends RulesOfThirteenS {
 	}
 
 	// Chia bài cho người chơi, mỗi người 13 lá
-	public void dealCard() {
+	public void dealCard(AnchorPane gameRoot, Runnable onFinished) {
 		deckOfThirteenS.shuffleDeck();
 		for (int i = 0; i < 13; ++i) {
 			for (int j = 0; j < numberOfPlayer; ++j){
@@ -58,6 +61,7 @@ public class ThirteenS extends RulesOfThirteenS {
 				this.playersThirteenS.get(j).addCard(card);
 			}
 		}
+		new DealCardAnimation(gameRoot, numberOfPlayer, 13, onFinished);
 	}
 
 	// khởi tạo turn ban đầu, nếu ai có 3 Bích sẽ được đánh trước, nếu không ai có 3 Bích trên tay thì sẽ ngẫu nhiên người chơi đánh trước
@@ -120,12 +124,12 @@ public class ThirteenS extends RulesOfThirteenS {
 	}
 
 	// Bắt đầu turn chính của game, game chỉ dừng lại khi đã có xếp hạng của các người chơi tham gia
-	public void turnOfGame(AnchorPane gameRoot, ArrayList<PlayerThirteenS> playersThirteenS) {
+	public void turnOfGame(Stage stage, AnchorPane gameRoot, ArrayList<PlayerThirteenS> playersThirteenS) {
 		// Nếu không ai có 3 bích thì sẽ random người đánh trước
 		if(!checkEndTurn()){
 			resetTurn();
 		}
-		DisplayPlayerCards displayPlayerCards = new DisplayPlayerCards(gameRoot, playersThirteenS, 0);
+		DisplayPlayerCards displayPlayerCards = new DisplayPlayerCards(stage, gameRoot, playersThirteenS, 0);
 		Timeline timeline = new Timeline();
 		int[] currentPlayerIndex = {0};
 
@@ -136,7 +140,7 @@ public class ThirteenS extends RulesOfThirteenS {
 			}
 			PlayerThirteenS currentPlayer =  playersThirteenS.get(currentPlayerIndex[0]);
 			currentPlayer.setCardsFaceUp();
-			displayPlayerCards.displayPlayerHands(gameRoot, playersThirteenS, currentPlayerIndex[0]);
+			displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
 			endOfGame(playersThirteenS, numberOfPlayer);
 			// Kiểm tra kết thúc game
 			if (playersThirteenS.size() == 1) {

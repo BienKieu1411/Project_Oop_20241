@@ -1,6 +1,7 @@
 package gamecardbaccarat;
 
 import deckofcards.Card;
+import gameplay.DealCardAnimation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.AnchorPane;
@@ -11,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Baccarat extends RulesOfBaccarat {
-	private boolean[] checkTurn;
 	// Khỏi tạo Constructor: khi khởi tạo 1 đối tượng Baccarat mới sẽ chạy luôn chương trình
 	public Baccarat(Stage stage,AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
 		// Số người chơi
@@ -19,26 +19,27 @@ public class Baccarat extends RulesOfBaccarat {
 		// Them nguoi choi
 		addPlayer(withPlayer, playerNames);
 		// Chia bai
-		dealCard();
-		DisplayBaccarat displayBaccarat = new DisplayBaccarat(stage,gameRoot,playersBaccarat);
-		Timeline timeline = new Timeline();
-		int[] currentPlayerIndex = {0};
+		DisplayBaccarat displayBaccarat = new DisplayBaccarat();
+		dealCard(gameRoot, () -> {
+			Timeline timeline = new Timeline();
+			int[] currentPlayerIndex = {0};
 
-		KeyFrame turnFrame = new KeyFrame(Duration.seconds(2), event -> {
-			PlayerBaccarat currentPlayer =  playersBaccarat.get(currentPlayerIndex[0]);
-			currentPlayer.setCardsFaceUp();
-			displayBaccarat.displayPlayerHands(stage,gameRoot, playersBaccarat);
-			// Kiểm tra kết thúc game
-			if (currentPlayerIndex[0] == numberOfPlayer-1) {
-				timeline.stop();
-			}
-			// Di chuyển đến người chơi tiếp theo
-			currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
+			KeyFrame turnFrame = new KeyFrame(Duration.seconds(2), event -> {
+				PlayerBaccarat currentPlayer =  playersBaccarat.get(currentPlayerIndex[0]);
+				currentPlayer.setCardsFaceUp();
+				displayBaccarat.displayPlayerHands(stage,gameRoot, playersBaccarat);
+				// Kiểm tra kết thúc game
+				if (currentPlayerIndex[0] == numberOfPlayer-1) {
+					timeline.stop();
+				}
+				// Di chuyển đến người chơi tiếp theo
+				currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
+			});
+
+			timeline.getKeyFrames().add(turnFrame);
+			timeline.setCycleCount(Timeline.INDEFINITE);
+			timeline.play();
 		});
-
-		timeline.getKeyFrames().add(turnFrame);
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		timeline.play();
 	}
 
 	// Thêm người chơi vào trò chơi
@@ -64,8 +65,8 @@ public class Baccarat extends RulesOfBaccarat {
 		}
 	}
 
-	// Chia bài cho người chơi, mỗi người 13 lá
-	public void dealCard() {
+	// Chia bài cho người chơi
+	public void dealCard(AnchorPane gameRoot, Runnable onFinished) {
 		this.deckOfBaccarat.shuffleDeck();
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < numberOfPlayer; ++j){
@@ -73,6 +74,7 @@ public class Baccarat extends RulesOfBaccarat {
 				this.playersBaccarat.get(j).addCard(card);
 			}
 		}
+		new DealCardAnimation(gameRoot, numberOfPlayer, 3, onFinished);
 	}
 
 }

@@ -1,11 +1,13 @@
 package gamecardthirteens;
 
 import deckofcards.Card;
+import gameplay.MainMenu;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -23,15 +25,15 @@ public class DisplayPlayerCards {
     private ArrayList<PlayerThirteenS> players = new ArrayList<>();
     private int index;
 
-    public DisplayPlayerCards(AnchorPane gameRoot, ArrayList<PlayerThirteenS> players, int i) {
+    public DisplayPlayerCards(Stage stage, AnchorPane gameRoot, ArrayList<PlayerThirteenS> players, int i) {
         this.Root = gameRoot;
         this.players = players;
         this.index = i;
-        displayPlayerHands(gameRoot, players, i);
-        addControlButtons(gameRoot);
+        displayPlayerHands(stage, gameRoot, players, i);
+        addControlButtons(stage, gameRoot);
     }
 
-    public void displayPlayerHands(AnchorPane gameRoot, ArrayList<PlayerThirteenS> players, int index) {
+    public void displayPlayerHands(Stage stage, AnchorPane gameRoot, ArrayList<PlayerThirteenS> players, int index) {
         Pane playerCardsPane = (Pane) gameRoot.lookup("#PlayerCardsPane");
         if (playerCardsPane == null) {
             playerCardsPane = new Pane();
@@ -86,9 +88,22 @@ public class DisplayPlayerCards {
                 playerCardsPane.getChildren().add(cardView);
             }
         }
+        Button buttonQuit = new Button("Quit Game");
+        buttonQuit.setStyle("-fx-background-color: linear-gradient(to bottom, #D41920, #C7171E); " +
+                "-fx-text-fill: white; " +
+                "-fx-font-size: 10px; " +
+                "-fx-padding: 5px; " +
+                "-fx-background-radius: 2px; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);");
+        buttonQuit.setLayoutX(sceneWidth - 60); // Đặt vị trí nút QUIT ở góc phải dưới màn hình
+        buttonQuit.setLayoutY(3);
+
+        // Thêm sự kiện để quay về MainMenu
+        buttonQuit.setOnMouseClicked(event -> stage.setScene(new MainMenu().createMainMenu(stage)));
+        gameRoot.getChildren().add(buttonQuit);
     }
 
-    private void addControlButtons(AnchorPane gameRoot) {
+    private void addControlButtons(Stage stage, AnchorPane gameRoot) {
         HBox buttonBox = new HBox(10);
         buttonBox.setLayoutX((sceneWidth - 300) / 2); // Đặt vào giữa màn hình theo chiều ngang
         buttonBox.setLayoutY(450); // Đặt vị trí phía trên người chơi thứ nhất một chút
@@ -111,7 +126,7 @@ public class DisplayPlayerCards {
         });
 
         buttonSort.setOnMouseClicked(event -> {
-            sortCards(gameRoot, players.get(index));
+            sortCards(stage, gameRoot, players.get(index));
             // Cập nhật trạng thái các nút
             resetButtonStates();
             buttonSort.setStyle("-fx-background-color: blue;");
@@ -156,10 +171,10 @@ public class DisplayPlayerCards {
         // Thực hiện hành động khi bỏ bài
     }
 
-    private void sortCards(AnchorPane gameRoot ,PlayerThirteenS player) {
+    private void sortCards(Stage stage, AnchorPane gameRoot ,PlayerThirteenS player) {
         System.out.println("Cards sorted.");
         player.sortCardsInHand();
-        displayPlayerHands(gameRoot, players, index);
+        displayPlayerHands(stage, gameRoot, players, index);
     }
 
     private void unselectAllCards() {
