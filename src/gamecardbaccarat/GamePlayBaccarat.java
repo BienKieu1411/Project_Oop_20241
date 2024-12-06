@@ -37,7 +37,7 @@ public class GamePlayBaccarat {
         }
 
         // Cập nhật nội dung trò chơi
-        Baccarat thirteenS = new Baccarat(gameRoot, playerCount, withPlayer, playerNames);
+        Baccarat baccarat = new Baccarat(stage,gameRoot, playerCount, withPlayer, playerNames);
 
         // Đặt Scene vào Stage
         stage.setScene(scene);

@@ -4,6 +4,7 @@ import deckofcards.Card;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,21 +13,21 @@ import java.util.List;
 public class Baccarat extends RulesOfBaccarat {
 	private boolean[] checkTurn;
 	// Khỏi tạo Constructor: khi khởi tạo 1 đối tượng Baccarat mới sẽ chạy luôn chương trình
-	public Baccarat(AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
+	public Baccarat(Stage stage,AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
 		// Số người chơi
 		super.numberOfPlayer = playerCount;
 		// Them nguoi choi
 		addPlayer(withPlayer, playerNames);
 		// Chia bai
 		dealCard();
-		DisplayBaccarat displayBaccarat = new DisplayBaccarat(gameRoot,playersBaccarat);
+		DisplayBaccarat displayBaccarat = new DisplayBaccarat(stage,gameRoot,playersBaccarat);
 		Timeline timeline = new Timeline();
 		int[] currentPlayerIndex = {0};
 
 		KeyFrame turnFrame = new KeyFrame(Duration.seconds(2), event -> {
 			PlayerBaccarat currentPlayer =  playersBaccarat.get(currentPlayerIndex[0]);
 			currentPlayer.setCardsFaceUp();
-			displayBaccarat.displayPlayerHands(gameRoot, playersBaccarat);
+			displayBaccarat.displayPlayerHands(stage,gameRoot, playersBaccarat);
 			// Kiểm tra kết thúc game
 			if (currentPlayerIndex[0] == numberOfPlayer-1) {
 				timeline.stop();

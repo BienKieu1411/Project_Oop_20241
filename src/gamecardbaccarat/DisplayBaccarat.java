@@ -1,11 +1,15 @@
 package gamecardbaccarat;
 
 import deckofcards.Card;
+import gameplay.MainMenu;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -17,7 +21,7 @@ public class DisplayBaccarat {
     private final int cardHeight = 120; // Tỷ lệ bài là 1.4
     private final int gap = 30; // Khoảng cách giữa các lá bài
 
-    public DisplayBaccarat(AnchorPane gameRoot, ArrayList<PlayerBaccarat> playerBaccarat) {
+    public DisplayBaccarat(Stage stage, AnchorPane gameRoot, ArrayList<PlayerBaccarat> playerBaccarat) {
         dealCards(gameRoot, playerBaccarat);
     }
 
@@ -79,7 +83,7 @@ public class DisplayBaccarat {
         }
         sequentialTransition.play();
     }
-    public void displayPlayerHands(AnchorPane gameRoot, ArrayList<PlayerBaccarat> players) {
+    public void displayPlayerHands(Stage stage, AnchorPane gameRoot, ArrayList<PlayerBaccarat> players) {
         Pane playerCardsPane = (Pane) gameRoot.lookup("#PlayerCardsPane");
         if (playerCardsPane == null) {
             playerCardsPane = new Pane();
@@ -113,8 +117,6 @@ public class DisplayBaccarat {
             };
 
             // Đặt vị trí các lá bài theo các góc
-
-            // Đặt vị trí các lá bài
             for (int j = 0; j < playerHand.size(); j++) {
                 Card card = playerHand.get(j);
                 ImageView cardView = card.getCurrentView(); // Lấy view của lá bài (tái sử dụng nếu đã tồn tại)
@@ -132,5 +134,20 @@ public class DisplayBaccarat {
                 playerCardsPane.getChildren().add(cardView);
             }
         }
+
+        // Thêm nút QUIT để quay về MainMenu
+        Button buttonQuit = new Button("Quit Game");
+        buttonQuit.setStyle("-fx-background-color: linear-gradient(to bottom, #D41920, #C7171E); " +
+                "-fx-text-fill: white; " +
+                "-fx-font-size: 10px; " +
+                "-fx-padding: 5px; " +
+                "-fx-background-radius: 2px; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);");
+        buttonQuit.setLayoutX(sceneWidth - 60); // Đặt vị trí nút QUIT ở góc phải dưới màn hình
+        buttonQuit.setLayoutY(3);
+
+        // Thêm sự kiện để quay về MainMenu
+        buttonQuit.setOnMouseClicked(event -> stage.setScene(new MainMenu().createMainMenu(stage)));
+        gameRoot.getChildren().add(buttonQuit);
     }
 }

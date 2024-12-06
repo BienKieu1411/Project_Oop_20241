@@ -20,16 +20,11 @@ import java.util.List;
 public class PlayerNameInputMenu {
 
     public Scene createPlayerNameInputScene(Stage stage, String game, int playerCount, boolean withPlayer) {
+
         // Create the root VBox container
         VBox root = new VBox(20);
         root.setPadding(new Insets(30));
         root.setAlignment(Pos.CENTER);
-
-        // Set background image
-        ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/CardStart.jpg")));
-        background.setFitWidth(1200);
-        background.setFitHeight(675);
-        background.setPreserveRatio(true);
 
         // Title
         Label title = new Label("Game Setup");
@@ -121,8 +116,7 @@ public class PlayerNameInputMenu {
 
         // Set the background and add all components
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().add(background);
-        stackPane.getChildren().add(root);
+        stackPane.getChildren().addAll(MainMenu.BACKGROUND_IMAGE, root);
 
         // Add the components to the root VBox
         root.getChildren().addAll(title, inputBox, startButton, backButton);
