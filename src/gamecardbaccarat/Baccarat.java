@@ -19,7 +19,7 @@ public class Baccarat extends RulesOfBaccarat {
 		addPlayer(withPlayer, playerNames);
 		// Chia bai
 		dealCard();
-		DisplayBaccarat displayBaccarat = new DisplayBaccarat(gameRoot,playersBaccarat,playerCount);
+		DisplayBaccarat displayBaccarat = new DisplayBaccarat(gameRoot,playersBaccarat);
 		Timeline timeline = new Timeline();
 		int[] currentPlayerIndex = {0};
 

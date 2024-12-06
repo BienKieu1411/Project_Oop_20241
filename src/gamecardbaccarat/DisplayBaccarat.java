@@ -1,8 +1,6 @@
 package gamecardbaccarat;
 
 import deckofcards.Card;
-import gamecardthirteens.PlayerThirteenS;
-import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
@@ -19,7 +17,7 @@ public class DisplayBaccarat {
     private final int cardHeight = 120; // Tỷ lệ bài là 1.4
     private final int gap = 30; // Khoảng cách giữa các lá bài
 
-    public DisplayBaccarat(AnchorPane gameRoot, ArrayList<PlayerBaccarat> playerBaccarat, int playerCount) {
+    public DisplayBaccarat(AnchorPane gameRoot, ArrayList<PlayerBaccarat> playerBaccarat) {
         dealCards(gameRoot, playerBaccarat);
     }
 
@@ -28,37 +26,32 @@ public class DisplayBaccarat {
         gameRoot.getChildren().removeIf(node -> node instanceof Pane && "PlayerCardsPane".equals(node.getId()));
 
         SequentialTransition sequentialTransition = new SequentialTransition();
-
-        // Lấy số lượng lá bài mỗi người chơi
-        int numOfCards = players.get(0).getCardsInHand().size();
-
-        for (int j = 0; j < numOfCards; j++) {
+        for (int j = 0; j < 3; j++) {
             for (int i = 0; i < players.size(); i++) {
                 ArrayList<Card> playerHand = players.get(i).getCardsInHand(); // Lấy bài của người chơi
                 Pane playerPane = new Pane(); // Tạo nhóm lá bài cho từng người chơi
                 playerPane.setId("PlayerCardsPane");
                 double offsetX, offsetY;
 
-                switch (i) {
-                    case 0: // Người chơi 1 - Dưới cùng
+                offsetY = switch (i) {
+                    case 0 -> {
                         offsetX = (sceneWidth - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
-                        offsetY = sceneHeight - cardHeight - 20;
-                        break;
-                    case 1: // Người chơi 2 - Bên phải
+                        yield sceneHeight - cardHeight - 20;
+                    }
+                    case 1 -> {
                         offsetX = sceneWidth - cardHeight - 20;
-                        offsetY = (sceneHeight - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
-                        break;
-                    case 2: // Người chơi 3 - Trên cùng
+                        yield (sceneHeight - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
+                    }
+                    case 2 -> {
                         offsetX = (sceneWidth - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
-                        offsetY = 20;
-                        break;
-                    case 3: // Người chơi 4 - Bên trái
+                        yield 20;
+                    }
+                    case 3 -> {
                         offsetX = 20;
-                        offsetY = (sceneHeight - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected player index: " + i);
-                }
+                        yield (sceneHeight - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
+                    }
+                    default -> throw new IllegalStateException("Unexpected player index: " + i);
+                };
 
                 Card card = playerHand.get(j);
                 ImageView cardBackView = card.getBackView(); // Lấy hình ảnh mặt sau của lá bài
@@ -67,14 +60,14 @@ public class DisplayBaccarat {
                 cardBackView.setFitHeight(cardHeight);
 
                 // Bắt đầu từ trung tâm bàn
-                cardBackView.setLayoutX(sceneWidth / 2 - cardWidth / 2);
-                cardBackView.setLayoutY(sceneHeight / 2 - cardHeight / 2);
+                cardBackView.setLayoutX(sceneWidth / 2.0 - cardWidth / 2.0);
+                cardBackView.setLayoutY(sceneHeight / 2.0 - cardHeight / 2.0);
 
                 gameRoot.getChildren().add(cardBackView);
 
                 TranslateTransition transition = new TranslateTransition(Duration.millis(100), cardBackView); // Điều chỉnh thời gian để thay đổi tốc độ
                 if (i == 1 || i == 3) { // Người chơi 2 và 4
-                    transition.setToX(offsetX + cardHeight / 2 - cardWidth / 2 - cardBackView.getLayoutX()); // Điều chỉnh x sau khi xoay
+                    transition.setToX(offsetX + cardHeight / 2.0 - cardWidth / 2.0 - cardBackView.getLayoutX()); // Điều chỉnh x sau khi xoay
                     transition.setToY(offsetY + j * gap - cardBackView.getLayoutY());
                     transition.setOnFinished(event -> cardBackView.setRotate(90)); // Xoay 90 độ khi đến tay người chơi
                 } else { // Người chơi 1 và 3
@@ -99,29 +92,27 @@ public class DisplayBaccarat {
         for (int i = 0; i < players.size(); i++) {
             ArrayList<Card> playerHand = players.get(i).getCardsInHand();
             double offsetX;
-            double offsetY;
+            double offsetY = switch (i) {
+                case 0 -> {
+                    offsetX = (sceneWidth - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
+                    yield sceneHeight - cardHeight - 20;
+                }
+                case 1 -> {
+                    offsetX = sceneWidth - cardHeight - 20;
+                    yield (sceneHeight - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
+                }
+                case 2 -> {
+                    offsetX = (sceneWidth - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
+                    yield 20;
+                }
+                case 3 -> {
+                    offsetX = 20;
+                    yield (sceneHeight - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
+                }
+                default -> throw new IllegalStateException("Unexpected player index: " + i);
+            };
 
             // Đặt vị trí các lá bài theo các góc
-            switch (i) {
-                case 0: // Dưới cùng
-                    offsetX = (sceneWidth - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
-                    offsetY = sceneHeight - cardHeight - 20;
-                    break;
-                case 1: // Bên phải
-                    offsetX = sceneWidth - cardHeight - 20;
-                    offsetY = (sceneHeight - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
-                    break;
-                case 2: // Trên cùng
-                    offsetX = (sceneWidth - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
-                    offsetY = 20;
-                    break;
-                case 3: // Bên trái
-                    offsetX = 20;
-                    offsetY = (sceneHeight - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected player index: " + i);
-            }
 
             // Đặt vị trí các lá bài
             for (int j = 0; j < playerHand.size(); j++) {
@@ -132,7 +123,7 @@ public class DisplayBaccarat {
 
                 if (i == 1 || i == 3) { // Người chơi 2, 4 (xoay ngang)
                     cardView.setRotate(90);
-                    cardView.setLayoutX(offsetX + cardHeight / 2 - cardWidth / 2);
+                    cardView.setLayoutX(offsetX + cardHeight / 2.0 - cardWidth / 2.0);
                     cardView.setLayoutY(offsetY + j * gap);
                 } else { // Người chơi 1, 3
                     cardView.setLayoutX(offsetX + j * gap);
