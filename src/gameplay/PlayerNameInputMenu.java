@@ -14,7 +14,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,15 +109,26 @@ public class PlayerNameInputMenu {
             }
         });
 
+        // Back button
+        Button backButton = new Button("Back");
+        backButton.setFont(Font.font("Arial", 18));
+        backButton.setTextFill(Color.WHITE);
+        backButton.setStyle("-fx-background-color: linear-gradient(to bottom, #E57373, #C62828); -fx-background-radius: 10; -fx-font-size: 16px;");
+        backButton.setOnMouseEntered(event -> backButton.setStyle("-fx-background-color: linear-gradient(to bottom, #C62828, #E57373); -fx-background-radius: 10; -fx-font-size: 16px;"));
+        backButton.setOnMouseExited(event -> backButton.setStyle("-fx-background-color: linear-gradient(to bottom, #E57373, #C62828); -fx-background-radius: 10; -fx-font-size: 16px;"));
+
+        backButton.setOnMouseClicked(event -> stage.setScene(new PlayerCountMenu().createPlayerCountScene(stage, game, withPlayer)));
+
         // Set the background and add all components
         StackPane stackPane = new StackPane();
         stackPane.getChildren().add(background);
         stackPane.getChildren().add(root);
 
         // Add the components to the root VBox
-        root.getChildren().addAll(title, inputBox, startButton);
+        root.getChildren().addAll(title, inputBox, startButton, backButton);
 
         return new Scene(stackPane, 1200, 675);
     }
+
 
 }
