@@ -59,6 +59,7 @@ public class ThirteenS extends RulesOfThirteenS {
 			}
 		}
 	}
+
 	// khởi tạo turn ban đầu, nếu ai có 3 Bích sẽ được đánh trước, nếu không ai có 3 Bích trên tay thì sẽ ngẫu nhiên người chơi đánh trước
 	public void setTurn(){
 		checkTurn = new boolean[numberOfPlayer];
@@ -90,6 +91,7 @@ public class ThirteenS extends RulesOfThirteenS {
 		}
 		return counter == 1;
 	}
+
 	// Lấy lựa chọn của người chơi
 	public boolean playCards(PlayerThirteenS player, ArrayList<Card> listCardPlayed, String selected) {
 		System.out.println("Select card (enter in format Rank-Suit, write on one line, separated by spaces) to play or enter 'Sort' to sort cards in hand or enter 'Skip' to skip turn:");

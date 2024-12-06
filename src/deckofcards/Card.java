@@ -71,13 +71,6 @@ public class Card {
 		return rank.equals(card.rank) && suit.equals(card.suit);
 	}
 
-	// Giúp so sánh lá bài nào lớn hơn
-	public int compareCard(Card other) {
-		int rankComparison = Integer.compare(this.getRank(), other.getRank());
-		if (rankComparison != 0)
-			return rankComparison;
-		return Integer.compare(this.getSuit(), other.getSuit());
-	}
 
 	public ImageView getFrontView() {
 		ImageView imageView = new ImageView(frontImage);
@@ -99,6 +92,14 @@ public class Card {
 
 	public ImageView getCurrentView() {
 		return isFaceUp ? getFrontView() : getBackView();
+	}
+
+	// Giúp so sánh lá bài nào lớn hơn
+	public int compareCard(Card other) {
+		int rankComparison = Integer.compare(this.getRank(), other.getRank());
+		if (rankComparison != 0)
+			return rankComparison;
+		return Integer.compare(this.getSuit(), other.getSuit());
 	}
 
 	// In ra lá bài

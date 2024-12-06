@@ -5,6 +5,7 @@ import rulesofgame.Rules;
 import java.util.ArrayList;
 
 public class RulesOfBaccarat extends Rules {
+	protected DeckOfBaccarat deckOfBaccarat = new DeckOfBaccarat();
 	protected int numberOfPlayer;
 	protected ArrayList<PlayerBaccarat> playersBaccarat = new ArrayList<>();
 
