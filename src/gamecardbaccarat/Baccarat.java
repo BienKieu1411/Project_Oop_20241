@@ -1,11 +1,10 @@
 package gamecardbaccarat;
 
 import deckofcards.Card;
-import gamecardbaccarat.BotBaccarat;
-import gamecardbaccarat.PlayerBaccarat;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
+import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,8 +19,25 @@ public class Baccarat extends RulesOfBaccarat {
 		addPlayer(withPlayer, playerNames);
 		// Chia bai
 		dealCard();
+		DisplayBaccarat displayBaccarat = new DisplayBaccarat(gameRoot,playersBaccarat,playerCount);
+		Timeline timeline = new Timeline();
+		int[] currentPlayerIndex = {0};
 
-		new DisplayBaccarat(gameRoot,playersBaccarat,playerCount);
+		KeyFrame turnFrame = new KeyFrame(Duration.seconds(2), event -> {
+			PlayerBaccarat currentPlayer =  playersBaccarat.get(currentPlayerIndex[0]);
+			currentPlayer.setCardsFaceUp();
+			displayBaccarat.displayPlayerHands(gameRoot, playersBaccarat);
+			// Kiểm tra kết thúc game
+			if (currentPlayerIndex[0] == numberOfPlayer-1) {
+				timeline.stop();
+			}
+			// Di chuyển đến người chơi tiếp theo
+			currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
+		});
+
+		timeline.getKeyFrames().add(turnFrame);
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.play();
 	}
 
 	// Thêm người chơi vào trò chơi

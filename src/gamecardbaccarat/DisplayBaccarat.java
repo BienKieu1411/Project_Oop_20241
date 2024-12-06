@@ -1,6 +1,7 @@
 package gamecardbaccarat;
 
 import deckofcards.Card;
+import gamecardthirteens.PlayerThirteenS;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
@@ -83,8 +84,62 @@ public class DisplayBaccarat {
                 sequentialTransition.getChildren().add(transition);
             }
         }
-
         sequentialTransition.play();
     }
+    public void displayPlayerHands(AnchorPane gameRoot, ArrayList<PlayerBaccarat> players) {
+        Pane playerCardsPane = (Pane) gameRoot.lookup("#PlayerCardsPane");
+        if (playerCardsPane == null) {
+            playerCardsPane = new Pane();
+            playerCardsPane.setId("PlayerCardsPane");
+            gameRoot.getChildren().add(playerCardsPane);
+        }
 
+        playerCardsPane.getChildren().clear(); // Xóa bài cũ, giữ nguyên `ImageView` đã sử dụng
+
+        for (int i = 0; i < players.size(); i++) {
+            ArrayList<Card> playerHand = players.get(i).getCardsInHand();
+            double offsetX;
+            double offsetY;
+
+            // Đặt vị trí các lá bài theo các góc
+            switch (i) {
+                case 0: // Dưới cùng
+                    offsetX = (sceneWidth - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
+                    offsetY = sceneHeight - cardHeight - 20;
+                    break;
+                case 1: // Bên phải
+                    offsetX = sceneWidth - cardHeight - 20;
+                    offsetY = (sceneHeight - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
+                    break;
+                case 2: // Trên cùng
+                    offsetX = (sceneWidth - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
+                    offsetY = 20;
+                    break;
+                case 3: // Bên trái
+                    offsetX = 20;
+                    offsetY = (sceneHeight - (playerHand.size() - 1) * gap - cardWidth) / 2.0;
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected player index: " + i);
+            }
+
+            // Đặt vị trí các lá bài
+            for (int j = 0; j < playerHand.size(); j++) {
+                Card card = playerHand.get(j);
+                ImageView cardView = card.getCurrentView(); // Lấy view của lá bài (tái sử dụng nếu đã tồn tại)
+                cardView.setFitWidth(cardWidth);
+                cardView.setFitHeight(cardHeight);
+
+                if (i == 1 || i == 3) { // Người chơi 2, 4 (xoay ngang)
+                    cardView.setRotate(90);
+                    cardView.setLayoutX(offsetX + cardHeight / 2 - cardWidth / 2);
+                    cardView.setLayoutY(offsetY + j * gap);
+                } else { // Người chơi 1, 3
+                    cardView.setLayoutX(offsetX + j * gap);
+                    cardView.setLayoutY(offsetY);
+                }
+                playerCardsPane.getChildren().add(cardView);
+            }
+        }
+    }
 }
