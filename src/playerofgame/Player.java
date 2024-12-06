@@ -56,4 +56,16 @@ public class Player {
 	public void setNameOfPlayer(String nameOfPlayer) {
 		this.nameOfPlayer = nameOfPlayer;
 	}
+
+	public void setCardsFaceUp() {
+		for (Card card : cardsInHand) {
+			card.setFaceUp(true);
+		}
+	}
+
+	public void setCardsFaceDown() {
+		for (Card card : cardsInHand) {
+			card.setFaceUp(false);
+		}
+	}
 }

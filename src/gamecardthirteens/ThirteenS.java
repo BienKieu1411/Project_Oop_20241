@@ -1,7 +1,10 @@
 package gamecardthirteens;
 
 import deckofcards.Card;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,8 +22,8 @@ public class ThirteenS extends RulesOfThirteenS {
 		addPlayer(withPlayer, playerNames);
 		// chia bài
 		dealCard();
-		new DisplayPlayerCards(gameRoot, super.playersThirteenS);
-		// nếu có người chơi sở hữu 4 quân 2 trên tay thì sẽ thắng luôn và không xếp hạng các người chơi còn lại
+		setTurn();
+		turnOfGame(gameRoot, playersThirteenS);
 	}
 
 	// Thêm người chơi vào trò chơi
@@ -56,13 +59,8 @@ public class ThirteenS extends RulesOfThirteenS {
 			}
 		}
 	}
-	// lấy số người chơi
-	public void setNumberOfPlayer(int numberOfPlayer) {
-		this.numberOfPlayer = numberOfPlayer;
-	}
-
 	// khởi tạo turn ban đầu, nếu ai có 3 Bích sẽ được đánh trước, nếu không ai có 3 Bích trên tay thì sẽ ngẫu nhiên người chơi đánh trước
-	public void setTurn(ArrayList<PlayerThirteenS> playersThirteenS){
+	public void setTurn(){
 		checkTurn = new boolean[numberOfPlayer];
 		for(int i = 0; i < numberOfPlayer; i++) {
 			checkTurn[i] = false;
@@ -78,13 +76,13 @@ public class ThirteenS extends RulesOfThirteenS {
 	}
 
 	// Set lại turn mới, mọi người skip trong turn trước sẽ được đánh lại trong turn mới
-	public void resetTurn(ArrayList<PlayerThirteenS> playersThirteenS) {
+	public void resetTurn() {
 		for (int i = 0; i < playersThirteenS.size(); ++i)
 			checkTurn[i] = true;
 	}
 
 	// Lượt chơi sẽ kết thúc khi chỉ còn 1 người chưa Skip
-	public boolean checkEndTurn(ArrayList<PlayerThirteenS> playersThirteenS) {
+	public boolean checkEndTurn() {
 		int counter = 0;
 		for (int i = 0; i < playersThirteenS.size(); ++i) {
 			if (checkTurn[i])
@@ -120,23 +118,43 @@ public class ThirteenS extends RulesOfThirteenS {
 	}
 
 	// Bắt đầu turn chính của game, game chỉ dừng lại khi đã có xếp hạng của các người chơi tham gia
-	public void turnOfGame(AnchorPane gameRoot, ArrayList<PlayerThirteenS> playersThirteenS, String selected, ArrayList<Card> listCardPlayed) {
-		int index = 0;
+	public void turnOfGame(AnchorPane gameRoot, ArrayList<PlayerThirteenS> playersThirteenS) {
 		// Nếu không ai có 3 bích thì sẽ random người đánh trước
-		if(!checkEndTurn(playersThirteenS)){
-			resetTurn(playersThirteenS);
-			index++;
-			System.out.println("-Turn " + index + " :");
+		if(!checkEndTurn()){
+			resetTurn();
 		}
-		boolean checkEndGame = false;
-		while (!checkEndGame) {
-			for (int i = 0; i < playersThirteenS.size(); i++) {
+		DisplayPlayerCards displayPlayerCards = new DisplayPlayerCards(gameRoot, playersThirteenS, 0);
+		Timeline timeline = new Timeline();
+		int[] currentPlayerIndex = {0};
+
+		KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
+			if (checkEndTurn()) {
+				resetTurn();
+				cardPreTurn.clear();
+			}
+			PlayerThirteenS currentPlayer =  playersThirteenS.get(currentPlayerIndex[0]);
+			currentPlayer.setCardsFaceUp();
+			displayPlayerCards.displayPlayerHands(gameRoot, playersThirteenS, currentPlayerIndex[0]);
+			endOfGame(playersThirteenS, numberOfPlayer);
+			// Kiểm tra kết thúc game
+			if (playersThirteenS.size() == 1) {
+				timeline.stop();
+			}
+			// Di chuyển đến người chơi tiếp theo
+			currentPlayer.setCardsFaceDown();
+			currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersThirteenS.size();
+		});
+
+		timeline.getKeyFrames().add(turnFrame);
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.play();
+	}
+}
+/*
 				if (checkTurn[i]) {
 					// Lần lượt các người chơi sẽ đánh bài
-					if (checkEndTurn(playersThirteenS)) {
-						index++;
-						System.out.println("-Turn " + index + " :");
-						resetTurn(playersThirteenS);
+					if (checkEndTurn()) {
+						resetTurn();
 						cardPreTurn.clear();
 					}
 					while (true) {
@@ -163,7 +181,7 @@ public class ThirteenS extends RulesOfThirteenS {
 				}
 				endOfGame(playersThirteenS, numberOfPlayer);
 				// Nếu còn 1 người chơi, in ra xếp hạng của người chơi đó và kết thúc game
-				if(playersThirteenS.size() == 1){
+				if (playersThirteenS.size() == 1) {
 					System.out.println(playersThirteenS.getFirst().getNameOfPlayer() + " got " +
 							switch (numberOfPlayer) {
 								case 2 -> "Second";
@@ -175,6 +193,4 @@ public class ThirteenS extends RulesOfThirteenS {
 					break;
 				}
 			}
-		}
-	}
-}
+ */

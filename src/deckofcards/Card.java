@@ -93,10 +93,6 @@ public class Card {
 		return imageView;
 	}
 
-	public boolean isFaceUp() {
-		return isFaceUp;
-	}
-
 	public void setFaceUp(boolean isFaceUp) {
 		this.isFaceUp = isFaceUp;
 	}
