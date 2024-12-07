@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.util.List;
 
+
 public class GamePlayBaccarat {
     private static final Image tablePokerImage = new Image(GamePlayBaccarat.class.getResourceAsStream("/cardsimage/tablepoker.png"));
     private Scene scene; // Lưu trữ Scene duy nhất

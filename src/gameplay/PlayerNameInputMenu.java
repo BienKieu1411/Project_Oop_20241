@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PlayerNameInputMenu {
@@ -38,7 +39,6 @@ public class PlayerNameInputMenu {
 
         if (withPlayer) {
             title.setText("Enter Player Names");
-
             // Generate name input fields
             for (int i = 0; i < playerCount; i++) {
                 HBox fieldContainer = new HBox(10);
@@ -71,13 +71,8 @@ public class PlayerNameInputMenu {
             title.setText("Game with Bots");
         }
 
-        // Start button
-        Button startButton = new Button("Start Game");
-        startButton.setFont(Font.font("Arial", 18));
-        startButton.setTextFill(Color.WHITE);
-        startButton.setStyle("-fx-background-color: linear-gradient(to bottom, #1D89F4, #1B62C5); -fx-background-radius: 10; -fx-font-size: 16px;");
-        startButton.setOnMouseEntered(event -> startButton.setStyle("-fx-background-color: linear-gradient(to bottom, #1B62C5, #1D89F4); -fx-background-radius: 10; -fx-font-size: 16px;"));
-        startButton.setOnMouseExited(event -> startButton.setStyle("-fx-background-color: linear-gradient(to bottom, #1D89F4, #1B62C5); -fx-background-radius: 10; -fx-font-size: 16px;"));
+        Button startButton = MainMenu.createButton("Start", "linear-gradient(to bottom, #1D89F4, #1B62C5)", 60, 30);
+        startButton.setOnMouseClicked(event -> stage.setScene(new GameSelectionMenu().createGameSelectionScene(stage)));
 
         startButton.setOnAction(event -> {
             if (withPlayer) {
@@ -104,15 +99,11 @@ public class PlayerNameInputMenu {
             }
         });
 
-        // Back button
-        Button backButton = new Button("Back");
-        backButton.setFont(Font.font("Arial", 18));
-        backButton.setTextFill(Color.WHITE);
-        backButton.setStyle("-fx-background-color: linear-gradient(to bottom, #E57373, #C62828); -fx-background-radius: 10; -fx-font-size: 16px;");
-        backButton.setOnMouseEntered(event -> backButton.setStyle("-fx-background-color: linear-gradient(to bottom, #C62828, #E57373); -fx-background-radius: 10; -fx-font-size: 16px;"));
-        backButton.setOnMouseExited(event -> backButton.setStyle("-fx-background-color: linear-gradient(to bottom, #E57373, #C62828); -fx-background-radius: 10; -fx-font-size: 16px;"));
+        Button backButton = MainMenu.createButton("Back", "linear-gradient(to bottom, #F45A4A, #D93324)", 60, 30);
 
         backButton.setOnMouseClicked(event -> stage.setScene(new PlayerCountMenu().createPlayerCountScene(stage, game, withPlayer)));
+
+        MainMenu.addHoverEffect(Arrays.asList(startButton, backButton));
 
         // Set the background and add all components
         StackPane stackPane = new StackPane();

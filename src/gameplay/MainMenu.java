@@ -21,13 +21,6 @@ public class MainMenu {
         // AnchorPane chứa toàn bộ giao diện
         AnchorPane root = new AnchorPane();
         root.setPrefSize(1200, 675);
-
-        // Hình nền
-/*        ImageView background = BACKGROUND_IMAGE;
-        background.setFitWidth(1200);
-        background.setFitHeight(675);
-        background.setPreserveRatio(false);*/
-
         // Tạo các nút
         Button playButton = createButton("PLAY", "linear-gradient(to bottom, #1D89F4, #1B62C5)", 200, 50);
         playButton.setOnMouseClicked(event -> stage.setScene(new GameSelectionMenu().createGameSelectionScene(stage)));
