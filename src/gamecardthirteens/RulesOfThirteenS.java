@@ -12,9 +12,11 @@ public class RulesOfThirteenS extends Rules {
 	protected boolean checkCardsDrop(ArrayList<Card> cards, ArrayList<Card> cardsPreTurn) {
 		if (cards.isEmpty())
 			return false;
+		String typeOfCardsPreTurn = getTypeOfCards(cardsPreTurn), typeOfCards = getTypeOfCards(cards);
+		if(typeOfCards.equals("Invalid"))
+			return false;
 		if (cardsPreTurn.isEmpty())
 			return true;
-		String typeOfCardsPreTurn = getTypeOfCards(cardsPreTurn), typeOfCards = getTypeOfCards(cards);
 		if (!typeOfCards.equals(typeOfCardsPreTurn)) {
 			if (typeOfCardsPreTurn.equals("Once")) {
 				if (cardsPreTurn.getFirst().getRank() != 15)
