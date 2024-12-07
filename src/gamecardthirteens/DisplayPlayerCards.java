@@ -211,8 +211,4 @@ public class DisplayPlayerCards {
     public void showActionButtons(Consumer<String> actionHandler) {
         this.onPlayerAction = actionHandler;
     }
-
-    public void clearActionButtons(){
-        this.onPlayerAction = null;
-    }
 }
