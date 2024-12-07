@@ -182,28 +182,11 @@ public class ThirteenS extends RulesOfThirteenS {
 
 	private void endPlayerTurn(PlayerThirteenS currentPlayer, int[] currentPlayerIndex, ArrayList<PlayerThirteenS> playersThirteenS, Timeline gameTimeline) {
 		currentPlayer.setCardsFaceDown();
-		endOfGame(playersThirteenS, numberOfPlayer);
 		currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersThirteenS.size();
+		endOfGame(playersThirteenS, numberOfPlayer);
 		if (playersThirteenS.size() == 1) {
 			gameTimeline.stop();
 			System.out.println("Trò chơi kết thúc!");
 		}
 	}
-
 }
-/*
-				endOfGame(playersThirteenS, numberOfPlayer);
-				// Nếu còn 1 người chơi, in ra xếp hạng của người chơi đó và kết thúc game
-				if (playersThirteenS.size() == 1) {
-					System.out.println(playersThirteenS.getFirst().getNameOfPlayer() + " got " +
-							switch (numberOfPlayer) {
-								case 2 -> "Second";
-								case 3 -> "Third";
-								case 4 -> "Fourth";
-								default -> "";
-							} + " place!");
-					checkEndGame = true;
-					break;
-				}
-			}
- */
