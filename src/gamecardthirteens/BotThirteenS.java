@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class BotThirteenS extends PlayerThirteenS {
-	private final RulesOfThirteenS rules = new RulesOfThirteenS();
+	private final RulesOfThirteenS RULES = new RulesOfThirteenS();
 	private boolean checkSort = false;
 	private ArrayList<Card> listCards =  new ArrayList<>();
 
@@ -59,8 +59,8 @@ public class BotThirteenS extends PlayerThirteenS {
 					listCardsPlayed.add(list.get(j));
 				}
 				// Nếu bộ bài đã tìm được thoả mãn là sảnh và chặn được bộ bài của đối thủ thì trả về bộ bài đã tìm
-				if(rules.getTypeOfCards(listCardsPlayed).equals("Lobby")){
-					if(rules.compareCards(listCardsPlayed, cardsPreTurn))
+				if(RULES.getTypeOfCards(listCardsPlayed).equals("Lobby")){
+					if(RULES.compareCards(listCardsPlayed, cardsPreTurn))
 						return listCardsPlayed;
 				}
 				// Sau mỗi lần tìm kiếm thì xoá list, trả lại list rỗng
@@ -77,7 +77,7 @@ public class BotThirteenS extends PlayerThirteenS {
 				for (int j = 0; j < n; ++j) {
 					listCardsPlayed.add(cardsInHand.get(i + j));
 				}
-				if (rules.getTypeOfCards(listCardsPlayed).equals(type) && rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
+				if (RULES.getTypeOfCards(listCardsPlayed).equals(type) && RULES.checkCardsDrop(listCardsPlayed, cardsPreTurn))
 					return listCardsPlayed;
 				listCardsPlayed.clear();
 			}
@@ -106,7 +106,7 @@ public class BotThirteenS extends PlayerThirteenS {
 			}
 			return listCardsPlayed;
 		}
-		String typeCardsPreTurn = rules.getTypeOfCards(cardsPreTurn);
+		String typeCardsPreTurn = RULES.getTypeOfCards(cardsPreTurn);
 		return checkSet(typeCardsPreTurn, cardsPreTurn.size(), cardsPreTurn);
 	}
 }

@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class PlayerThirteenS extends Player {
 	protected String getSelection;
 	protected ArrayList<Card> listCardPlayed;
-	private final CheckSet checkSet = new CheckSet();
+	private final CheckSet CHECK_SET = new CheckSet();
 
 	public PlayerThirteenS(String name) {
 		super(name);
@@ -38,8 +38,7 @@ public class PlayerThirteenS extends Player {
 
 	// Sắp xếp các lá bài trên tay
 	public void sortCardsInHand() {
-		this.cardsInHand = checkSet.sortCards(this.cardsInHand);
+		this.cardsInHand = CHECK_SET.sortCards(this.cardsInHand);
 	}
 
-	private final Scanner scanner = new Scanner(System.in);
 }
