@@ -167,7 +167,6 @@ public class ThirteenS extends RulesOfThirteenS {
 							displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
 						}
                     }
-					displayPlayerCards.clearActionButtons();
 				});
 			} else {
 				displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, 0);
