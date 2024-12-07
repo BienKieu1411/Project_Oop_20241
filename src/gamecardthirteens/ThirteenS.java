@@ -7,17 +7,16 @@ import javafx.animation.Timeline;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class ThirteenS extends RulesOfThirteenS {
 	private boolean[] checkTurn;
 	private ArrayList<Card> cardPreTurn = new ArrayList<>();
-	private boolean checkSkip = false;
 
-    public ThirteenS(Stage stage, AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
+	public ThirteenS(Stage stage, AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
 		// số người chơi
 		super.numberOfPlayer = playerCount;
 		// thêm người chơi
@@ -125,36 +124,66 @@ public class ThirteenS extends RulesOfThirteenS {
 
 	// Bắt đầu turn chính của game, game chỉ dừng lại khi đã có xếp hạng của các người chơi tham gia
 	public void turnOfGame(Stage stage, AnchorPane gameRoot, ArrayList<PlayerThirteenS> playersThirteenS) {
-		// Nếu không ai có 3 bích thì sẽ random người đánh trước
-		if(!checkEndTurn()){
+		if (checkEndTurn()) {
 			resetTurn();
 		}
-		DisplayPlayerCards displayPlayerCards = new DisplayPlayerCards(stage, gameRoot, playersThirteenS, 0);
-		Timeline timeline = new Timeline();
-		int[] currentPlayerIndex = {0};
 
+		DisplayPlayerCards displayPlayerCards = new DisplayPlayerCards(stage, gameRoot, playersThirteenS, 0);
+		Timeline gameTimeline = new Timeline();
+		int[] currentPlayerIndex = {0};
 		KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
 			if (checkEndTurn()) {
 				resetTurn();
 				cardPreTurn.clear();
 			}
-			PlayerThirteenS currentPlayer =  playersThirteenS.get(currentPlayerIndex[0]);
-			currentPlayer.setCardsFaceUp();
-			displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
-			endOfGame(playersThirteenS, numberOfPlayer);
-			// Kiểm tra kết thúc game
-			if (playersThirteenS.size() == 1) {
-				timeline.stop();
+
+			PlayerThirteenS currentPlayer = playersThirteenS.get(currentPlayerIndex[0]);
+			if (checkTurn[currentPlayerIndex[0]]) {
+				currentPlayer.setCardsFaceUp();
+				displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+				// Hiển thị các nút hành động
+				displayPlayerCards.showActionButtons(action -> {
+                    switch (action) {
+                        case "Skip" -> {
+                            // Người chơi bỏ lượt
+							displayPlayerCards.clearCardsSelect();
+                            checkTurn[currentPlayerIndex[0]] = false;
+                            endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
+                        }
+                        case "Play" ->
+                            // Xử lý hành động đánh bài của người chơi (ví dụ: đánh bài hợp lệ)
+                                endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
+                        case "Sort" -> {
+                            // Sắp xếp bài
+                            currentPlayer.sortCardsInHand();
+                            displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+                        }
+                        case "Unselect" ->
+                            // Hủy chọn bài (nếu có)
+                                displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+                    }
+					displayPlayerCards.clearActionButtons();
+				});
+			} else {
+				displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+				endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
 			}
-			// Di chuyển đến người chơi tiếp theo
-			currentPlayer.setCardsFaceDown();
-			currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersThirteenS.size();
 		});
 
-		timeline.getKeyFrames().add(turnFrame);
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		timeline.play();
+		gameTimeline.getKeyFrames().add(turnFrame);
+		gameTimeline.setCycleCount(Timeline.INDEFINITE);
+		gameTimeline.play();
 	}
+
+	private void endPlayerTurn(PlayerThirteenS currentPlayer, int[] currentPlayerIndex, ArrayList<PlayerThirteenS> playersThirteenS, Timeline gameTimeline) {
+		currentPlayer.setCardsFaceDown();
+		currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersThirteenS.size();
+		if (playersThirteenS.size() == 1) {
+			gameTimeline.stop();
+			System.out.println("Trò chơi kết thúc!");
+		}
+	}
+
 }
 /*
 				if (checkTurn[i]) {

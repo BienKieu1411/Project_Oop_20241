@@ -35,6 +35,11 @@ public class PlayerThirteenS extends Player {
 	public void setListCardPlayed(ArrayList<Card> listCardPlayed) {
 		this.listCardPlayed = listCardPlayed;
 	}
+	public void setSelectCard(boolean selectCard) {
+		for (Card card : cardsInHand) {
+			card.setSelected(selectCard);
+		}
+	}
 
 	// Sắp xếp các lá bài trên tay
 	public void sortCardsInHand() {

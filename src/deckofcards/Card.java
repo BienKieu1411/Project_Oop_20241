@@ -94,6 +94,14 @@ public class Card {
 		return isFaceUp ? getFrontView() : getBackView();
 	}
 
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean selected) {
+		isSelected = selected;
+	}
+
 	// Giúp so sánh lá bài nào lớn hơn
 	public int compareCard(Card other) {
 		int rankComparison = Integer.compare(this.getRank(), other.getRank());

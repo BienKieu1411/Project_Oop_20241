@@ -23,14 +23,10 @@ public class DealCardAnimation {
     }
 
     public void dealCards(AnchorPane gameRoot, int playerCount, int numberCards, Runnable onFinished) {
-        // Chỉ xóa các lá bài cũ, giữ nguyên nền và nút
-        gameRoot.getChildren().removeIf(node -> node instanceof Pane && "PlayerCardsPane".equals(node.getId()));
-
         SequentialTransition sequentialTransition = new SequentialTransition();
+
         for (int j = 0; j < numberCards; j++) {
             for (int i = 0; i < playerCount; i++) {
-                Pane playerPane = new Pane(); // Tạo nhóm lá bài cho từng người chơi
-                playerPane.setId("PlayerCardsPane");
                 double offsetX, offsetY;
 
                 offsetY = switch (i) {
@@ -54,9 +50,11 @@ public class DealCardAnimation {
                 };
 
                 ImageView cardBackView = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/BACK.png")));
-
                 cardBackView.setFitWidth(cardWidth);
                 cardBackView.setFitHeight(cardHeight);
+
+                // Đặt ID để phân biệt các lá bài
+                cardBackView.setId("CardImage");
 
                 // Bắt đầu từ trung tâm bàn
                 cardBackView.setLayoutX(sceneWidth / 2.0 - cardWidth / 2.0);
@@ -76,9 +74,9 @@ public class DealCardAnimation {
                 sequentialTransition.getChildren().add(transition);
             }
         }
-
         // Gọi callback khi animation hoàn thành
         sequentialTransition.setOnFinished(event -> {
+            gameRoot.getChildren().removeIf(node -> node instanceof ImageView && "CardImage".equals(node.getId()));
             if (onFinished != null) {
                 onFinished.run();
             }
