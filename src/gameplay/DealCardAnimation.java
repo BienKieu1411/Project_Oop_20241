@@ -76,7 +76,6 @@ public class DealCardAnimation {
         }
         // Gọi callback khi animation hoàn thành
         sequentialTransition.setOnFinished(event -> {
-            gameRoot.getChildren().removeIf(node -> node instanceof ImageView && "CardImage".equals(node.getId()));
             if (onFinished != null) {
                 onFinished.run();
             }

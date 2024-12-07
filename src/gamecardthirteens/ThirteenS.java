@@ -4,6 +4,7 @@ import deckofcards.Card;
 import gameplay.DealCardAnimation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -23,6 +24,7 @@ public class ThirteenS extends RulesOfThirteenS {
 		addPlayer(withPlayer, playerNames);
 		// chia bài
 		dealCard(gameRoot, () -> {
+			gameRoot.getChildren().removeIf(node -> node instanceof ImageView && "CardImage".equals(node.getId()));
 			setTurn();
 			turnOfGame(stage, gameRoot, playersThirteenS);
 		});

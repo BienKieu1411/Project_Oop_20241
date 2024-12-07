@@ -28,15 +28,14 @@ public class Baccarat extends RulesOfBaccarat {
 				currentPlayer.setCardsFaceUp();
 				displayBaccarat.displayPlayerHands(stage, gameRoot, playersBaccarat); // Kiểm tra kết thúc game
 				if (currentPlayerIndex[0] == numberOfPlayer - 1) {
-					timeline.setDelay(Duration.seconds(1));
-					timeline.stop();
 					 // Hiển thị thông tin người chiến thắng sau khi game kết thúc
+					timeline.stop();
 					PlayerBaccarat playerwin = super.winnerBaccarat();
 					new WinnerDisplay(stage, gameRoot, playerwin);
-				} else {
-					// Di chuyển đến người chơi tiếp theo
-						currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
-				} });
+				}
+				// Di chuyển đến người chơi tiếp theo
+				currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
+				});
 			timeline.getKeyFrames().add(turnFrame);
 			timeline.setCycleCount(Timeline.INDEFINITE);
 			timeline.play(); });
