@@ -99,13 +99,14 @@ public class ThirteenS extends RulesOfThirteenS {
 	public boolean playCards(PlayerThirteenS player, ArrayList<Card> listCardPlayed) {
 		if (checkCardsDrop(listCardPlayed, cardPreTurn)) {
 			for (Card card : listCardPlayed) {
-				player.dropCard(card);
+				player.dropCard(card); // Xóa bài khỏi tay người chơi
 			}
-			this.cardPreTurn = listCardPlayed;
+			this.cardPreTurn = new ArrayList<>(listCardPlayed); // Cập nhật bài đã đánh
 			return true;
 		}
 		return false;
 	}
+
 
 	// Bắt đầu turn chính của game, game chỉ dừng lại khi đã có xếp hạng của các người chơi tham gia
 	public void turnOfGame(Stage stage, AnchorPane gameRoot, ArrayList<PlayerThirteenS> playersThirteenS) {
@@ -130,19 +131,23 @@ public class ThirteenS extends RulesOfThirteenS {
 				// Hiển thị các nút hành động
 				displayPlayerCards.showActionButtons(action -> {
                     switch (action) {
-                        case "Skip" -> {
-                            // Người chơi bỏ lượt
+						case "Skip" -> {
 							displayPlayerCards.clearCardsSelect();
-                            checkTurn[currentPlayerIndex[0]] = false;
-                            endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
-                        }
-                        case "Play" ->{
+							checkTurn[currentPlayerIndex[0]] = false;
+							// Giữ nguyên bài trung tâm khi người chơi bỏ lượt
+							displayPlayerCards.setCardsCenter(cardPreTurn);
+							endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
+						}
+
+						case "Play" -> {
 							ArrayList<Card> cards = displayPlayerCards.getCardsSelect();
 							currentPlayer.setListCardPlayed(cards);
-							if(playCards(currentPlayer, currentPlayer.getListCardPlayed())){
-								displayPlayerCards.setCardsCenter(cardPreTurn);
+							if (playCards(currentPlayer, currentPlayer.getListCardPlayed())) {
+								displayPlayerCards.setCardsCenter(new ArrayList<>(cardPreTurn)); // Hiển thị bài trung tâm
 								displayPlayerCards.clearCardsSelect();
 								endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
+							} else {
+								System.out.println("Invalid move. Try again.");
 							}
 							displayPlayerCards.clearCardsSelect();
 						}
@@ -179,34 +184,6 @@ public class ThirteenS extends RulesOfThirteenS {
 
 }
 /*
-				if (checkTurn[i]) {
-					// Lần lượt các người chơi sẽ đánh bài
-					if (checkEndTurn()) {
-						resetTurn();
-						cardPreTurn.clear();
-					}
-					while (true) {
-						if (selected.equals("Skip")) {
-							System.out.println();
-							checkTurn[i] = false;
-							break;
-						}
-						if (selected.equals("Sort")) {
-							playersThirteenS.get(i).sortCardsInHand();
-						}
-						if (selected.equals("Play")) {
-							boolean check = false;
-							while (!check) {
-								check = playCards(playersThirteenS.get(i), listCardPlayed, selected);
-								if (checkSkip) {
-									checkTurn[i] = false;
-									checkSkip = false;
-								}
-							}
-							break;
-						}
-					}
-				}
 				endOfGame(playersThirteenS, numberOfPlayer);
 				// Nếu còn 1 người chơi, in ra xếp hạng của người chơi đó và kết thúc game
 				if (playersThirteenS.size() == 1) {

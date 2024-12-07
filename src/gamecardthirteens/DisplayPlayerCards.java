@@ -146,21 +146,6 @@ public class DisplayPlayerCards {
                 playerCardsPane.getChildren().add(cardView);
             }
         }
-
-        if(!cardsCenter.isEmpty()){
-            double offsetX = (sceneWidth - (cardsCenter.size() - 1) * gap - cardWidth) / 2.0;
-            double offsetY = (sceneHeight - (cardsCenter.size() - 1) * gap - cardWidth) / 2.0;
-            for(int i = 0; i < cardsCenter.size(); i++){
-                Card card = cardsCenter.get(i);
-                ImageView cardView = card.getFrontView();
-                cardView.setFitWidth(cardWidth);
-                cardView.setFitHeight(cardHeight);
-                cardView.setLayoutX(offsetX + i * gap);
-                cardView.setLayoutY(offsetY);
-                playerCardsPane.getChildren().add(cardView);
-            }
-        }
-
         // Nút thoát game
         Button buttonQuit = new Button("Quit Game");
         buttonQuit.setStyle("-fx-background-color: linear-gradient(to bottom, #D41920, #C7171E); " +
@@ -175,8 +160,28 @@ public class DisplayPlayerCards {
         // Thêm sự kiện để quay về MainMenu
         buttonQuit.setOnMouseClicked(event -> stage.setScene(new MainMenu().createMainMenu(stage)));
         gameRoot.getChildren().add(buttonQuit);
+        displayCenterCards(playerCardsPane);
     }
 
+    public void displayCenterCards(Pane playerCardsPane) {
+        if (!cardsCenter.isEmpty()) {
+            double offsetX = (sceneWidth - (cardsCenter.size() - 1) * gap - cardWidth) / 2.0;
+            double offsetY = (sceneHeight - cardHeight) / 2.0;
+
+            for (int i = 0; i < cardsCenter.size(); i++) {
+                Card card = cardsCenter.get(i);
+                ImageView cardView = card.getFrontView();
+                cardView.setFitWidth(cardWidth);
+                cardView.setFitHeight(cardHeight);
+                cardView.setLayoutX(offsetX + i * gap);
+                cardView.setLayoutY(offsetY);
+
+                if (!playerCardsPane.getChildren().contains(cardView)) {
+                    playerCardsPane.getChildren().add(cardView);
+                }
+            }
+        }
+    }
 
     private void addControlButtons(Stage stage, AnchorPane gameRoot) {
         buttonBox.setLayoutX((sceneWidth - 200) / 2);
