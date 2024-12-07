@@ -13,11 +13,11 @@ import java.util.List;
 
 public class Baccarat extends RulesOfBaccarat {
 	// Khỏi tạo Constructor: khi khởi tạo 1 đối tượng Baccarat mới sẽ chạy luôn chương trình
-	public Baccarat(Stage stage,AnchorPane gameRoot, int playerCount, boolean withHuman, List<String> playerNames) {
+	public Baccarat(Stage stage,AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
 		// Số người chơi
 		super.numberOfPlayer = playerCount;
 		// Them nguoi choi
-		addPlayer(withHuman, playerNames);
+		addPlayer(withPlayer, playerNames);
 		// Chia bai
 		DisplayBaccarat displayBaccarat = new DisplayBaccarat();
 		dealCard(gameRoot, () -> {
@@ -43,9 +43,9 @@ public class Baccarat extends RulesOfBaccarat {
 	}
 
 	// Thêm người chơi vào trò chơi
-	public void addPlayer(boolean withHuman, List<String> playerNames) {
+	public void addPlayer(boolean playWithPlayer, List<String> playerNames) {
 		this.playersBaccarat = new ArrayList<>();
-		if (withHuman) {
+		if (playWithPlayer) {
 			for (int i = 0; i < numberOfPlayer; i++) {
 				String nameOfPerson = playerNames.get(i);  //tên người chơi
 				PlayerBaccarat person = new PlayerBaccarat(nameOfPerson);
