@@ -96,22 +96,7 @@ public class ThirteenS extends RulesOfThirteenS {
 	}
 
 	// Lấy lựa chọn của người chơi
-	public boolean playCards(PlayerThirteenS player, ArrayList<Card> listCardPlayed, String selected) {
-		System.out.println("Select card (enter in format Rank-Suit, write on one line, separated by spaces) to play or enter 'Sort' to sort cards in hand or enter 'Skip' to skip turn:");
-		player.setListCardPlayed(listCardPlayed);
-		// Người chơi ấn Skip sẽ bỏ lượt
-		if (selected.equals("Skip")) {
-			return true;
-		}
-		// Người chơi ấp Sort sẽ sắp xếp bài trên tay
-		if (selected.equals("Sort")) {
-			player.sortCardsInHand();
-		}
-		if (getTypeOfCards(listCardPlayed).equals("Invalid")) {
-			System.out.println("Invalid, please select again!");
-			return false;
-		}
-
+	public boolean playCards(PlayerThirteenS player, ArrayList<Card> listCardPlayed) {
 		if (checkCardsDrop(listCardPlayed, cardPreTurn)) {
 			for (Card card : listCardPlayed) {
 				player.dropCard(card);
@@ -135,6 +120,7 @@ public class ThirteenS extends RulesOfThirteenS {
 			if (checkEndTurn()) {
 				resetTurn();
 				cardPreTurn.clear();
+				displayPlayerCards.setCardsCenter(cardPreTurn);
 			}
 
 			PlayerThirteenS currentPlayer = playersThirteenS.get(currentPlayerIndex[0]);
@@ -150,22 +136,29 @@ public class ThirteenS extends RulesOfThirteenS {
                             checkTurn[currentPlayerIndex[0]] = false;
                             endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
                         }
-                        case "Play" ->
-                            // Xử lý hành động đánh bài của người chơi (ví dụ: đánh bài hợp lệ)
-                                endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
+                        case "Play" ->{
+							ArrayList<Card> cards = displayPlayerCards.getCardsSelect();
+							currentPlayer.setListCardPlayed(cards);
+							if(playCards(currentPlayer, currentPlayer.getListCardPlayed())){
+								displayPlayerCards.setCardsCenter(cardPreTurn);
+								displayPlayerCards.clearCardsSelect();
+								endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
+							}
+							displayPlayerCards.clearCardsSelect();
+						}
                         case "Sort" -> {
-                            // Sắp xếp bài
                             currentPlayer.sortCardsInHand();
                             displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
                         }
-                        case "Unselect" ->
-                            // Hủy chọn bài (nếu có)
-                                displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+                        case "Unselect" ->{
+                            displayPlayerCards.clearCardsSelect();
+							displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+						}
                     }
 					displayPlayerCards.clearActionButtons();
 				});
 			} else {
-				displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+				displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, 0);
 				endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
 			}
 		});

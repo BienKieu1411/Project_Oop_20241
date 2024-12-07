@@ -22,10 +22,6 @@ public class DisplayPlayerCards {
     private ArrayList<Card> cardsCenter = new ArrayList<>();
     private ArrayList<Card> cardsSelect = new ArrayList<>();
 
-    public ArrayList<Card> getCardsCenter() {
-        return cardsCenter;
-    }
-
     public void setCardsCenter(ArrayList<Card> cardsCenter) {
         this.cardsCenter = cardsCenter;
     }
@@ -147,6 +143,20 @@ public class DisplayPlayerCards {
                         displayPlayerHands(stage, gameRoot, players, index); // Hiển thị lại bài
                     });
                 }
+                playerCardsPane.getChildren().add(cardView);
+            }
+        }
+
+        if(!cardsCenter.isEmpty()){
+            double offsetX = (sceneWidth - (cardsCenter.size() - 1) * gap - cardWidth) / 2.0;
+            double offsetY = (sceneHeight - (cardsCenter.size() - 1) * gap - cardWidth) / 2.0;
+            for(int i = 0; i < cardsCenter.size(); i++){
+                Card card = cardsCenter.get(i);
+                ImageView cardView = card.getFrontView();
+                cardView.setFitWidth(cardWidth);
+                cardView.setFitHeight(cardHeight);
+                cardView.setLayoutX(offsetX + i * gap);
+                cardView.setLayoutY(offsetY);
                 playerCardsPane.getChildren().add(cardView);
             }
         }
