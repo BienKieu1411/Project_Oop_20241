@@ -8,13 +8,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class ThirteenS extends RulesOfThirteenS {
 	private boolean[] checkTurn;
 	private ArrayList<Card> cardPreTurn = new ArrayList<>();
+	private int startTurn;
 
 	public ThirteenS(Stage stage, AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
 		// số người chơi
@@ -87,12 +87,18 @@ public class ThirteenS extends RulesOfThirteenS {
 
 	// Lượt chơi sẽ kết thúc khi chỉ còn 1 người chưa Skip
 	public boolean checkEndTurn() {
-		int counter = 0;
+		int counter = 0, index = 0;
 		for (int i = 0; i < playersThirteenS.size(); ++i) {
-			if (checkTurn[i])
+			if (checkTurn[i]){
 				counter++;
+				index = i;
+			}
 		}
-		return counter == 1;
+		if(counter == 1){
+			startTurn = index;
+			return true;
+		}
+		return false;
 	}
 
 	// Lấy lựa chọn của người chơi
@@ -110,16 +116,17 @@ public class ThirteenS extends RulesOfThirteenS {
 
 	// Bắt đầu turn chính của game, game chỉ dừng lại khi đã có xếp hạng của các người chơi tham gia
 	public void turnOfGame(Stage stage, AnchorPane gameRoot, ArrayList<PlayerThirteenS> playersThirteenS) {
-		if (checkEndTurn()) {
-			resetTurn();
-		}
-
 		DisplayPlayerCards displayPlayerCards = new DisplayPlayerCards(stage, gameRoot, playersThirteenS, 0);
 		Timeline gameTimeline = new Timeline();
 		int[] currentPlayerIndex = {0};
+		if (checkEndTurn()) {
+			resetTurn();
+			currentPlayerIndex[0] = startTurn;
+		}
 		KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
 			if (checkEndTurn()) {
 				resetTurn();
+				currentPlayerIndex[0] = startTurn;
 				cardPreTurn.clear();
 				displayPlayerCards.setCardsCenter(cardPreTurn);
 			}
@@ -175,6 +182,7 @@ public class ThirteenS extends RulesOfThirteenS {
 
 	private void endPlayerTurn(PlayerThirteenS currentPlayer, int[] currentPlayerIndex, ArrayList<PlayerThirteenS> playersThirteenS, Timeline gameTimeline) {
 		currentPlayer.setCardsFaceDown();
+		endOfGame(playersThirteenS, numberOfPlayer);
 		currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersThirteenS.size();
 		if (playersThirteenS.size() == 1) {
 			gameTimeline.stop();
