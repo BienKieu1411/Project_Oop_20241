@@ -20,26 +20,26 @@ public class Baccarat extends RulesOfBaccarat {
 		addPlayer(withHuman, playerNames);
 		// Chia bai
 		DisplayBaccarat displayBaccarat = new DisplayBaccarat();
+
 		dealCard(gameRoot, () -> {
 			Timeline timeline = new Timeline();
 			int[] currentPlayerIndex = {0};
-
-			KeyFrame turnFrame = new KeyFrame(Duration.seconds(2), event -> {
-				PlayerBaccarat currentPlayer =  playersBaccarat.get(currentPlayerIndex[0]);
+			KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> { PlayerBaccarat currentPlayer = playersBaccarat.get(currentPlayerIndex[0]);
 				currentPlayer.setCardsFaceUp();
-				displayBaccarat.displayPlayerHands(stage,gameRoot, playersBaccarat);
-				// Kiểm tra kết thúc game
-				if (currentPlayerIndex[0] == numberOfPlayer-1) {
+				displayBaccarat.displayPlayerHands(stage, gameRoot, playersBaccarat); // Kiểm tra kết thúc game
+				if (currentPlayerIndex[0] == numberOfPlayer - 1) {
+					timeline.setDelay(Duration.seconds(1));
 					timeline.stop();
-				}
-				// Di chuyển đến người chơi tiếp theo
-				currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
-			});
-
+					 // Hiển thị thông tin người chiến thắng sau khi game kết thúc
+					PlayerBaccarat playerwin = super.winnerBaccarat();
+					new WinnerDisplay(stage, gameRoot, playerwin);
+				} else {
+					// Di chuyển đến người chơi tiếp theo
+						currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
+				} });
 			timeline.getKeyFrames().add(turnFrame);
 			timeline.setCycleCount(Timeline.INDEFINITE);
-			timeline.play();
-		});
+			timeline.play(); });
 	}
 
 	// Thêm người chơi vào trò chơi

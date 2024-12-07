@@ -11,13 +11,9 @@ import javafx.stage.Stage;
 import java.util.Arrays;
 
 public class GameSelectionMenu {
-    public Scene createGameSelectionScene(Stage stage) {
+    public static Scene createGameSelectionScene(Stage stage) {
         AnchorPane root = new AnchorPane();
         root.setPrefSize(1200, 675);
-
-/*        // Background
-        ImageView background = MainMenu.BACKGROUND_IMAGE;
-        background.setPreserveRatio(true);*/
 
         // Buttons
         Button baccaratButton = MainMenu.createButton("Baccarat", "linear-gradient(to bottom, #1D89F4, #1B62C5)", 200, 50);

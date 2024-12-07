@@ -10,14 +10,9 @@ import javafx.stage.Stage;
 import java.util.Arrays;
 
 public class ModeSelectionMenu {
-    public Scene createModeSelectionScene(Stage stage, String game) {
+    public static Scene createModeSelectionScene(Stage stage, String game) {
         AnchorPane root = new AnchorPane();
         root.setPrefSize(1200, 675);
-
-/*        // Background
-        ImageView background = MainMenu.BACKGROUND_IMAGE;
-        background.setPreserveRatio(true);*/
-
         // Buttons
         Button withPlayerButton = MainMenu.createButton("Play with Player", "linear-gradient(to bottom, #1D89F4, #1B62C5)", 200, 50);
         withPlayerButton.setOnMouseClicked(event -> stage.setScene(new PlayerCountMenu().createPlayerCountScene(stage, game, true)));
