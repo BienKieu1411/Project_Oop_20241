@@ -47,18 +47,18 @@ public class Baccarat extends RulesOfBaccarat {
 		if (playWithPlayer) {
 			for (int i = 0; i < numberOfPlayer; i++) {
 				String nameOfPerson = playerNames.get(i);  //tên người chơi
-				PlayerBaccarat person = new PlayerBaccarat(nameOfPerson);
+				PlayerBaccarat person = new PlayerBaccarat(nameOfPerson, false);
 				playersBaccarat.add(person);
 			}
 			Collections.shuffle(playersBaccarat);
 		}
 		else{
-			PlayerBaccarat person = new PlayerBaccarat("You");
+			PlayerBaccarat person = new PlayerBaccarat("You", false);
 			playersBaccarat.add(person);
 			// Dùng upcasting và ghi đè để tạo bot
 			for (int i = 0; i < numberOfPlayer - 1; i++) {
 				String nameOfBot = "Bot" + (i + 1);
-				PlayerBaccarat bot = new BotBaccarat(nameOfBot);
+				PlayerBaccarat bot = new BotBaccarat(nameOfBot, true);
 				playersBaccarat.add(bot);
 			}
 		}

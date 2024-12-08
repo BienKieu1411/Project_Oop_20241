@@ -9,11 +9,17 @@ import java.util.Iterator;
 public class Player {
 	protected String nameOfPlayer;
 	protected ArrayList<Card> cardsInHand;
+	protected boolean isBot;
 
 	//Phương thức khởi dựng
-	public Player(String nameOfPlayer) {
+	public Player(String nameOfPlayer, boolean isBot) {
 		this.nameOfPlayer = nameOfPlayer;
 		this.cardsInHand = new ArrayList<>();
+		this.isBot = isBot;
+	}
+
+	public boolean getIsBot() {
+		return isBot;
 	}
 
 	// Các lá bài trên tay của người chơi

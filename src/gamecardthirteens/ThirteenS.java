@@ -36,18 +36,18 @@ public class ThirteenS extends RulesOfThirteenS {
 		if (playWithPlayer) {
 			for (int i = 0; i < numberOfPlayer; i++) {
 				String nameOfPerson = playerNames.get(i);  //tên người chơi
-				PlayerThirteenS person = new PlayerThirteenS(nameOfPerson);
+				PlayerThirteenS person = new PlayerThirteenS(nameOfPerson, false);
 				playersThirteenS.add(person);
 			}
 			Collections.shuffle(playersThirteenS);
 		}
 		else{
-			PlayerThirteenS person = new PlayerThirteenS("You");
+			PlayerThirteenS person = new PlayerThirteenS("You", false);
 			playersThirteenS.add(person);
 			// Dùng upcasting và ghi đè để tạo bot
 			for (int i = 0; i < numberOfPlayer - 1; i++) {
 				String nameOfBot = "Bot" + (i + 1);
-				PlayerThirteenS bot = new BotThirteenS(nameOfBot);
+				PlayerThirteenS bot = new BotThirteenS(nameOfBot, true);
 				playersThirteenS.add(bot);
 			}
 		}
@@ -125,6 +125,9 @@ public class ThirteenS extends RulesOfThirteenS {
 			resetTurn();
 			currentPlayerIndex[0] = startTurn;
 		}
+		else{
+			resetTurn();
+		}
 		KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
 			if (checkEndTurn()) {
 				resetTurn();
@@ -138,38 +141,61 @@ public class ThirteenS extends RulesOfThirteenS {
 				currentPlayer.setCardsFaceUp();
 				displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
 				// Hiển thị các nút hành động
-				displayPlayerCards.showActionButtons(action -> {
-                    switch (action) {
-						case "Skip" -> {
-							displayPlayerCards.clearCardsSelect();
-							checkTurn[currentPlayerIndex[0]] = false;
-							// Giữ nguyên bài trung tâm khi người chơi bỏ lượt
-							displayPlayerCards.setCardsCenter(cardPreTurn);
-							endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
-						}
-
-						case "Play" -> {
-							ArrayList<Card> cards = displayPlayerCards.getCardsSelect();
-							currentPlayer.setListCardPlayed(cards);
-							if (playCards(currentPlayer, currentPlayer.getListCardPlayed())) {
-								displayPlayerCards.setCardsCenter(new ArrayList<>(cardPreTurn)); // Hiển thị bài trung tâm
+				if(!currentPlayer.getIsBot()){
+					displayPlayerCards.showActionButtons(action -> {
+						switch (action) {
+							case "Skip" -> {
 								displayPlayerCards.clearCardsSelect();
+								checkTurn[currentPlayerIndex[0]] = false;
+								// Giữ nguyên bài trung tâm khi người chơi bỏ lượt
+								displayPlayerCards.setCardsCenter(cardPreTurn);
 								endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
-							} else {
-								System.out.println("Invalid move. Try again.");
 							}
-							displayPlayerCards.clearCardsSelect();
+							case "Play" -> {
+								ArrayList<Card> cards = displayPlayerCards.getCardsSelect();
+								currentPlayer.setListCardPlayed(cards);
+								if (playCards(currentPlayer, currentPlayer.getListCardPlayed())) {
+									displayPlayerCards.setCardsCenter(new ArrayList<>(cardPreTurn)); // Hiển thị bài trung tâm
+									displayPlayerCards.clearCardsSelect();
+									endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
+								} else {
+									System.out.println("Invalid move. Try again.");
+								}
+								displayPlayerCards.clearCardsSelect();
+							}
+							case "Sort" -> {
+								currentPlayer.sortCardsInHand();
+								displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+							}
+							case "Unselect" ->{
+								displayPlayerCards.clearCardsSelect();
+								displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+							}
 						}
-                        case "Sort" -> {
-                            currentPlayer.sortCardsInHand();
-                            displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
-                        }
-                        case "Unselect" ->{
-                            displayPlayerCards.clearCardsSelect();
-							displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+					});
+				} else {
+					String chooseOfBot = currentPlayer.getSelection(cardPreTurn);
+					System.out.println(chooseOfBot);
+					if(chooseOfBot.equals("Sort")){
+						currentPlayer.sortCardsInHand();
+						displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+					}
+					else if(chooseOfBot.equals("Skip")){
+						checkTurn[currentPlayerIndex[0]] = false;
+						// Giữ nguyên bài trung tâm khi người chơi bỏ lượt
+						displayPlayerCards.setCardsCenter(cardPreTurn);
+						endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
+					}
+					else {
+						cardPreTurn = currentPlayer.getListCardPlayed();
+						for(Card card : cardPreTurn){
+							currentPlayer.getCardsInHand().remove(card);
 						}
-                    }
-				});
+						displayPlayerCards.setCardsCenter(new ArrayList<>(cardPreTurn)); // Hiển thị bài trung tâm
+						displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, currentPlayerIndex[0]);
+						endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);
+					}
+				}
 			} else {
 				displayPlayerCards.displayPlayerHands(stage, gameRoot, playersThirteenS, 0);
 				endPlayerTurn(currentPlayer, currentPlayerIndex, playersThirteenS, gameTimeline);

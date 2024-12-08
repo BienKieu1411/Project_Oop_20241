@@ -7,8 +7,8 @@ public class PlayerBaccarat extends Player {
 	private int moneyPlayer;// Số tiền của người chơi
 
 	// Constructor
-	public PlayerBaccarat(String name) {
-		super(name);
+	public PlayerBaccarat(String name, boolean isBot) {
+		super(name, isBot);
 		this.moneyPlayer = 0;
 	}
 

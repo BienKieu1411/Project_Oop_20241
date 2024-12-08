@@ -4,26 +4,19 @@ import deckofcards.Card;
 import playerofgame.Player;
 import rulesofgame.CheckSet;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 // Kế thừa từ Player
 public class PlayerThirteenS extends Player {
-	protected String getSelection;
-	protected ArrayList<Card> listCardPlayed;
+	protected ArrayList<Card> listCardPlayed = new ArrayList<>();
 	private final CheckSet CHECK_SET = new CheckSet();
 
-	public PlayerThirteenS(String name) {
-		super(name);
+	public PlayerThirteenS(String name, boolean isBot) {
+		super(name, isBot);
 	}
 
 	// Lựa chọn mà người chơi đã chọn
 	public String getSelection(ArrayList<Card> cardsPreTurn) {
-		return getSelection;
-	}
-
-	// Người chơi chọn 1 trong các lựa chọn để chơi game
-	public void setSelection(String selection) {
-		this.getSelection = selection;
+		return "Skip";
 	}
 
 	// Bộ mà người chơi chọn

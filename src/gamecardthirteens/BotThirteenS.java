@@ -12,8 +12,8 @@ public class BotThirteenS extends PlayerThirteenS {
 	private ArrayList<Card> listCards =  new ArrayList<>();
 
 	//Phương thức khởi dựng
-	public BotThirteenS(String name) {
-		super(name);
+	public BotThirteenS(String name, boolean isBot) {
+		super(name, true);
 	}
 
 	// Ghi đè phương thức getSelection để đưa ra lựa chọn của Bot
@@ -22,6 +22,7 @@ public class BotThirteenS extends PlayerThirteenS {
 		// Bot sẽ tự động chọn 'Sort' ở lượt đầu
 		if (!checkSort) {
 			checkSort = true;
+			super.sortCardsInHand();
 			return "Sort";
 		}
 		// Nếu tìm được Bot sẽ chọn 'Play', còn không sẽ 'Skip'
@@ -35,7 +36,7 @@ public class BotThirteenS extends PlayerThirteenS {
 	// Ghi đè phương thức getListCardPlayed để đưa ra bộ bài Bot đánh, bộ phải thoả mãn chặn được bộ ở lượt trước.
 	@Override
 	public ArrayList<Card> getListCardPlayed() {
-		return listCardPlayed;
+		return listCards;
 	}
 
 	// Phương thức checkSet để check và tìm bộ thoả mãn
