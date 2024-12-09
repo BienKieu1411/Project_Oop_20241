@@ -1,8 +1,5 @@
-package gamecardbaccarat;
+package gameplay;
 
-import gameplay.GameSelectionMenu;
-import gameplay.MainMenu;
-import gameplay.ModeSelectionMenu;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
@@ -11,7 +8,6 @@ import javafx.animation.KeyFrame;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,16 +16,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import playerofgame.Player;
 
-import java.util.List;
 import java.util.Random;
 
 public class WinnerDisplay {
-    public WinnerDisplay(Stage stage, AnchorPane gameRoot, PlayerBaccarat playerWin) {
+    public WinnerDisplay(Stage stage, AnchorPane gameRoot, Player playerWin) {
         endGame(stage, gameRoot, playerWin);
     }
 
-    private void endGame(Stage stage, AnchorPane gameRoot, PlayerBaccarat playerWin) {
+    private void endGame(Stage stage, AnchorPane gameRoot, Player playerWin) {
         // Tạo nền mờ
         AnchorPane overlay = new AnchorPane();
         overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
@@ -71,12 +67,7 @@ public class WinnerDisplay {
 
         overlay.getChildren().addAll(replayButton, quitButton);
 
-        // Thêm vương miện
-        ImageView crownImageView = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/crown.png")));
-        crownImageView.setFitWidth(300);
-        crownImageView.setFitHeight(300);
-        crownImageView.setLayoutX((gameRoot.getWidth() / 2) - 160);
-        crownImageView.setLayoutY((gameRoot.getHeight() / 2) - 400);
+
 
         ImageView eggImageView = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/egg.png")));
         eggImageView.setFitWidth(400);
@@ -84,24 +75,8 @@ public class WinnerDisplay {
         eggImageView.setLayoutX((gameRoot.getWidth() / 2) - 199);
         eggImageView.setLayoutY((gameRoot.getHeight() / 2) - 275);
 
-        overlay.getChildren().addAll(eggImageView, crownImageView, winnerLabel, playerLabel);
+        overlay.getChildren().addAll(eggImageView, winnerLabel, playerLabel);
 
-        // Tạo hiệu ứng xuất hiện cho vương miện
-        ScaleTransition crownScaleTransition = new ScaleTransition(Duration.millis(1000), crownImageView);
-        crownScaleTransition.setFromX(0);
-        crownScaleTransition.setFromY(0);
-        crownScaleTransition.setToX(1);
-        crownScaleTransition.setToY(1);
-
-        // Tạo hiệu ứng lấp lánh cho vương miện
-        Glow crownGlow = new Glow(0.3);
-        crownImageView.setEffect(crownGlow);
-        Timeline glowTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(0), e -> crownGlow.setLevel(0.3)),
-                new KeyFrame(Duration.seconds(1), e -> crownGlow.setLevel(0.9))
-        );
-        glowTimeline.setCycleCount(Timeline.INDEFINITE);
-        glowTimeline.setAutoReverse(true);
 
         // Tạo hiệu ứng vàng rơi như mưa
         Timeline goldRainTimeline = new Timeline();
@@ -125,9 +100,8 @@ public class WinnerDisplay {
         );
 
         // Kết hợp các hiệu ứng với nhau
-        SequentialTransition finalTransitions = new SequentialTransition(crownScaleTransition);
+        SequentialTransition finalTransitions = new SequentialTransition();
         finalTransitions.setOnFinished(e -> {
-            glowTimeline.play();
             goldRainTimeline.play();
         });
         finalTransitions.play();

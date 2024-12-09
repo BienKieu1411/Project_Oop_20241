@@ -26,7 +26,7 @@ public class MainMenu {
         playButton.setOnMouseClicked(event -> stage.setScene(new GameSelectionMenu().createGameSelectionScene(stage)));
 
         Button settingButton = createButton("SETTING", "linear-gradient(to bottom, #F3B91D, #CF8A08)", 200, 50);
-        settingButton.setOnMouseClicked(event -> stage.setScene(new SettingsMenu().createSettingsScene(stage)));
+        settingButton.setOnMouseClicked(event -> stage.setScene(SettingsMenu.getInstance().createSettingsScene(stage)));
 
         Button quitButton = createButton("QUIT", "linear-gradient(to bottom, #F45A4A, #D93324)", 200, 50);
         quitButton.setOnMouseClicked(event -> stage.close());

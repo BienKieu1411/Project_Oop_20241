@@ -8,7 +8,27 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class SettingsMenu {
-    public boolean isImageMode = true;
+    // Sử dung Singleton Pattern
+    private static SettingsMenu instance = null;
+
+    private boolean isImageMode = true;
+
+    private SettingsMenu() {} // Đảm bảo không thể tạo đối tượng trực tiếp
+
+    public static SettingsMenu getInstance() {
+        if (instance == null) {
+            instance = new SettingsMenu();
+        }
+        return instance;
+    }
+
+    public boolean isImageMode() {
+        return isImageMode;
+    }
+
+    public void setImageMode(boolean isImageMode) {
+        this.isImageMode = isImageMode;
+    }
 
     public Scene createSettingsScene(Stage stage) {
         AnchorPane root = new AnchorPane();
@@ -23,7 +43,7 @@ public class SettingsMenu {
         // Toggle Mode Button
         Button toggleMode = createButton(isImageMode ? "Image Mode" : "Text Mode", 200, 50, "-fx-background-color: linear-gradient(to bottom, #1D89F4, #1B62C5);");
         toggleMode.setOnMouseClicked(event -> {
-            isImageMode = !isImageMode;
+            setImageMode(!isImageMode);
             toggleMode.setText(isImageMode ? "Image Mode" : "Text Mode");
         });
 

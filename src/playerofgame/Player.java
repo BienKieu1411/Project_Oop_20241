@@ -1,6 +1,7 @@
 package playerofgame;
 
 import deckofcards.Card;
+import rulesofgame.CheckSet;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,6 +11,9 @@ public class Player {
 	protected String nameOfPlayer;
 	protected ArrayList<Card> cardsInHand;
 	protected boolean isBot;
+	protected ArrayList<Card> listCardPlayed = new ArrayList<>();
+	private final CheckSet CHECK_SET = new CheckSet();
+	private int moneyPlayer;// Số tiền của người chơi
 
 	//Phương thức khởi dựng
 	public Player(String nameOfPlayer, boolean isBot) {
@@ -44,23 +48,21 @@ public class Player {
 		}
 	}
 
-	// In ra các lá bài hiện có trên tay
-	public void printCardInHand() {
-		System.out.println(nameOfPlayer + "'s cards in hand:");
-		for (Card card : cardsInHand) {
-			System.out.print(card.toString() + " ");
-		}
-		System.out.println();
+	public void addMoneyPlayer(int moneyPlayer) {
+		this.moneyPlayer += moneyPlayer;
+	}
+
+	public int getMoneyPlayer() {
+		return moneyPlayer;
+	}
+
+	public void setMoneyPlayer(int moneyPlayer) {
+		this.moneyPlayer = moneyPlayer;
 	}
 
 	// Lấy tên của người chơi
 	public String getNameOfPlayer() {
 		return nameOfPlayer;
-	}
-
-	// Set tên cho người chơi
-	public void setNameOfPlayer(String nameOfPlayer) {
-		this.nameOfPlayer = nameOfPlayer;
 	}
 
 	public void setCardsFaceUp() {
@@ -73,5 +75,25 @@ public class Player {
 		for (Card card : cardsInHand) {
 			card.setFaceUp(false);
 		}
+	}
+
+	// Lựa chọn mà người chơi đã chọn
+	public String getSelection(ArrayList<Card> cardsPreTurn) {
+		return "Skip";
+	}
+
+	// Bộ mà người chơi chọn
+	public ArrayList<Card> getListCardPlayed() {
+		return listCardPlayed;
+	}
+
+	// Người chơi chọn bộ để đánh
+	public void setListCardPlayed(ArrayList<Card> listCardPlayed) {
+		this.listCardPlayed = listCardPlayed;
+	}
+
+	// Sắp xếp các lá bài trên tay
+	public void sortCardsInHand() {
+		this.cardsInHand = CHECK_SET.sortCards(this.cardsInHand);
 	}
 }

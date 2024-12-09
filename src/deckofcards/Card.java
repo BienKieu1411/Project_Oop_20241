@@ -50,13 +50,11 @@ public class Card {
 		};
 	}
 
-	// Trả về dạng String của Rank lá bài
-	public String printRank() {
+	public String printRank(){
 		return this.rank;
 	}
 
-	// Trả về dạng String của Suit lá bài
-	public String printSuit() {
+	public String printSuit(){
 		return this.suit;
 	}
 
@@ -88,6 +86,10 @@ public class Card {
 
 	public void setFaceUp(boolean isFaceUp) {
 		this.isFaceUp = isFaceUp;
+	}
+
+	public boolean isFaceUp() {
+		return isFaceUp;
 	}
 
 	public ImageView getCurrentView() {
