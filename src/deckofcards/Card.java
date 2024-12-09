@@ -58,6 +58,10 @@ public class Card {
 		return this.suit;
 	}
 
+	public boolean isRed(){
+		return this.getSuit() > 2;
+	}
+
 	// Ghi đè phương thức equals giúp dễ dàng so sánh 2 lá bài bằng nhau
 	@Override
 	public boolean equals(Object obj) {

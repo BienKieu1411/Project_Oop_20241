@@ -3,6 +3,7 @@ package gamecardbaccarat;
 import deckofcards.Card;
 import deckofcards.Deck;
 import gameplay.DealCardAnimation;
+import gameplay.DisplayPlayer;
 import gameplay.SettingsMenu;
 import gameplay.WinnerDisplay;
 import javafx.animation.KeyFrame;
@@ -28,7 +29,6 @@ public class Baccarat {
 		// Them nguoi choi
 		addPlayer(withPlayer, playerNames);
 		// Chia bai
-		DisplayBaccarat displayBaccarat = new DisplayBaccarat();
 		SettingsMenu settingsMenu = SettingsMenu.getInstance(); // Lấy thể hiện duy nhất
 		if(settingsMenu.isImageMode()){
 			dealCard(gameRoot, () -> {
@@ -37,7 +37,7 @@ public class Baccarat {
 				KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
 					Player currentPlayer = playersBaccarat.get(currentPlayerIndex[0]);
 					currentPlayer.setCardsFaceUp();
-					displayBaccarat.displayPlayerHands(stage, gameRoot, playersBaccarat); // Kiểm tra kết thúc game
+					DisplayPlayer displayBaccarat = new DisplayPlayer(stage, gameRoot, playersBaccarat, 0);
 					if (currentPlayerIndex[0] == numberOfPlayer - 1) {
 						// Hiển thị thông tin người chiến thắng sau khi game kết thúc
 						timeline.stop();
@@ -58,8 +58,7 @@ public class Baccarat {
 			KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
 				Player currentPlayer = playersBaccarat.get(currentPlayerIndex[0]);
 				currentPlayer.setCardsFaceUp();
-				displayBaccarat.displayPlayerHands(stage, gameRoot, playersBaccarat); // Kiểm tra kết thúc game
-				if (currentPlayerIndex[0] == numberOfPlayer - 1) {
+				DisplayPlayer displayBaccarat = new DisplayPlayer(stage, gameRoot, playersBaccarat, 0);				if (currentPlayerIndex[0] == numberOfPlayer - 1) {
 					// Hiển thị thông tin người chiến thắng sau khi game kết thúc
 					timeline.stop();
 					Player playerwin = winnerBaccarat();

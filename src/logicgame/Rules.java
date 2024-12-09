@@ -1,7 +1,6 @@
-package rulesofgame;
+package logicgame;
 
 import deckofcards.Card;
-import deckofcards.Deck;
 import playerofgame.Player;
 
 import java.util.ArrayList;
@@ -9,8 +8,19 @@ import java.util.ArrayList;
 public class Rules {
     protected int numberOfPlayer;
     protected CheckSet checkSet = new CheckSet();
-    protected Deck deck;
-    protected ArrayList<Player> playersThirteenS = new ArrayList<>();
+    protected ArrayList<Player> players = new ArrayList<>();
+
+    protected void setCheckSet(CheckSet checkSet) {
+        this.checkSet = checkSet;
+    }
+
+    protected void setNumberOfPlayer(int numberOfPlayer) {
+        this.numberOfPlayer = numberOfPlayer;
+    }
+
+    protected void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
 
     // So sánh 2 bộ với nhau
     public boolean compareCards(ArrayList<Card> card1s, ArrayList<Card> card2s) {
@@ -77,7 +87,7 @@ public class Rules {
         for (int i = 0; i < numberOfPlayer; i++) {
             ArrayList<Card> cards = new ArrayList<>();
             for (int j = 9; j < 13; ++j) {
-                Card card = playersThirteenS.get(i).getCardsInHand().get(j);
+                Card card = players.get(i).getCardsInHand().get(j);
                 cards.add(card);
             }
             if (checkSet.checkFourFoldCard(cards) && (cards.get(3).getRank() == 2))
@@ -88,18 +98,18 @@ public class Rules {
 
     // Kiểm tra điều kiện kết thúc trò chơi(khi có người hết bài trên tay)
     // Người chơi sẽ được xếp hạng: Nhất, Nhì, Ba, ... cho đến người chơi cuối còn bài trên tay
-    protected void endOfGame(ArrayList<Player> playersThirteenS, int numberOfPlayer) {
-        for (int i = 0; i < playersThirteenS.size(); i++) {
-            if (playersThirteenS.get(i).getCardsInHand().isEmpty()) {
-                System.out.println(playersThirteenS.get(i).getNameOfPlayer() + " got " +
-                        switch (numberOfPlayer - playersThirteenS.size() + 1) {
+    protected void endOfGame(ArrayList<Integer> playerEndGame) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getCardsInHand().isEmpty() && !playerEndGame.contains(i)) {
+                playerEndGame.add(i);
+                System.out.println(players.get(i).getNameOfPlayer() + " got " +
+                        switch (playerEndGame.size()) {
                             case 1 -> "First";
                             case 2 -> "Second";
                             case 3 -> "Third";
                             default -> "";
                         } + " place!");
                 System.out.println();
-                playersThirteenS.remove(i);
                 return;
             }
         }

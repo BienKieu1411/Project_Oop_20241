@@ -1,5 +1,6 @@
 package gameplay;
 
+import gamecardthirteens.GamePlayThirteenS;
 import javafx.animation.ScaleTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,7 +17,10 @@ public class MainMenu {
 
     // Tải trước hình nền để tránh tải lại nhiều lần
     public static final ImageView BACKGROUND_IMAGE = new ImageView(new Image(MainMenu.class.getResourceAsStream("/cardsimage/CardStart.jpg")));
+    public static final Image TABLE = new Image(MainMenu.class.getResourceAsStream("/cardsimage/tablepoker.png"));
+
     public Scene createMainMenu(Stage stage) {
+
 
         // AnchorPane chứa toàn bộ giao diện
         AnchorPane root = new AnchorPane();

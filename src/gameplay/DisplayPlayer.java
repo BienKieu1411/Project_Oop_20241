@@ -1,7 +1,6 @@
-package gamecardthirteens;
+package gameplay;
 
 import deckofcards.Card;
-import gameplay.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -11,7 +10,7 @@ import playerofgame.Player;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-public class DisplayPlayerCards {
+public class DisplayPlayer {
     private final int sceneWidth = 1200;
     private HBox buttonBox = new HBox(10);
     private Consumer<String> onPlayerAction;
@@ -32,7 +31,7 @@ public class DisplayPlayerCards {
         this.cardsSelect.clear();
     }
 
-    public DisplayPlayerCards(Stage stage, AnchorPane gameRoot, ArrayList<Player> players, int currentPlayerIndex) {
+    public DisplayPlayer(Stage stage, AnchorPane gameRoot, ArrayList<Player> players, int currentPlayerIndex) {
         displayPlayerHands(stage, gameRoot, players, currentPlayerIndex);
         addControlButtons(stage, gameRoot);
     }

@@ -1,20 +1,16 @@
 package playerofgame;
 
 import deckofcards.Card;
-import rulesofgame.Rules;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Bot extends Player{
-    private final Rules RULES = new Rules();
     private boolean checkSort = false;
     private ArrayList<Card> listCards =  new ArrayList<>();
     public Bot(String name, boolean isBot){
         super(name, isBot);
     }
-;
     // Ghi đè phương thức getSelection để đưa ra lựa chọn của Bot
     @Override
     public String getSelection(ArrayList<Card> cardsPreTurn) {
@@ -58,8 +54,8 @@ public class Bot extends Player{
                     listCardsPlayed.add(list.get(j));
                 }
                 // Nếu bộ bài đã tìm được thoả mãn là sảnh và chặn được bộ bài của đối thủ thì trả về bộ bài đã tìm
-                if(RULES.getTypeOfCards(listCardsPlayed).equals("Lobby")){
-                    if(RULES.compareCards(listCardsPlayed, cardsPreTurn))
+                if(rules.getTypeOfCards(listCardsPlayed).equals("Lobby")){
+                    if(rules.compareCards(listCardsPlayed, cardsPreTurn))
                         return listCardsPlayed;
                 }
                 // Sau mỗi lần tìm kiếm thì xoá list, trả lại list rỗng
@@ -76,7 +72,7 @@ public class Bot extends Player{
                 for (int j = 0; j < n; ++j) {
                     listCardsPlayed.add(cardsInHand.get(i + j));
                 }
-                if (RULES.getTypeOfCards(listCardsPlayed).equals(type) && RULES.checkCardsDrop(listCardsPlayed, cardsPreTurn))
+                if (rules.getTypeOfCards(listCardsPlayed).equals(type) && rules.checkCardsDrop(listCardsPlayed, cardsPreTurn))
                     return listCardsPlayed;
                 listCardsPlayed.clear();
             }
@@ -105,7 +101,7 @@ public class Bot extends Player{
             }
             return listCardsPlayed;
         }
-        String typeCardsPreTurn = RULES.getTypeOfCards(cardsPreTurn);
+        String typeCardsPreTurn = rules.getTypeOfCards(cardsPreTurn);
         return checkSet(typeCardsPreTurn, cardsPreTurn.size(), cardsPreTurn);
     }
 }

@@ -1,4 +1,4 @@
-package rulesofgame;
+package logicgame;
 
 import deckofcards.Card;
 import java.util.ArrayList;

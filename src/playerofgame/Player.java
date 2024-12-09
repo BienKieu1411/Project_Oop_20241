@@ -1,7 +1,8 @@
 package playerofgame;
 
 import deckofcards.Card;
-import rulesofgame.CheckSet;
+import logicgame.CheckSet;
+import logicgame.Rules;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,7 +13,8 @@ public class Player {
 	protected ArrayList<Card> cardsInHand;
 	protected boolean isBot;
 	protected ArrayList<Card> listCardPlayed = new ArrayList<>();
-	private final CheckSet CHECK_SET = new CheckSet();
+	private CheckSet checkSet = new CheckSet();
+	protected Rules rules = new Rules();
 	private int moneyPlayer;// Số tiền của người chơi
 
 	//Phương thức khởi dựng
@@ -20,6 +22,10 @@ public class Player {
 		this.nameOfPlayer = nameOfPlayer;
 		this.cardsInHand = new ArrayList<>();
 		this.isBot = isBot;
+	}
+
+	public void setRules(Rules rules) {
+		this.rules = rules;
 	}
 
 	public boolean getIsBot() {
@@ -94,6 +100,6 @@ public class Player {
 
 	// Sắp xếp các lá bài trên tay
 	public void sortCardsInHand() {
-		this.cardsInHand = CHECK_SET.sortCards(this.cardsInHand);
+		this.cardsInHand = checkSet.sortCards(this.cardsInHand);
 	}
 }
