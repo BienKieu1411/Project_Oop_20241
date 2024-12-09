@@ -2,10 +2,7 @@ package gamecardbaccarat;
 
 import deckofcards.Card;
 import deckofcards.Deck;
-import gameplay.DealCardAnimation;
-import gameplay.DisplayPlayer;
-import gameplay.SettingsMenu;
-import gameplay.WinnerDisplay;
+import gameplay.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.AnchorPane;
@@ -29,27 +26,34 @@ public class Baccarat {
 		// Them nguoi choi
 		addPlayer(withPlayer, playerNames);
 		// Chia bai
-		SettingsMenu settingsMenu = SettingsMenu.getInstance(); // Lấy thể hiện duy nhất
+		SettingsMenu settingsMenu = SettingsMenu.getInstance(); // Lấy thể hiện duy nhất stage, gameRoot, playersBaccarat, 0
 		if(settingsMenu.isImageMode()){
-			dealCard(gameRoot, () -> {
-				Timeline timeline = new Timeline();
-				int[] currentPlayerIndex = {0};
-				KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
-					Player currentPlayer = playersBaccarat.get(currentPlayerIndex[0]);
-					currentPlayer.setCardsFaceUp();
-					DisplayPlayer displayBaccarat = new DisplayPlayer(stage, gameRoot, playersBaccarat, 0);
-					if (currentPlayerIndex[0] == numberOfPlayer - 1) {
-						// Hiển thị thông tin người chiến thắng sau khi game kết thúc
-						timeline.stop();
-						Player playerwin = winnerBaccarat();
-						new WinnerDisplay(stage, gameRoot, playerwin);
-					}
-					// Di chuyển đến người chơi tiếp theo
-					currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
+			ShuffleEffect shuffleEffect = new ShuffleEffect(gameRoot, 3 * numberOfPlayer);
+			shuffleEffect.startShuffle(() -> {
+				// Sau khi hoàn tất tráo bài, bắt đầu chia bài
+				dealCard(gameRoot, () -> {
+					// Hiển thị bài của từng người chơi
+					Timeline timeline = new Timeline();
+					int[] currentPlayerIndex = {0};
+					KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
+						Player currentPlayer = playersBaccarat.get(currentPlayerIndex[0]);
+						currentPlayer.setCardsFaceUp();
+						new DisplayPlayer(stage, gameRoot, playersBaccarat, 0);
+						// Kiểm tra kết thúc game
+						if (currentPlayerIndex[0] == numberOfPlayer - 1) {
+							timeline.stop();
+							Player playerWin = winnerBaccarat();
+							new WinnerDisplay(stage, gameRoot, playerWin.getNameOfPlayer());
+						}
+
+						// Di chuyển đến người chơi tiếp theo
+						currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
+					});
+					timeline.getKeyFrames().add(turnFrame);
+					timeline.setCycleCount(Timeline.INDEFINITE);
+					timeline.play();
 				});
-				timeline.getKeyFrames().add(turnFrame);
-				timeline.setCycleCount(Timeline.INDEFINITE);
-				timeline.play(); });
+			});
 		}
 		else {
 			dealCard(gameRoot, () -> {});
@@ -58,11 +62,12 @@ public class Baccarat {
 			KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
 				Player currentPlayer = playersBaccarat.get(currentPlayerIndex[0]);
 				currentPlayer.setCardsFaceUp();
-				DisplayPlayer displayBaccarat = new DisplayPlayer(stage, gameRoot, playersBaccarat, 0);				if (currentPlayerIndex[0] == numberOfPlayer - 1) {
+				new DisplayPlayer(stage, gameRoot, playersBaccarat, 0);
+				if (currentPlayerIndex[0] == numberOfPlayer - 1) {
 					// Hiển thị thông tin người chiến thắng sau khi game kết thúc
 					timeline.stop();
 					Player playerwin = winnerBaccarat();
-					new WinnerDisplay(stage, gameRoot, playerwin);
+					new WinnerDisplay(stage, gameRoot, playerwin.getNameOfPlayer());
 				}
 				// Di chuyển đến người chơi tiếp theo
 				currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();

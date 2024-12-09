@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import playerofgame.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class DisplayPlayer {
@@ -45,15 +46,17 @@ public class DisplayPlayer {
     }
 
     private void addControlButtons(Stage stage, AnchorPane gameRoot) {
-        buttonBox.setLayoutX((sceneWidth - 200) / 2.0);
-        buttonBox.setLayoutY(450);
-        buttonBox.setStyle("-fx-background-color: rgba(0,0,0,0.5); -fx-background-radius: 2; -fx-padding: 5;");
+        buttonBox.setLayoutX((sceneWidth - 400) / 2.0);
+        buttonBox.setLayoutY(415);
+        buttonBox.setStyle("-fx-background-color: rgba(0,0,0,0); -fx-background-radius: 2; -fx-padding: 5;");
 
-        Button buttonPlay = createButton("Play", "blue");
-        Button buttonSkip = createButton("Skip", "blue");
-        Button buttonSort = createButton("Sort", "blue");
-        Button buttonUnselect = createButton("Unselect", "blue");
+        Button buttonPlay = MainMenu.createButton("Play",75, 37);
+        Button buttonSkip = MainMenu.createButton("Skip", 75, 37);
+        Button buttonSort = MainMenu.createButton("Sort", 75, 37);;
+        Button buttonUnselect = MainMenu.createButton("Unselect", 100, 37);
+        MainMenu.addHoverEffect(Arrays.asList(buttonPlay, buttonSkip, buttonSort, buttonUnselect));
 
+        MainMenu.addHoverEffect(Arrays.asList(buttonPlay, buttonSkip, buttonSort, buttonUnselect));
         buttonPlay.setOnMouseClicked(event -> onPlayerAction.accept("Play"));
         buttonSkip.setOnMouseClicked(event -> onPlayerAction.accept("Skip"));
         buttonSort.setOnMouseClicked(event -> onPlayerAction.accept("Sort"));
@@ -61,12 +64,6 @@ public class DisplayPlayer {
 
         buttonBox.getChildren().addAll(buttonPlay, buttonSkip, buttonSort, buttonUnselect);
         gameRoot.getChildren().add(buttonBox);
-    }
-
-    private Button createButton(String text, String color) {
-        Button button = new Button(text);
-        button.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-font-size: 10px; -fx-padding: 5px;");
-        return button;
     }
 
     public void showActionButtons(Consumer<String> actionHandler) {

@@ -9,6 +9,7 @@ public class Rules {
     protected int numberOfPlayer;
     protected CheckSet checkSet = new CheckSet();
     protected ArrayList<Player> players = new ArrayList<>();
+    public ArrayList<String> topWinners = new ArrayList<>();
 
     protected void setCheckSet(CheckSet checkSet) {
         this.checkSet = checkSet;
@@ -102,6 +103,7 @@ public class Rules {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getCardsInHand().isEmpty() && !playerEndGame.contains(i)) {
                 playerEndGame.add(i);
+                topWinners.add(players.get(i).getNameOfPlayer());
                 System.out.println(players.get(i).getNameOfPlayer() + " got " +
                         switch (playerEndGame.size()) {
                             case 1 -> "First";

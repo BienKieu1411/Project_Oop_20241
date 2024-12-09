@@ -71,9 +71,7 @@ public class PlayerNameInputMenu {
             title.setText("Game with Bots");
         }
 
-        Button startButton = MainMenu.createButton("Start", "linear-gradient(to bottom, #1D89F4, #1B62C5)", 60, 30);
-        startButton.setOnMouseClicked(event -> stage.setScene(new GameSelectionMenu().createGameSelectionScene(stage)));
-
+        Button startButton = MainMenu.createButton("Start", 100, 50);
         startButton.setOnAction(event -> {
             if (withPlayer) {
                 List<String> playerNames = new ArrayList<>();
@@ -99,8 +97,7 @@ public class PlayerNameInputMenu {
             }
         });
 
-        Button backButton = MainMenu.createButton("Back", "linear-gradient(to bottom, #F45A4A, #D93324)", 60, 30);
-
+        Button backButton = MainMenu.createButton("Back",  100, 50);
         backButton.setOnMouseClicked(event -> stage.setScene(new PlayerCountMenu().createPlayerCountScene(stage, game, withPlayer)));
 
         MainMenu.addHoverEffect(Arrays.asList(startButton, backButton));
@@ -111,7 +108,6 @@ public class PlayerNameInputMenu {
 
         // Add the components to the root VBox
         root.getChildren().addAll(title, inputBox, startButton, backButton);
-
         return new Scene(stackPane, 1200, 675);
     }
 

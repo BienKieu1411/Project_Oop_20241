@@ -14,13 +14,13 @@ public class ModeSelectionMenu {
         AnchorPane root = new AnchorPane();
         root.setPrefSize(1200, 675);
         // Buttons
-        Button withPlayerButton = MainMenu.createButton("Play with Player", "linear-gradient(to bottom, #1D89F4, #1B62C5)", 200, 50);
+        Button withPlayerButton = MainMenu.createButton("Play with Player",  200, 50);
         withPlayerButton.setOnMouseClicked(event -> stage.setScene(new PlayerCountMenu().createPlayerCountScene(stage, game, true)));
 
-        Button withBotButton = MainMenu.createButton("Play with Bot", "linear-gradient(to bottom, #F3B91D, #CF8A08)", 200, 50);
+        Button withBotButton = MainMenu.createButton("Play with Bot", 200, 50);
         withBotButton.setOnMouseClicked(event -> stage.setScene(new PlayerCountMenu().createPlayerCountScene(stage, game, false)));
 
-        Button backButton = MainMenu.createButton("Back", "linear-gradient(to bottom, #F45A4A, #D93324)", 200, 50);
+        Button backButton = MainMenu.createButton("Back",  200, 50);
         backButton.setOnMouseClicked(event -> stage.setScene(new GameSelectionMenu().createGameSelectionScene(stage)));
 
         // Thêm hiệu ứng cho nút

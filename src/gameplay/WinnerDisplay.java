@@ -1,109 +1,155 @@
 package gameplay;
 
-import javafx.animation.ScaleTransition;
-import javafx.animation.SequentialTransition;
-import javafx.animation.TranslateTransition;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
-import javafx.geometry.Pos;
+import javafx.animation.*;
+import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import playerofgame.Player;
 
 import java.util.Random;
 
 public class WinnerDisplay {
-    public WinnerDisplay(Stage stage, AnchorPane gameRoot, Player playerWin) {
-        endGame(stage, gameRoot, playerWin);
+    public WinnerDisplay(Stage stage, AnchorPane gameRoot, String playerWin) {
+        endGame(stage, playerWin);
     }
 
-    private void endGame(Stage stage, AnchorPane gameRoot, Player playerWin) {
-        // Tạo nền mờ
+    private void endGame(Stage stage, String playerWin) {
+        // Tạo ảnh nền
+        ImageView background = new ImageView(new Image(MainMenu.class.getResourceAsStream("/cardsimage/winnerbackground1.jpg")));
+        background.setFitWidth(1200);
+        background.setFitHeight(675);
+
+        // Tạo layout chính
         AnchorPane overlay = new AnchorPane();
-        overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
-        overlay.setPrefSize(gameRoot.getWidth(), gameRoot.getHeight());
+        overlay.setPrefSize(1200, 675);
+        overlay.getChildren().add(background);
 
-        // Thêm nhãn "Winner"
-        Label winnerLabel = new Label("Winner");
-        winnerLabel.setTextFill(Color.GOLD);
-        winnerLabel.setFont(new Font("Arial", 36));
-        winnerLabel.setLayoutX(stage.getWidth() / 2 - (winnerLabel.getWidth()  / 2 + 60));
-        winnerLabel.setLayoutY(stage.getHeight() / 2 - (winnerLabel.getHeight() / 2 + 100));
-        winnerLabel.setAlignment(Pos.CENTER);
+        // Tạo Text để hiển thị tên người chiến thắng với viền đen
+        Text winnerText = new Text(" Winner: " + playerWin );
+        winnerText.setFill(Color.GOLD);
+        winnerText.setFont(new Font("Arial", 64));
+        winnerText.setEffect(new Glow(1));
+        winnerText.setStroke(Color.BLACK);  // Thêm viền đen
+        winnerText.setStrokeWidth(1); // Điều chỉnh độ rộng của viền
+        overlay.getChildren().add(winnerText);
 
+        // Đặt tên người chiến thắng ra giữa màn hình sau khi giao diện sẵn sàng
+        Platform.runLater(() -> {
+            double centerX = (overlay.getWidth() - winnerText.getBoundsInLocal().getWidth()) / 2;
+            double centerY = (overlay.getHeight() - winnerText.getBoundsInLocal().getHeight()) / 2;
+            winnerText.setLayoutX(centerX);
+            winnerText.setLayoutY(centerY + 64);
+        });
 
-        // Thêm nhãn tên người chiến thắng
-        Label playerLabel = new Label(playerWin.getNameOfPlayer());
-        playerLabel.setTextFill(Color.GOLD);
-        playerLabel.setFont(new Font("Arial", 36));
-        playerLabel.setLayoutX(stage.getWidth() / 2 - (playerLabel.getWidth()  / 2 + 40));
-        playerLabel.setLayoutY(stage.getHeight() / 2 - (playerLabel.getHeight() / 2 + 40));
-        gameRoot.getChildren().add(overlay);
+        // Hiệu ứng nhấp nháy chữ
+        FadeTransition textFlash = new FadeTransition(Duration.seconds(1), winnerText);
+        textFlash.setFromValue(1.0);
+        textFlash.setToValue(0.5);
+        textFlash.setCycleCount(Animation.INDEFINITE);
+        textFlash.setAutoReverse(true);
+        textFlash.play();
 
-        // Thêm nút "Replay" màu xanh dương
-        Button replayButton = MainMenu.createButton("Replay", "linear-gradient(to bottom, #4A90E2, #357ABD)", 100, 25);
-        replayButton.setLayoutX((gameRoot.getWidth() / 2) - 150);
-        replayButton.setLayoutY((gameRoot.getHeight() / 2) + 100);
-        replayButton.setOnMouseClicked(event -> {
-            gameRoot.getChildren().clear();
+        // Hiệu ứng pháo hoa
+        Timeline fireworkEffect = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+            Circle firework = new Circle(5, Color.rgb(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256)));
+            firework.setLayoutX(new Random().nextDouble() * overlay.getWidth());
+            firework.setLayoutY(new Random().nextDouble() * overlay.getHeight());
+            firework.setEffect(new DropShadow(30, Color.rgb(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256))));
+
+            overlay.getChildren().add(firework);
+
+            ScaleTransition expand = new ScaleTransition(Duration.seconds(1), firework);
+            expand.setFromX(1);
+            expand.setFromY(1);
+            expand.setToX(5);
+            expand.setToY(5);
+            expand.setCycleCount(2);
+            expand.setAutoReverse(true);
+            expand.setOnFinished(e -> overlay.getChildren().remove(firework));
+            expand.play();
+        }));
+        fireworkEffect.setCycleCount(Timeline.INDEFINITE);
+        fireworkEffect.play();
+
+/*        // Hiệu ứng duy băng rơi
+        Timeline confettiRain = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
+            ImageView confetti = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/ribbon`.png")));
+            confetti.setFitWidth(27);
+            confetti.setFitHeight(48);
+            confetti.setLayoutX(new Random().nextDouble() * overlay.getWidth());
+            confetti.setLayoutY(-20);
+            overlay.getChildren().add(confetti);
+
+            TranslateTransition fall = new TranslateTransition(Duration.seconds(3), confetti);
+            fall.setToY(overlay.getHeight() + 20);
+            fall.setOnFinished(e -> overlay.getChildren().remove(confetti));
+            fall.play();
+
+        }));
+        confettiRain.setCycleCount(Timeline.INDEFINITE);
+        confettiRain.play();*/
+
+        // Tạo nút "Replay" và "Quit"
+        Button replayButton = new Button("Replay");
+        replayButton.setFont(new Font("Arial", 24));
+        replayButton.setStyle("-fx-background-color: #4A90E2; -fx-text-fill: white;");
+        replayButton.setOnAction(event -> {
+            // Hủy scene hiện tại trước khi chuyển sang scene mới
             stage.setScene(ModeSelectionMenu.createModeSelectionScene(stage, "Baccarat"));
+            // Sau khi chuyển scene, giải phóng bộ nhớ (nếu cần)
+            cleanupAndExit(replayButton);
         });
 
-        // Thêm nút "Quit"
-        Button quitButton = MainMenu.createButton("Quit", "linear-gradient(to bottom, #F45A4A, #D93324)", 100, 25);
-        quitButton.setLayoutX((gameRoot.getWidth() / 2) + 50);
-        quitButton.setLayoutY((gameRoot.getHeight() / 2) + 100);
-        quitButton.setOnMouseClicked(event -> {
+        Button quitButton = MainMenu.createButton("Quit", 100, 50);
+        quitButton.setOnAction(event -> {
+            // Hủy scene hiện tại trước khi chuyển sang scene mới
             stage.setScene(GameSelectionMenu.createGameSelectionScene(stage));
+            // Sau khi chuyển scene, giải phóng bộ nhớ (nếu cần)
+            cleanupAndExit(quitButton);
         });
+
+        // Căn chỉnh các nút đối xứng
+        replayButton.setLayoutX(400);
+        replayButton.setLayoutY(550);
+
+        quitButton.setLayoutX(650);
+        quitButton.setLayoutY(550);
 
         overlay.getChildren().addAll(replayButton, quitButton);
 
+        // Hiệu ứng xuất hiện giao diện
+        overlay.setOpacity(0);
+        ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(1), overlay);
+        scaleIn.setFromX(0.5);
+        scaleIn.setFromY(0.5);
+        scaleIn.setToX(1.0);
+        scaleIn.setToY(1.0);
 
+        FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), overlay);
+        fadeIn.setFromValue(0);
+        fadeIn.setToValue(1);
 
-        ImageView eggImageView = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/egg.png")));
-        eggImageView.setFitWidth(400);
-        eggImageView.setFitHeight(400);
-        eggImageView.setLayoutX((gameRoot.getWidth() / 2) - 199);
-        eggImageView.setLayoutY((gameRoot.getHeight() / 2) - 275);
+        ParallelTransition showTransition = new ParallelTransition(scaleIn, fadeIn);
+        showTransition.play();
 
-        overlay.getChildren().addAll(eggImageView, winnerLabel, playerLabel);
+        // Gán scene mới
+        Scene scene = new Scene(overlay);
+        stage.setScene(scene);
+        stage.show();
+    }
 
-
-        // Tạo hiệu ứng vàng rơi như mưa
-        Timeline goldRainTimeline = new Timeline();
-        goldRainTimeline.setCycleCount(Timeline.INDEFINITE);
-        goldRainTimeline.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(0.1), event -> {
-                    ImageView goldPiece = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/gold.png")));
-                    goldPiece.setFitWidth(30);
-                    goldPiece.setFitHeight(30);
-                    goldPiece.setLayoutX(new Random().nextDouble() * gameRoot.getWidth());
-                    goldPiece.setLayoutY(-30); // bắt đầu từ phía trên màn hình
-
-                    overlay.getChildren().add(goldPiece);
-
-                    TranslateTransition fallTransition = new TranslateTransition(Duration.seconds(1), goldPiece);
-                    fallTransition.setToY(gameRoot.getHeight() + 30); // rơi xuống dưới màn hình
-
-                    fallTransition.setOnFinished(e -> overlay.getChildren().remove(goldPiece));
-                    fallTransition.play();
-                })
-        );
-
-        // Kết hợp các hiệu ứng với nhau
-        SequentialTransition finalTransitions = new SequentialTransition();
-        finalTransitions.setOnFinished(e -> {
-            goldRainTimeline.play();
-        });
-        finalTransitions.play();
+    // Hủy sự kiện và giải phóng bộ nhớ
+    private void cleanupAndExit(Button button) {
+        button.setOnAction(null);  // Hủy sự kiện để tránh giữ tham chiếu không cần thiết
     }
 }
