@@ -56,16 +56,12 @@ public class WinnerTop {
         overlay.getChildren().add(topImage);
 
         // Tạo nút "Replay" và "Quit"
-        Button replayButton = new Button("Replay");
-        replayButton.setFont(new Font("Arial", 24));
-        replayButton.setStyle("-fx-background-color: linear-gradient(to bottom, #4A90E2, #357ABD); -fx-text-fill: white;");
+        Button replayButton = MainMenu.createButton("Replay",100,50);
         AnchorPane.setBottomAnchor(replayButton, 50.0);
         AnchorPane.setLeftAnchor(replayButton, 400.0);
         replayButton.setOnAction(event -> stage.setScene(ModeSelectionMenu.createModeSelectionScene(stage, "ThirteenS")));
 
-        Button quitButton = new Button("Quit");
-        quitButton.setFont(new Font("Arial", 24));
-        quitButton.setStyle("-fx-background-color: linear-gradient(to bottom, #F45A4A, #D93324); -fx-text-fill: white;");
+        Button quitButton = MainMenu.createButton("Quit", 100,50);
         AnchorPane.setBottomAnchor(quitButton, 50.0);
         AnchorPane.setLeftAnchor(quitButton, 650.0);
         quitButton.setOnAction(event -> stage.setScene(GameSelectionMenu.createGameSelectionScene(stage)));

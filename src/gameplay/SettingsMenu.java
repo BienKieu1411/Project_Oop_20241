@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+
 public class SettingsMenu {
     // Sử dung Singleton Pattern
     private static SettingsMenu instance = null;
@@ -41,16 +43,17 @@ public class SettingsMenu {
         background.setPreserveRatio(true);
 
         // Toggle Mode Button
-        Button toggleMode = createButton(isImageMode ? "Image Mode" : "Text Mode", 200, 50, "-fx-background-color: linear-gradient(to bottom, #1D89F4, #1B62C5);");
+        Button toggleMode = MainMenu.createButton(isImageMode ? "Image Mode" : "Text Mode", 200, 50);
         toggleMode.setOnMouseClicked(event -> {
             setImageMode(!isImageMode);
             toggleMode.setText(isImageMode ? "Image Mode" : "Text Mode");
         });
 
         // Back Button
-        Button backButton = createButton("Back", 200, 50, "-fx-background-color: linear-gradient(to bottom, #F45A4A, #D93324);");
+        Button backButton = MainMenu.createButton("Back", 200, 50);
         backButton.setOnMouseClicked(event -> stage.setScene(new MainMenu().createMainMenu(stage)));
 
+        MainMenu.addHoverEffect(Arrays.asList(toggleMode, backButton));
         toggleMode.setLayoutX(500);
         toggleMode.setLayoutY(300);
         backButton.setLayoutX(500);

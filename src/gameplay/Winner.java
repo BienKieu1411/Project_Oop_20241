@@ -82,7 +82,7 @@ public class Winner {
         fireworkEffect.play();
 
         // Hiệu ứng duy băng rơi
-        Timeline confettiRain = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
+        Timeline confettiRain = new Timeline(new KeyFrame(Duration.seconds(0.8), event -> {
             ImageView confetti = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/ribbon`.png")));
             confetti.setFitWidth(27);
             confetti.setFitHeight(48);
@@ -90,7 +90,7 @@ public class Winner {
             confetti.setLayoutY(-20);
             overlay.getChildren().add(confetti);
 
-            TranslateTransition fall = new TranslateTransition(Duration.seconds(3), confetti);
+            TranslateTransition fall = new TranslateTransition(Duration.seconds(5), confetti);
             fall.setToY(overlay.getHeight() + 20);
             fall.setOnFinished(e -> overlay.getChildren().remove(confetti));
             fall.play();
@@ -99,7 +99,7 @@ public class Winner {
         confettiRain.setCycleCount(Timeline.INDEFINITE);
         confettiRain.play();
 
-        Timeline confettiRain1 = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
+        Timeline confettiRain1 = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             ImageView confetti1 = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/ribbon.png")));
             confetti1.setFitWidth(27);
             confetti1.setFitHeight(48);
@@ -117,9 +117,7 @@ public class Winner {
         confettiRain.play();
 
         // Tạo nút "Replay" và "Quit"
-        Button replayButton = new Button("Replay");
-        replayButton.setFont(new Font("Arial", 24));
-        replayButton.setStyle("-fx-background-color: #4A90E2; -fx-text-fill: white;");
+        Button replayButton = MainMenu.createButton("Replay", 100, 50);
         replayButton.setOnAction(event -> {
             // Hủy scene hiện tại trước khi chuyển sang scene mới
             stage.setScene(ModeSelectionMenu.createModeSelectionScene(stage, "Baccarat"));

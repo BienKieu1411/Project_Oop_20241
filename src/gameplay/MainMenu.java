@@ -94,7 +94,7 @@ public class MainMenu {
         outerShadow.setRadius(15);
         outerShadow.setOffsetX(0);
         outerShadow.setOffsetY(0);
-        outerShadow.setSpread(0.5); // Độ lan tỏa ánh sáng
+        outerShadow.setSpread(0.2); // Độ lan tỏa ánh sáng
         button.setEffect(outerShadow);
 
         // Hiệu ứng bóng bên trong (InnerShadow)
