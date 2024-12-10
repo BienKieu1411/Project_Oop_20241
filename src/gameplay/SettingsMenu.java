@@ -40,12 +40,23 @@ public class SettingsMenu {
         background.setFitHeight(675);
         background.setPreserveRatio(true);
 
+        // Toggle Mode Button
+        Button toggleMode = createButton(isImageMode ? "Image Mode" : "Text Mode", 200, 50, "-fx-background-color: linear-gradient(to bottom, #1D89F4, #1B62C5);");
+        toggleMode.setOnMouseClicked(event -> {
+            setImageMode(!isImageMode);
+            toggleMode.setText(isImageMode ? "Image Mode" : "Text Mode");
+        });
 
         // Back Button
         Button backButton = createButton("Back", 200, 50, "-fx-background-color: linear-gradient(to bottom, #F45A4A, #D93324);");
         backButton.setOnMouseClicked(event -> stage.setScene(new MainMenu().createMainMenu(stage)));
 
-        root.getChildren().addAll(background, backButton);
+        toggleMode.setLayoutX(500);
+        toggleMode.setLayoutY(300);
+        backButton.setLayoutX(500);
+        backButton.setLayoutY(370);
+
+        root.getChildren().addAll(background, toggleMode, backButton);
         return new Scene(root, 1200, 675);
     }
 
