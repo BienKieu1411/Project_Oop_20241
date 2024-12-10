@@ -8,9 +8,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class SettingsMenu {
-    // Sử dung Singleton Pattern
+    // Sử dụng Singleton Pattern
     private static SettingsMenu instance = null;
 
     private boolean isImageMode = true;
@@ -49,17 +50,27 @@ public class SettingsMenu {
             toggleMode.setText(isImageMode ? "Image Mode" : "Text Mode");
         });
 
+        // Random Volume Button
+        Button randomVolumeButton = MainMenu.createButton("Random Volume", 200, 50);
+        randomVolumeButton.setOnMouseClicked(event -> {
+            double randomVolume = new Random().nextDouble(); // Tạo âm lượng ngẫu nhiên từ 0.0 đến 1.0
+            MainApplication.mediaPlayer.setVolume(randomVolume); // Đặt âm lượng cho MediaPlayer
+
+        });
+
         // Back Button
         Button backButton = MainMenu.createButton("Back", 200, 50);
         backButton.setOnMouseClicked(event -> stage.setScene(new MainMenu().createMainMenu(stage)));
 
-        MainMenu.addHoverEffect(Arrays.asList(toggleMode, backButton));
+        MainMenu.addHoverEffect(Arrays.asList(toggleMode, randomVolumeButton, backButton));
         toggleMode.setLayoutX(500);
         toggleMode.setLayoutY(300);
+        randomVolumeButton.setLayoutX(500);
+        randomVolumeButton.setLayoutY(370);
         backButton.setLayoutX(500);
-        backButton.setLayoutY(370);
+        backButton.setLayoutY(440);
 
-        root.getChildren().addAll(background, toggleMode, backButton);
+        root.getChildren().addAll(background, toggleMode, randomVolumeButton, backButton);
         return new Scene(root, 1200, 675);
     }
 
