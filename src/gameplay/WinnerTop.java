@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-public class WinnerThirteenS {
-    private static final Image backgroundImage = new Image(WinnerThirteenS.class.getResourceAsStream("/cardsimage/winnerbackground2.jpg"));
+public class WinnerTop {
+    private static final Image backgroundImage = new Image(WinnerTop.class.getResourceAsStream("/cardsimage/winnerbackground2.jpg"));
 
-    public WinnerThirteenS(Stage stage, AnchorPane gameRoot, ArrayList<String> topWinnersThirteenS) {
+    public WinnerTop(Stage stage, AnchorPane gameRoot, ArrayList<String> topWinnersThirteenS) {
         endGame(stage, gameRoot, topWinnersThirteenS);
     }
 
@@ -48,7 +48,7 @@ public class WinnerThirteenS {
             overlay.getChildren().add(winnerLabel);
         }
 
-        ImageView topImage = new ImageView(new Image(Objects.requireNonNull(WinnerThirteenS.class.getResourceAsStream("/cardsimage/topimage.png"))));
+        ImageView topImage = new ImageView(new Image(Objects.requireNonNull(WinnerTop.class.getResourceAsStream("/cardsimage/topimage.png"))));
         topImage.setFitWidth(600);
         topImage.setFitHeight(600);
         topImage.setLayoutX(165);

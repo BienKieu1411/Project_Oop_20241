@@ -18,8 +18,8 @@ import javafx.util.Duration;
 
 import java.util.Random;
 
-public class WinnerDisplay {
-    public WinnerDisplay(Stage stage, AnchorPane gameRoot, String playerWin) {
+public class Winner {
+    public Winner(Stage stage, AnchorPane gameRoot, String playerWin) {
         endGame(stage, playerWin);
     }
 
@@ -81,7 +81,7 @@ public class WinnerDisplay {
         fireworkEffect.setCycleCount(Timeline.INDEFINITE);
         fireworkEffect.play();
 
-/*        // Hiệu ứng duy băng rơi
+        // Hiệu ứng duy băng rơi
         Timeline confettiRain = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
             ImageView confetti = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/ribbon`.png")));
             confetti.setFitWidth(27);
@@ -97,7 +97,24 @@ public class WinnerDisplay {
 
         }));
         confettiRain.setCycleCount(Timeline.INDEFINITE);
-        confettiRain.play();*/
+        confettiRain.play();
+
+        Timeline confettiRain1 = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
+            ImageView confetti1 = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/ribbon.png")));
+            confetti1.setFitWidth(27);
+            confetti1.setFitHeight(48);
+            confetti1.setLayoutX(new Random().nextDouble() * overlay.getWidth());
+            confetti1.setLayoutY(-20);
+            overlay.getChildren().add(confetti1);
+
+            TranslateTransition fall = new TranslateTransition(Duration.seconds(3), confetti1);
+            fall.setToY(overlay.getHeight() + 20);
+            fall.setOnFinished(e -> overlay.getChildren().remove(confetti1));
+            fall.play();
+
+        }));
+        confettiRain.setCycleCount(Timeline.INDEFINITE);
+        confettiRain.play();
 
         // Tạo nút "Replay" và "Quit"
         Button replayButton = new Button("Replay");

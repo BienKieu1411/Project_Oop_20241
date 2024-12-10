@@ -14,7 +14,6 @@ import playerofgame.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import gameplay.WinnerThirteenS;
 
 public class Baccarat {
 	protected Deck deckOfBaccarat;
@@ -45,7 +44,7 @@ public class Baccarat {
 						if (currentPlayerIndex[0] == numberOfPlayer - 1) {
 							timeline.stop();
 							Player playerWin = winnerBaccarat();
-							new WinnerDisplay(stage, gameRoot, playerWin.getNameOfPlayer());
+							new Winner(stage, gameRoot, playerWin.getNameOfPlayer());
 						}
 
 						// Di chuyển đến người chơi tiếp theo
@@ -69,7 +68,7 @@ public class Baccarat {
 					// Hiển thị thông tin người chiến thắng sau khi game kết thúc
 					timeline.stop();
 					Player playerwin = winnerBaccarat();
-					new WinnerDisplay(stage, gameRoot, playerwin.getNameOfPlayer());
+					new Winner(stage, gameRoot, playerwin.getNameOfPlayer());
 				}
 				// Di chuyển đến người chơi tiếp theo
 				currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();

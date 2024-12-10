@@ -3,7 +3,7 @@ package logicgame;
 import deckofcards.Card;
 import deckofcards.Deck;
 import gamecardthirteenn.RuleOfThirteenN;
-import gameplay.DisplayPlayer;
+import gameplay.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.ImageView;
@@ -43,11 +43,28 @@ public class TurnOfGame {
         setGame.setNumberOfPlayer(playerCount);
         setGame.addPlayer(withPlayer, playerNames, rules);
         // chia bài
-        players = setGame.dealCard(gameRoot, deck, () -> {
+        SettingsMenu settingsMenu = SettingsMenu.getInstance();
+        if (settingsMenu.isImageMode()) {
+            // Nếu chế độ hình ảnh bật
+            ShuffleEffect shuffleEffect = new ShuffleEffect(gameRoot, 52);
+            shuffleEffect.startShuffle(() -> {
+                // Sau khi xáo bài hoàn tất, gọi dealCard để chia bài
+                setGame.dealCard(stage, gameRoot, deck, () -> {
+                    gameRoot.getChildren().removeIf(node -> node instanceof ImageView && "CardImage".equals(node.getId()));
+                    players = setGame.players;
+                    setTurn();
+                    turnOfGame(stage, gameRoot, players);
+                });
+            });
+        } else {
+            // Nếu chế độ hình ảnh không bật, trực tiếp chia bài
+            setGame.dealCard(stage, gameRoot, deck, () -> {
+            });
+            players = setGame.players;
             gameRoot.getChildren().removeIf(node -> node instanceof ImageView && "CardImage".equals(node.getId()));
             setTurn();
             turnOfGame(stage, gameRoot, players);
-        });
+        }
     }
 
     // khởi tạo turn ban đầu, nếu ai có 3 Bích sẽ được đánh trước, nếu không ai có 3 Bích trên tay thì sẽ ngẫu nhiên người chơi đánh trước
@@ -112,10 +129,13 @@ public class TurnOfGame {
             currentPlayerIndex[0] = startTurn;
         } else resetTurn();
         KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
-            if(players.size() == 1){
+            if(playerEndGame.size() == numberOfPlayer-1) {
                 gameTimeline.stop();
                 rules.setPlayers(players);
                 playerEndGame = rules.endOfGame(playerEndGame);
+                if (numberOfPlayer >= 3)
+                    new WinnerTop(stage,gameRoot,rules.topWinners);
+                else new Winner(stage,gameRoot, rules.topWinners.getFirst());
             }
             if (checkEndTurn()) {
                 resetTurn();
