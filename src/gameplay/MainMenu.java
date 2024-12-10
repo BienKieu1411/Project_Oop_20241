@@ -72,7 +72,6 @@ public class MainMenu {
         return new Scene(root, 1200, 675);
     }
 
-
     public static Button createButton(String text, int width, int height) {
         Button button = new Button(text);
         button.setPrefSize(width, height);

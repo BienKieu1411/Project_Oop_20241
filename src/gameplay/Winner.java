@@ -120,6 +120,7 @@ public class Winner {
         Button replayButton = MainMenu.createButton("Replay", 100, 50);
         replayButton.setOnAction(event -> {
             // Hủy scene hiện tại trước khi chuyển sang scene mới
+            overlay.getChildren().clear();
             stage.setScene(ModeSelectionMenu.createModeSelectionScene(stage, "Baccarat"));
             // Sau khi chuyển scene, giải phóng bộ nhớ (nếu cần)
             cleanupAndExit(replayButton);
@@ -128,6 +129,7 @@ public class Winner {
         Button quitButton = MainMenu.createButton("Quit", 100, 50);
         quitButton.setOnAction(event -> {
             // Hủy scene hiện tại trước khi chuyển sang scene mới
+            overlay.getChildren().clear();
             stage.setScene(GameSelectionMenu.createGameSelectionScene(stage));
             // Sau khi chuyển scene, giải phóng bộ nhớ (nếu cần)
             cleanupAndExit(quitButton);

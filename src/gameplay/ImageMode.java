@@ -1,15 +1,19 @@
 package gameplay;
 
 import deckofcards.Card;
+import javafx.animation.ScaleTransition;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import playerofgame.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ImageMode implements DisplayMode{
     private final int sceneWidth = 1200;
@@ -119,23 +123,52 @@ public class ImageMode implements DisplayMode{
                             cardView.setLayoutY(offsetY + j * gap);
                         }
                 }
-                if(i == index){
+
+                // Tạo Label hiển thị tên người chơi
+                Label playerNameLabel = new Label(players.get(i).getNameOfPlayer());
+                playerNameLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #FFFFFF; "
+                        + "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 2, 0, 0, 1);");
+                playerNameLabel.setId("PlayerNameLabel_" + i);
+                // Đặt vị trí cho tên người chơi
+                switch (i) {
+                    case 0: // Dưới cùng
+                        playerNameLabel.setLayoutX(sceneWidth / 2.0 - playerNameLabel.prefWidth(-1) / 2.0);
+                        playerNameLabel.setLayoutY(sceneHeight - 18); // Gần cạnh dưới
+                        break;
+                    case 1:// Bên phải
+                        playerNameLabel.setRotate(90);
+                        playerNameLabel.setLayoutX(sceneWidth - 23); // Cách cạnh phải
+                        playerNameLabel.setLayoutY(sceneHeight / 2.0 - playerNameLabel.prefHeight(-1) / 2.0);
+                        break;
+                    case 2: // Trên cùng
+                        playerNameLabel.setLayoutX(sceneWidth / 2.0 - playerNameLabel.prefWidth(-1) / 2.0);
+                        playerNameLabel.setLayoutY(2); // Cách cạnh trên
+                        break;
+                    case 3: // Bên trái
+                        playerNameLabel.setRotate(-90);
+                        playerNameLabel.setLayoutX(-5); // Cách cạnh trái
+                        playerNameLabel.setLayoutY(sceneHeight / 2.0 - playerNameLabel.prefHeight(-1) / 2.0);
+                        break;
+                }
+                // Thêm Label vào giao diện
+                gameRoot.getChildren().add(playerNameLabel);
+
+                if (i == index) {
                     cardView.setOnMouseClicked(event -> {
                         if (card.isSelected()) {
                             card.setSelected(false);
                             cardsSelect.remove(card);
-                            cardView.setEffect(null); // Xóa hiệu ứng sáng
+
                         } else {
                             card.setSelected(true);
                             cardsSelect.add(card);
-                            // Tăng độ sáng
-                            ColorAdjust colorAdjust = new ColorAdjust();
-                            colorAdjust.setBrightness(0.3); // Điều chỉnh giá trị độ sáng (0.3 là sáng nhẹ)
-                            cardView.setEffect(colorAdjust);
                         }
-                        displayPlayerHands(stage, gameRoot, players, index); // Hiển thị lại bài
+
+                        // Hiển thị lại bài
+                        displayPlayerHands(stage, gameRoot, players, index);
                     });
                 }
+
                 playerCardsPane.getChildren().add(cardView);
             }
         }
@@ -149,6 +182,7 @@ public class ImageMode implements DisplayMode{
                 "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);");
         buttonQuit.setLayoutX(sceneWidth - 60);
         buttonQuit.setLayoutY(3);
+        MainMenu.addHoverEffect(Arrays.asList(buttonQuit));
 
         // Thêm sự kiện để quay về MainMenu
         buttonQuit.setOnMouseClicked(event -> stage.setScene(new MainMenu().createMainMenu(stage)));
