@@ -2,6 +2,7 @@ package gameplay;
 
 import deckofcards.Card;
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -123,9 +124,14 @@ public class ImageMode implements DisplayMode{
                         if (card.isSelected()) {
                             card.setSelected(false);
                             cardsSelect.remove(card);
+                            cardView.setEffect(null); // Xóa hiệu ứng sáng
                         } else {
                             card.setSelected(true);
                             cardsSelect.add(card);
+                            // Tăng độ sáng
+                            ColorAdjust colorAdjust = new ColorAdjust();
+                            colorAdjust.setBrightness(0.3); // Điều chỉnh giá trị độ sáng (0.3 là sáng nhẹ)
+                            cardView.setEffect(colorAdjust);
                         }
                         displayPlayerHands(stage, gameRoot, players, index); // Hiển thị lại bài
                     });
