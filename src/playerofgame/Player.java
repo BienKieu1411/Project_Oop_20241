@@ -7,7 +7,6 @@ import logicgame.Rules;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-// Dùng template để dễ dàng tạo người chơi của game bất kì, dễ dàng mở rộng
 public class Player {
 	protected String nameOfPlayer;
 	protected ArrayList<Card> cardsInHand;

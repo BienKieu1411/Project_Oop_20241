@@ -14,6 +14,7 @@ import playerofgame.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import gameplay.WinnerThirteenS;
 
 public class Baccarat {
 	protected Deck deckOfBaccarat;

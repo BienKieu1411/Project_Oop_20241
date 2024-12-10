@@ -14,8 +14,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import playerofgame.Player;
-
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
