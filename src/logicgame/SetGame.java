@@ -14,9 +14,12 @@ import java.util.List;
 
 public class SetGame {
     protected int numberOfPlayer;
-    ArrayList<Player> players = new ArrayList<>();
-    void setNumberOfPlayer(int numberOfPlayer) {
+    public ArrayList<Player> players = new ArrayList<>();
+    public void setNumberOfPlayer(int numberOfPlayer) {
         this.numberOfPlayer = numberOfPlayer;
+    }
+    public ArrayList<Player> getPlayers() {
+        return this.players;
     }
     // Thêm người chơi vào trò chơi
     public void addPlayer(boolean playWithPlayer, List<String> playerNames, Rules rules) {
@@ -40,9 +43,9 @@ public class SetGame {
     }
 
     // Chia bài cho người chơi, mỗi người 13 lá
-    public void dealCard(Stage stage, AnchorPane gameRoot, Deck deck, Runnable onFinished) {
+    public void dealCard(Stage stage, AnchorPane gameRoot, Deck deck, int numCards, Runnable onFinished) {
         deck.shuffleDeck();
-        for (int i = 0; i < 13; ++i) {
+        for (int i = 0; i < numCards; ++i) {
             for (int j = 0; j < numberOfPlayer; ++j) {
                 Card card = deck.getCardTop();
                 this.players.get(j).addCard(card);
@@ -50,7 +53,7 @@ public class SetGame {
         }
         SettingsMenu settingsMenu = SettingsMenu.getInstance(); // Lấy thể hiện duy nhất
         if(settingsMenu.isImageMode()){
-            new DealCardAnimation(gameRoot, numberOfPlayer, 13, onFinished);
+            new DealCardAnimation(gameRoot, numberOfPlayer, numCards, onFinished);
         }
     }
 }

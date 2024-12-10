@@ -49,7 +49,7 @@ public class TurnOfGame {
             ShuffleEffect shuffleEffect = new ShuffleEffect(gameRoot, 52);
             shuffleEffect.startShuffle(() -> {
                 // Sau khi xáo bài hoàn tất, gọi dealCard để chia bài
-                setGame.dealCard(stage, gameRoot, deck, () -> {
+                setGame.dealCard(stage, gameRoot, deck, 13, () -> {
                     gameRoot.getChildren().removeIf(node -> node instanceof ImageView && "CardImage".equals(node.getId()));
                     players = setGame.players;
                     setTurn();
@@ -58,7 +58,7 @@ public class TurnOfGame {
             });
         } else {
             // Nếu chế độ hình ảnh không bật, trực tiếp chia bài
-            setGame.dealCard(stage, gameRoot, deck, () -> {
+            setGame.dealCard(stage, gameRoot, deck, 13, () -> {
             });
             players = setGame.players;
             gameRoot.getChildren().removeIf(node -> node instanceof ImageView && "CardImage".equals(node.getId()));

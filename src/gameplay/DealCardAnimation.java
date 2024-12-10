@@ -43,7 +43,6 @@ public class DealCardAnimation {
                     }
                     default -> throw new IllegalStateException("Unexpected player index: " + i);
                 };
-
                 ImageView cardBackView = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/BACK.png")));
                 cardBackView.setFitWidth(cardWidth);
                 cardBackView.setFitHeight(cardHeight);

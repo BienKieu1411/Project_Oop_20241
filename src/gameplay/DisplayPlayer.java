@@ -50,10 +50,25 @@ public class DisplayPlayer {
         buttonBox.setLayoutY(415);
         buttonBox.setStyle("-fx-background-color: rgba(0,0,0,0); -fx-background-radius: 2; -fx-padding: 5;");
 
-        Button buttonPlay = MainMenu.createButton("Play",75, 37);
-        Button buttonSkip = MainMenu.createButton("Skip", 75, 37);
-        Button buttonSort = MainMenu.createButton("Sort", 75, 37);;
-        Button buttonUnselect = MainMenu.createButton("Unselect", 100, 37);
+        Button buttonPlay, buttonSkip, buttonSort, buttonUnselect;
+        SettingsMenu settingsMenu = SettingsMenu.getInstance(); // Lấy thể hiện duy nhất stage, gameRoot, playersBaccarat, 0
+        if(settingsMenu.isImageMode()) {
+            buttonPlay = MainMenu.createButton("Play", 75, 37);
+            buttonSkip = MainMenu.createButton("Skip", 75, 37);
+            buttonSort = MainMenu.createButton("Sort", 75, 37);
+            buttonUnselect = MainMenu.createButton("Unselect", 100, 37);
+        }
+        else {
+            buttonPlay = new Button("Play");
+            buttonPlay.setStyle("-fx-background-color: white; -fx-text-fill: black;-fx-font-weight: bold; -fx-font-size: 16px;");
+            buttonSkip = new Button("Skip");
+            buttonSkip.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-weight: bold;-fx-font-size: 16px;");
+            buttonSort = new Button("Sort");
+            buttonSort.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-weight: bold;-fx-font-size: 16px;");
+            buttonUnselect = new Button("Unselect");
+            buttonUnselect.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-weight: bold;-fx-font-size: 16px;");
+            buttonBox.setLayoutX(455);
+        }
         MainMenu.addHoverEffect(Arrays.asList(buttonPlay, buttonSkip, buttonSort, buttonUnselect));
 
         MainMenu.addHoverEffect(Arrays.asList(buttonPlay, buttonSkip, buttonSort, buttonUnselect));

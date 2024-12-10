@@ -9,10 +9,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import logicgame.Rules;
-import playerofgame.Bot;
+import logicgame.SetGame;
 import playerofgame.Player;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Baccarat {
@@ -20,102 +19,50 @@ public class Baccarat {
 	protected int numberOfPlayer;
 	protected ArrayList<Player> playersBaccarat = new ArrayList<>();
 	// Khỏi tạo Constructor: khi khởi tạo 1 đối tượng Baccarat mới sẽ chạy luôn chương trình
-	public Baccarat(Stage stage,AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
+	public Baccarat(Stage stage, AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames) {
 		// Số người chơi
+		SetGame setGame = new SetGame();
+		Rules rules = new Rules();
 		numberOfPlayer = playerCount;
 		deckOfBaccarat = new Deck(36);
 		// Them nguoi choi
-		addPlayer(withPlayer, playerNames);
-		// Chia bai
+		setGame.setNumberOfPlayer(playerCount);
+		setGame.addPlayer(withPlayer, playerNames, rules);
+		playersBaccarat = setGame.getPlayers();
 		SettingsMenu settingsMenu = SettingsMenu.getInstance(); // Lấy thể hiện duy nhất stage, gameRoot, playersBaccarat, 0
-		if(settingsMenu.isImageMode()){
+		if(settingsMenu.isImageMode()) {
 			ShuffleEffect shuffleEffect = new ShuffleEffect(gameRoot, 3 * numberOfPlayer);
 			shuffleEffect.startShuffle(() -> {
 				// Sau khi hoàn tất tráo bài, bắt đầu chia bài
-				dealCard(gameRoot, () -> {
-					// Hiển thị bài của từng người chơi
-					Timeline timeline = new Timeline();
-					int[] currentPlayerIndex = {0};
-					KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
-						Player currentPlayer = playersBaccarat.get(currentPlayerIndex[0]);
-						currentPlayer.setCardsFaceUp();
-						new DisplayPlayer(stage, gameRoot, playersBaccarat, 0);
-						// Kiểm tra kết thúc game
-						if (currentPlayerIndex[0] == numberOfPlayer - 1) {
-							timeline.stop();
-							Player playerWin = winnerBaccarat();
-							new Winner(stage, gameRoot, playerWin.getNameOfPlayer());
-						}
-
-						// Di chuyển đến người chơi tiếp theo
-						currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
-					});
-					timeline.getKeyFrames().add(turnFrame);
-					timeline.setCycleCount(Timeline.INDEFINITE);
-					timeline.play();
+				setGame.dealCard(stage, gameRoot, deckOfBaccarat, 3, () -> {
+					turnOfGame(stage, gameRoot);
 				});
 			});
-		}
-		else {
-			dealCard(gameRoot, () -> {});
-			Timeline timeline = new Timeline();
-			int[] currentPlayerIndex = {0};
-			KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
-				Player currentPlayer = playersBaccarat.get(currentPlayerIndex[0]);
-				currentPlayer.setCardsFaceUp();
-				new DisplayPlayer(stage, gameRoot, playersBaccarat, 0);
-				if (currentPlayerIndex[0] == numberOfPlayer - 1) {
-					// Hiển thị thông tin người chiến thắng sau khi game kết thúc
-					timeline.stop();
-					Player playerwin = winnerBaccarat();
-					new Winner(stage, gameRoot, playerwin.getNameOfPlayer());
-				}
-				// Di chuyển đến người chơi tiếp theo
-				currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
-			});
-			timeline.getKeyFrames().add(turnFrame);
-			timeline.setCycleCount(Timeline.INDEFINITE);
-			timeline.play();
+		} else {
+			setGame.dealCard(stage, gameRoot, deckOfBaccarat, 3, () -> {});
+			turnOfGame(stage, gameRoot);
 		}
 	}
 
-	// Thêm người chơi vào trò chơi
-	public void addPlayer(boolean playWithPlayer, List<String> playerNames) {
-		this.playersBaccarat = new ArrayList<>();
-		Rules rules = new Rules();
-		if (playWithPlayer) {
-			for (int i = 0; i < numberOfPlayer; i++) {
-				String nameOfPerson = playerNames.get(i);  //tên người chơi
-				Player person = new Player(nameOfPerson, false, rules);
-				playersBaccarat.add(person);
+	public void turnOfGame(Stage stage, AnchorPane gameRoot) {
+		Timeline timeline = new Timeline();
+		int[] currentPlayerIndex = {0};
+		KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
+			Player currentPlayer = playersBaccarat.get(currentPlayerIndex[0]);
+			currentPlayer.setCardsFaceUp();
+			new DisplayPlayer(stage, gameRoot, playersBaccarat, 0);
+			if (currentPlayerIndex[0] == numberOfPlayer - 1) {
+				// Hiển thị thông tin người chiến thắng sau khi game kết thúc
+				timeline.stop();
+				Player playerwin = winnerBaccarat();
+				new Winner(stage, gameRoot, playerwin.getNameOfPlayer());
 			}
-			Collections.shuffle(playersBaccarat);
-		}
-		else{
-			Player person = new Player("You", false, rules);
-			playersBaccarat.add(person);
-			// Dùng upcasting và ghi đè để tạo bot
-			for (int i = 0; i < numberOfPlayer - 1; i++) {
-				String nameOfBot = "Bot" + (i + 1);
-				Player bot = new Bot(nameOfBot, true, rules);
-				playersBaccarat.add(bot);
-			}
-		}
-	}
-
-	// Chia bài cho người chơi
-	public void dealCard(AnchorPane gameRoot, Runnable onFinished) {
-		this.deckOfBaccarat.shuffleDeck();
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < numberOfPlayer; ++j){
-				Card card = deckOfBaccarat.getCardTop();
-				this.playersBaccarat.get(j).addCard(card);
-			}
-		}
-		SettingsMenu settingsMenu = SettingsMenu.getInstance(); // Lấy thể hiện duy nhất
-		if(settingsMenu.isImageMode()){
-			new DealCardAnimation(gameRoot, numberOfPlayer, 3, onFinished);
-		}
+			// Di chuyển đến người chơi tiếp theo
+			currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % playersBaccarat.size();
+		});
+		timeline.getKeyFrames().add(turnFrame);
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.play();
 	}
 	// Tìm ra người thắng cuộc
 	public Player winnerBaccarat() {
@@ -141,12 +88,12 @@ public class Baccarat {
 
 	public CardOfBaccarat biggestCardInHand(Player player) {
 		Card currentCard = player.getCardsInHand().getFirst();
-        CardOfBaccarat card = new CardOfBaccarat(currentCard.printRank(), currentCard.printSuit());
-        for (int i = 1; i < player.getCardsInHand().size(); i++) {
+		CardOfBaccarat card = new CardOfBaccarat(currentCard.printRank(), currentCard.printSuit());
+		for (int i = 1; i < player.getCardsInHand().size(); i++) {
 			currentCard = player.getCardsInHand().get(i);
 			CardOfBaccarat cardinhand;
-            cardinhand = new CardOfBaccarat(currentCard.printRank(), currentCard.printSuit());
-            if (cardinhand.compareCard(card) > 0)
+			cardinhand = new CardOfBaccarat(currentCard.printRank(), currentCard.printSuit());
+			if (cardinhand.compareCard(card) > 0)
 				card = cardinhand;
 		}
 		return card;

@@ -27,6 +27,7 @@ import java.util.List;
 public class MainMenu {
     // Tải trước hình nền để tránh tải lại nhiều lần
     public static final ImageView BACKGROUND_IMAGE = new ImageView(new Image(MainMenu.class.getResourceAsStream("/cardsimage/CardStart.jpg")));
+    public static final ImageView TABLE_TEXT = new ImageView(new Image(MainMenu.class.getResourceAsStream("/cardsimage/tablepoker.png")));
     public static final ImageView TABLE = new ImageView(new Image(MainMenu.class.getResourceAsStream("/cardsimage/tableimage.jpg")));
 
     public Scene createMainMenu(Stage stage) {

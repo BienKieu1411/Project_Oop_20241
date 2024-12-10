@@ -25,7 +25,8 @@ public class GamePlay {
             gameRoot.setPrefSize(1200, 675);
 
             // Thêm hình nền một lần
-            ImageView background = MainMenu.TABLE;
+            SettingsMenu settingsMenu = SettingsMenu.getInstance(); // Lấy thể hiện duy nhất
+            ImageView background = settingsMenu.isImageMode() ?  MainMenu.TABLE : MainMenu.TABLE_TEXT;
             background.setFitWidth(1200);
             background.setFitHeight(675);
             background.setPreserveRatio(false);
