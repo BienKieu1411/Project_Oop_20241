@@ -133,6 +133,7 @@ public class TurnOfGame {
                 gameTimeline.stop();
                 rules.setPlayers(players);
                 playerEndGame = rules.endOfGame(playerEndGame);
+                rules.topWinners.add(players.getFirst().getNameOfPlayer());
                 if (numberOfPlayer >= 3)
                     new WinnerTop(stage,gameRoot,rules.topWinners);
                 else new Winner(stage,gameRoot, rules.topWinners.getFirst());

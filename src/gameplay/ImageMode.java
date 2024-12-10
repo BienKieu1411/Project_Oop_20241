@@ -149,6 +149,7 @@ public class ImageMode implements DisplayMode{
         gameRoot.getChildren().add(buttonQuit);
         displayCenterCards(playerCardsPane);
     }
+
     public void displayCenterCards(Pane playerCardsPane) {
         if (!cardsCenter.isEmpty()) {
             double offsetX = (sceneWidth - (cardsCenter.size() - 1) * gap - cardWidth) / 2.0;
