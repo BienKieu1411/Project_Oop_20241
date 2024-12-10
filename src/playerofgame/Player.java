@@ -14,17 +14,14 @@ public class Player {
 	protected boolean isBot;
 	protected ArrayList<Card> listCardPlayed = new ArrayList<>();
 	private CheckSet checkSet = new CheckSet();
-	protected Rules rules = new Rules();
+	protected Rules rules;
 	private int moneyPlayer;// Số tiền của người chơi
 
 	//Phương thức khởi dựng
-	public Player(String nameOfPlayer, boolean isBot) {
+	public Player(String nameOfPlayer, boolean isBot, Rules rules) {
 		this.nameOfPlayer = nameOfPlayer;
 		this.cardsInHand = new ArrayList<>();
 		this.isBot = isBot;
-	}
-
-	public void setRules(Rules rules) {
 		this.rules = rules;
 	}
 

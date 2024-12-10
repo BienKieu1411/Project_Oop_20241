@@ -18,21 +18,21 @@ public class SetGame {
         this.numberOfPlayer = numberOfPlayer;
     }
     // Thêm người chơi vào trò chơi
-    public void addPlayer(boolean playWithPlayer, List<String> playerNames) {
+    public void addPlayer(boolean playWithPlayer, List<String> playerNames, Rules rules) {
         if (playWithPlayer) {
             for (int i = 0; i < numberOfPlayer; i++) {
                 String nameOfPerson = playerNames.get(i);  //tên người chơi
-                Player person = new Player(nameOfPerson, false);
+                Player person = new Player(nameOfPerson, false, rules);
                 players.add(person);
             }
             Collections.shuffle(players);
         } else {
-            Player person = new Player("You", false);
+            Player person = new Player("You", false, rules);
             players.add(person);
             // Dùng upcasting và ghi đè để tạo bot
             for (int i = 0; i < numberOfPlayer - 1; i++) {
                 String nameOfBot = "Bot" + (i + 1);
-                Player bot = new Bot(nameOfBot, true);
+                Player bot = new Bot(nameOfBot, true, rules);
                 players.add(bot);
             }
         }

@@ -10,16 +10,12 @@ public class Rules {
     protected CheckSet checkSet = new CheckSet();
     protected ArrayList<Player> players = new ArrayList<>();
 
-    protected void setCheckSet(CheckSet checkSet) {
-        this.checkSet = checkSet;
-    }
-
-    protected void setNumberOfPlayer(int numberOfPlayer) {
-        this.numberOfPlayer = numberOfPlayer;
-    }
-
     protected void setPlayers(ArrayList<Player> players) {
         this.players = players;
+    }
+
+    protected void setCheckSet(CheckSet checkSet) {
+        this.checkSet = checkSet;
     }
 
     // So sánh 2 bộ với nhau
@@ -98,7 +94,7 @@ public class Rules {
 
     // Kiểm tra điều kiện kết thúc trò chơi(khi có người hết bài trên tay)
     // Người chơi sẽ được xếp hạng: Nhất, Nhì, Ba, ... cho đến người chơi cuối còn bài trên tay
-    protected void endOfGame(ArrayList<Integer> playerEndGame) {
+    protected ArrayList<Integer> endOfGame(ArrayList<Integer> playerEndGame) {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getCardsInHand().isEmpty() && !playerEndGame.contains(i)) {
                 playerEndGame.add(i);
@@ -110,8 +106,9 @@ public class Rules {
                             default -> "";
                         } + " place!");
                 System.out.println();
-                return;
+                return playerEndGame;
             }
         }
+        return playerEndGame;
     }
 }

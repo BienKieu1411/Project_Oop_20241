@@ -11,6 +11,7 @@ import javafx.animation.Timeline;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import logicgame.Rules;
 import playerofgame.Bot;
 import playerofgame.Player;
 import java.util.ArrayList;
@@ -76,21 +77,22 @@ public class Baccarat {
 	// Thêm người chơi vào trò chơi
 	public void addPlayer(boolean playWithPlayer, List<String> playerNames) {
 		this.playersBaccarat = new ArrayList<>();
+		Rules rules = new Rules();
 		if (playWithPlayer) {
 			for (int i = 0; i < numberOfPlayer; i++) {
 				String nameOfPerson = playerNames.get(i);  //tên người chơi
-				Player person = new Player(nameOfPerson, false);
+				Player person = new Player(nameOfPerson, false, rules);
 				playersBaccarat.add(person);
 			}
 			Collections.shuffle(playersBaccarat);
 		}
 		else{
-			Player person = new Player("You", false);
+			Player person = new Player("You", false, rules);
 			playersBaccarat.add(person);
 			// Dùng upcasting và ghi đè để tạo bot
 			for (int i = 0; i < numberOfPlayer - 1; i++) {
 				String nameOfBot = "Bot" + (i + 1);
-				Player bot = new Bot(nameOfBot, true);
+				Player bot = new Bot(nameOfBot, true, rules);
 				playersBaccarat.add(bot);
 			}
 		}

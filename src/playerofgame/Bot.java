@@ -1,6 +1,8 @@
 package playerofgame;
 
 import deckofcards.Card;
+import logicgame.Rules;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,8 +10,8 @@ import java.util.List;
 public class Bot extends Player{
     private boolean checkSort = false;
     private ArrayList<Card> listCards =  new ArrayList<>();
-    public Bot(String name, boolean isBot){
-        super(name, isBot);
+    public Bot(String name, boolean isBot, Rules rules){
+        super(name, isBot, rules);
     }
     // Ghi đè phương thức getSelection để đưa ra lựa chọn của Bot
     @Override

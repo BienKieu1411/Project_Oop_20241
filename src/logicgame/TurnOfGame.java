@@ -22,7 +22,7 @@ public class TurnOfGame {
     private ArrayList<Card> cardPreTurn = new ArrayList<>();
     private int startTurn;
     private ArrayList<Integer> playerEndGame = new ArrayList<Integer>();
-    private Rules rules = new Rules();
+    private Rules rules;
 
     public void turnGame (Stage stage, AnchorPane gameRoot, int playerCount, boolean withPlayer, List<String> playerNames, String gameName) {
         // số người chơi
@@ -41,7 +41,7 @@ public class TurnOfGame {
         deck = new Deck(52);
         // thêm người chơi
         setGame.setNumberOfPlayer(playerCount);
-        setGame.addPlayer(withPlayer, playerNames);
+        setGame.addPlayer(withPlayer, playerNames, rules);
         // chia bài
         players = setGame.dealCard(gameRoot, deck, () -> {
             gameRoot.getChildren().removeIf(node -> node instanceof ImageView && "CardImage".equals(node.getId()));
@@ -114,7 +114,8 @@ public class TurnOfGame {
         KeyFrame turnFrame = new KeyFrame(Duration.seconds(1), event -> {
             if(players.size() == 1){
                 gameTimeline.stop();
-                rules.endOfGame(playerEndGame);
+                rules.setPlayers(players);
+                playerEndGame = rules.endOfGame(playerEndGame);
             }
             if (checkEndTurn()) {
                 resetTurn();
@@ -124,7 +125,11 @@ public class TurnOfGame {
             }
 
             Player currentPlayer = players.get(currentPlayerIndex[0]);
-            if (checkTurn[currentPlayerIndex[0]]) {
+            if(!checkTurn[currentPlayerIndex[0]]){
+                displayPlayerCards.displayPlayerHands(stage, gameRoot, players, 0);
+                endPlayerTurn(currentPlayer, currentPlayerIndex, players, gameTimeline);
+            }
+            else{
                 currentPlayer.setCardsFaceUp();
                 displayPlayerCards.displayPlayerHands(stage, gameRoot, players, currentPlayerIndex[0]);
                 // Hiển thị các nút hành động
@@ -181,9 +186,6 @@ public class TurnOfGame {
                         endPlayerTurn(currentPlayer, currentPlayerIndex, players, gameTimeline);
                     }
                 }
-            } else {
-                displayPlayerCards.displayPlayerHands(stage, gameRoot, players, 0);
-                endPlayerTurn(currentPlayer, currentPlayerIndex, players, gameTimeline);
             }
         });
 
@@ -195,7 +197,8 @@ public class TurnOfGame {
     private void endPlayerTurn(Player currentPlayer, int[] currentPlayerIndex, ArrayList<Player> players, Timeline gameTimeline) {
         currentPlayer.setCardsFaceDown();
         currentPlayerIndex[0] = (currentPlayerIndex[0] + 1) % players.size();
-        rules.endOfGame(playerEndGame);
+        rules.setPlayers(players);
+        playerEndGame = rules.endOfGame(playerEndGame);
         if (players.size() == 1) {
             playerEndGame.add(currentPlayerIndex[0]);
             gameTimeline.stop();
