@@ -1,10 +1,15 @@
 package gameplay;
 
+import javafx.animation.ScaleTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import java.util.Arrays;
+import javafx.util.Duration;
+import java.util.List;
+
 
 public class GameSelectionMenu {
     public static Scene createGameSelectionScene(Stage stage) {
@@ -12,32 +17,65 @@ public class GameSelectionMenu {
         root.setPrefSize(1200, 675);
 
         // Buttons
-        Button baccaratButton = MainMenu.createButton("Baccarat", "linear-gradient(to bottom, #1D89F4, #1B62C5)", 200, 50);
-        baccaratButton.setOnMouseClicked(event -> stage.setScene(new ModeSelectionMenu().createModeSelectionScene(stage, "Baccarat")));
+        // Tạo ImageView cho các nút thay thế
+        ImageView baccarat = createImageView("/cardsimage/baccarat.png", 300, 300);
+        baccarat.setLayoutX(75);
+        baccarat.setLayoutY(137.5);
+        baccarat.setOnMouseClicked(event -> stage.setScene(new ModeSelectionMenu().createModeSelectionScene(stage, "Baccarat")));
 
-        Button thirteenSButton = MainMenu.createButton("ThirteenS",  "linear-gradient(to bottom, #F3B91D, #CF8A08)", 200, 50);
-        thirteenSButton.setOnMouseClicked(event -> stage.setScene(new ModeSelectionMenu().createModeSelectionScene(stage, "ThirteenS")));
+        ImageView thirteenS = createImageView("/cardsimage/thirteenS.png", 300, 300);
+        thirteenS.setLayoutX(450);
+        thirteenS.setLayoutY(137.5);
+        thirteenS.setOnMouseClicked(event -> stage.setScene(new ModeSelectionMenu().createModeSelectionScene(stage, "ThirteenS")));
 
-        Button thirteenNButton = MainMenu.createButton("ThirteenN",  "linear-gradient(to bottom, #F3B91D, #CF8A08)", 200, 50);
-        thirteenNButton.setOnMouseClicked(event -> stage.setScene(new ModeSelectionMenu().createModeSelectionScene(stage, "ThirteenN")));
+        ImageView thirteenN = createImageView("/cardsimage/ThirteenN.jpg", 300, 300);
+        thirteenN.setLayoutX(825);
+        thirteenN.setLayoutY(137.5);
+        thirteenN.setOnMouseClicked(event -> stage.setScene(new ModeSelectionMenu().createModeSelectionScene(stage, "ThirteenN")));
 
-        Button backButton = MainMenu.createButton("Back", "linear-gradient(to bottom, #F45A4A, #D93324)", 200, 50);
+        // Nút quay lại
+        Button backButton = MainMenu.createButton("Back", 200, 50);
+        backButton.setLayoutX((root.getPrefWidth() - backButton.getPrefWidth()) / 2); // Ở giữa màn hình
+        backButton.setLayoutY(550); // Dưới cùng
         backButton.setOnMouseClicked(event -> stage.setScene(new MainMenu().createMainMenu(stage)));
 
-        // Set vị trí cho các nút
-        baccaratButton.setLayoutX(500);
-        baccaratButton.setLayoutY(300);
-        thirteenSButton.setLayoutX(500);
-        thirteenSButton.setLayoutY(370);
-        thirteenNButton.setLayoutX(500);
-        thirteenNButton.setLayoutY(440);
-        backButton.setLayoutX(500);
-        backButton.setLayoutY(510);
+        // Thêm hiệu ứng di chuột vào hình ảnh
+        addHoverEffectToImageView(List.of(baccarat, thirteenS, thirteenN));
 
-        // Thêm hiệu ứng cho nút
-        MainMenu.addHoverEffect(Arrays.asList(baccaratButton, thirteenSButton, thirteenNButton, backButton));
+        // Thêm các thành phần vào root
+        root.getChildren().addAll(MainMenu.BACKGROUND_IMAGE, baccarat, thirteenS,thirteenN, backButton);
 
-        root.getChildren().addAll(MainMenu.BACKGROUND_IMAGE, baccaratButton, thirteenSButton, thirteenNButton, backButton);
         return new Scene(root, 1200, 675);
+
+    }
+
+    // Hàm tạo ImageView
+    private static ImageView createImageView(String imagePath, double width, double height) {
+        Image image = new Image(MainMenu.class.getResourceAsStream(imagePath));
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(height);
+        return imageView;
+    }
+
+    // Thêm hiệu ứng di chuột vào ImageView
+    private static void addHoverEffectToImageView(List<ImageView> images) {
+        for (ImageView image : images) {
+            // Phóng to khi di chuột vào
+            image.setOnMouseEntered(event -> {
+                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), image);
+                scaleTransition.setToX(1.1);
+                scaleTransition.setToY(1.1);
+                scaleTransition.play();
+            });
+
+            // Trở về kích thước ban đầu khi chuột rời đi
+            image.setOnMouseExited(event -> {
+                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), image);
+                scaleTransition.setToX(1.0);
+                scaleTransition.setToY(1.0);
+                scaleTransition.play();
+            });
+        }
     }
 }

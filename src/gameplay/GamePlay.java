@@ -1,6 +1,7 @@
 package gameplay;
 
 import gamecardbaccarat.Baccarat;
+import gamecardthirteenn.ThirteenN;
 import gamecardthirteens.ThirteenS;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -24,7 +25,7 @@ public class GamePlay {
             gameRoot.setPrefSize(1200, 675);
 
             // Thêm hình nền một lần
-            ImageView background = new ImageView(MainMenu.TABLE);
+            ImageView background = MainMenu.TABLE;
             background.setFitWidth(1200);
             background.setFitHeight(675);
             background.setPreserveRatio(false);
@@ -35,14 +36,13 @@ public class GamePlay {
         if (scene == null) {
             scene = new Scene(gameRoot, 1200, 675);
         }
-
         // Cập nhật nội dung trò chơi
         switch (nameGame) {
             case "ThirteenS":
                 ThirteenS thirteenS = new ThirteenS(stage, gameRoot, playerCount, withPlayer, playerNames, nameGame);
                 break;
             case "ThirteenN":
-                ThirteenS thirteenN = new ThirteenS(stage, gameRoot, playerCount, withPlayer, playerNames, nameGame);
+                ThirteenN thirteenN = new ThirteenN(stage, gameRoot, playerCount, withPlayer, playerNames, nameGame);
                 break;
             case "Baccarat":
                 Baccarat baccarat = new Baccarat(stage,gameRoot, playerCount, withPlayer, playerNames);

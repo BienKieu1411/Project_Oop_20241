@@ -1,11 +1,8 @@
 package deckofcards;
 
-import gamecardbaccarat.CardOfBaccarat;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
-//Dùng template để đa dạng bộ bài, dễ dàng mở rộng ra các bộ bài 52 lá, 36 lá, 54 lá, ....
 public class Deck {
 	protected ArrayList<Card> deck;
 	public Deck(int numOfCards) {

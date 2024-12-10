@@ -157,6 +157,7 @@ public class TextMode implements DisplayMode {
         gameRoot.getChildren().add(buttonQuit);
         displayCenterCards(playerCardsPane);
     }
+
     public void displayCenterCards(Pane playerCardsPane) {
         if (!cardsCenter.isEmpty()) {
             double offsetX = (sceneWidth - (cardsCenter.size() - 1) * 70 - 40) / 2.0;

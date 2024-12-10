@@ -2,8 +2,9 @@ package logicgame;
 
 import deckofcards.Card;
 import deckofcards.Deck;
-import gameplay.DealCardAnimation;
+import gameplay.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import playerofgame.Bot;
 import playerofgame.Player;
 
@@ -39,7 +40,7 @@ public class SetGame {
     }
 
     // Chia bài cho người chơi, mỗi người 13 lá
-    public ArrayList<Player> dealCard(AnchorPane gameRoot, Deck deck, Runnable onFinished) {
+    public void dealCard(Stage stage, AnchorPane gameRoot, Deck deck, Runnable onFinished) {
         deck.shuffleDeck();
         for (int i = 0; i < 13; ++i) {
             for (int j = 0; j < numberOfPlayer; ++j) {
@@ -47,7 +48,9 @@ public class SetGame {
                 this.players.get(j).addCard(card);
             }
         }
-        new DealCardAnimation(gameRoot, numberOfPlayer, 13, onFinished);
-        return this.players;
+        SettingsMenu settingsMenu = SettingsMenu.getInstance(); // Lấy thể hiện duy nhất
+        if(settingsMenu.isImageMode()){
+            new DealCardAnimation(gameRoot, numberOfPlayer, 13, onFinished);
+        }
     }
 }
