@@ -53,38 +53,34 @@ public class DealCardAnimation {
                 cardBackView.setLayoutX(sceneWidth / 2.0 - cardWidth / 2.0);
                 cardBackView.setLayoutY(sceneHeight / 2.0 - cardHeight / 2.0);
 
-                // Không xóa layout, dùng thêm Translate để di chuyển
-                double startX = cardBackView.getLayoutX();
-                double startY = cardBackView.getLayoutY();
-
                 gameRoot.getChildren().add(cardBackView);
 
                 // Hiệu ứng mờ dần (Fade In)
-                FadeTransition fadeTransition = new FadeTransition(Duration.millis(50), cardBackView);
+                FadeTransition fadeTransition = new FadeTransition(Duration.millis(30), cardBackView); // Nhanh hơn
                 fadeTransition.setFromValue(0);
                 fadeTransition.setToValue(1);
 
                 // Hiệu ứng di chuyển (Translate)
-                TranslateTransition translateTransition = new TranslateTransition(Duration.millis(50), cardBackView);
+                TranslateTransition translateTransition = new TranslateTransition(Duration.millis(50), cardBackView); // Nhanh hơn
                 if (i == 1 || i == 3) { // Người chơi 2 và 4
-                    translateTransition.setToX(offsetX + cardHeight / 2.0 - cardWidth / 2.0 - startX);
-                    translateTransition.setToY(offsetY + j * gap - startY);
+                    translateTransition.setToX(offsetX + cardHeight / 2.0 - cardWidth / 2.0 - cardBackView.getLayoutX());
+                    translateTransition.setToY(offsetY + j * gap - cardBackView.getLayoutY());
                     translateTransition.setOnFinished(event -> cardBackView.setRotate(90));
                 } else { // Người chơi 1 và 3
-                    translateTransition.setToX(offsetX + j * gap - startX);
-                    translateTransition.setToY(offsetY - startY);
+                    translateTransition.setToX(offsetX + j * gap - cardBackView.getLayoutX());
+                    translateTransition.setToY(offsetY - cardBackView.getLayoutY());
                 }
 
                 // Hiệu ứng phóng to
-                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), cardBackView);
-                scaleTransition.setFromX(0.5);
-                scaleTransition.setFromY(0.5);
+                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(150), cardBackView); // Nhanh hơn
+                scaleTransition.setFromX(0.7);
+                scaleTransition.setFromY(0.7);
                 scaleTransition.setToX(1);
                 scaleTransition.setToY(1);
 
                 // Hiệu ứng nảy (Bounce)
-                TranslateTransition bounceTransition = new TranslateTransition(Duration.millis(100), cardBackView);
-                bounceTransition.setByY(-10);
+                TranslateTransition bounceTransition = new TranslateTransition(Duration.millis(1), cardBackView); // Nhanh hơn
+                bounceTransition.setByY(-5); // Nảy nhỏ hơn
                 bounceTransition.setAutoReverse(true);
                 bounceTransition.setCycleCount(2);
 

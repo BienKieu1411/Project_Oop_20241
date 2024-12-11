@@ -4,6 +4,7 @@ import deckofcards.Card;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -72,6 +73,35 @@ public class TextMode implements DisplayMode {
                 default:
                     throw new IllegalStateException("Unexpected player index: " + i);
             }
+            Label playerNameLabel = new Label(players.get(i).getNameOfPlayer());
+            playerNameLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #FFFFFF; "
+                    + "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 2, 0, 0, 1);");
+            playerNameLabel.setId("PlayerNameLabel_" + i);
+
+            // Đặt vị trí cho tên người chơi
+            switch (i) {
+                case 0: // Dưới cùng
+                    playerNameLabel.setLayoutX(sceneWidth / 2.0 - playerNameLabel.prefWidth(-1) / 2.0);
+                    playerNameLabel.setLayoutY(sceneHeight - 18); // Gần cạnh dưới
+                    break;
+                case 1:// Bên phải
+                    playerNameLabel.setRotate(90);
+                    playerNameLabel.setLayoutX(sceneWidth - 23); // Cách cạnh phải
+                    playerNameLabel.setLayoutY(sceneHeight / 2.0 - playerNameLabel.prefHeight(-1) / 2.0);
+                    break;
+                case 2: // Trên cùng
+                    playerNameLabel.setLayoutX(sceneWidth / 2.0 - playerNameLabel.prefWidth(-1) / 2.0);
+                    playerNameLabel.setLayoutY(2); // Cách cạnh trên
+                    break;
+                case 3: // Bên trái
+                    playerNameLabel.setRotate(-90);
+                    playerNameLabel.setLayoutX(-5); // Cách cạnh trái
+                    playerNameLabel.setLayoutY(sceneHeight / 2.0 - playerNameLabel.prefHeight(-1) / 2.0);
+                    break;
+            }
+
+            // Thêm Label vào giao diện
+            gameRoot.getChildren().add(playerNameLabel);
 
             // Tạo các thẻ bài
             for (int j = 0; j < playerHand.size(); j++) {
