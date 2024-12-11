@@ -58,6 +58,16 @@ public class RuleOfThirteenN extends Rules {
             }
             return cards.getFirst().getSuit() == cardsPreTurn.getFirst().getSuit() && cards.getFirst().getRank() > cardsPreTurn.getFirst().getRank();
         }
+        if(typeOfCardsPreTurn.equals("Triple")){
+            CheckSetThirteenN checkSetThirteenN = new CheckSetThirteenN();
+            checkSetThirteenN.sortCards(cards);
+            checkSetThirteenN.sortCards(cardsPreTurn);
+            if(cards.getFirst().getRank() < cardsPreTurn.getFirst().getRank()) return false;
+            for(int i = 0; i < cards.size(); ++i)
+                if(cards.get(i).getSuit() != cardsPreTurn.get(i).getSuit()) return false;
+            return true;
+
+        }
         return compareCards(cards, cardsPreTurn);
     }
 }

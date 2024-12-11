@@ -184,5 +184,4 @@ public class MainMenu {
 
         return text;
     }
-
 }
