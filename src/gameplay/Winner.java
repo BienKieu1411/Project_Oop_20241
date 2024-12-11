@@ -81,45 +81,11 @@ public class Winner {
         fireworkEffect.setCycleCount(Timeline.INDEFINITE);
         fireworkEffect.play();
 
-        // Hiệu ứng duy băng rơi
-        Timeline confettiRain = new Timeline(new KeyFrame(Duration.seconds(0.8), event -> {
-            ImageView confetti = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/ribbon`.png")));
-            confetti.setFitWidth(27);
-            confetti.setFitHeight(48);
-            confetti.setLayoutX(new Random().nextDouble() * overlay.getWidth());
-            confetti.setLayoutY(-20);
-            overlay.getChildren().add(confetti);
-
-            TranslateTransition fall = new TranslateTransition(Duration.seconds(5), confetti);
-            fall.setToY(overlay.getHeight() + 20);
-            fall.setOnFinished(e -> overlay.getChildren().remove(confetti));
-            fall.play();
-
-        }));
-        confettiRain.setCycleCount(Timeline.INDEFINITE);
-        confettiRain.play();
-
-        Timeline confettiRain1 = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            ImageView confetti1 = new ImageView(new Image(getClass().getResourceAsStream("/cardsimage/ribbon.png")));
-            confetti1.setFitWidth(27);
-            confetti1.setFitHeight(48);
-            confetti1.setLayoutX(new Random().nextDouble() * overlay.getWidth());
-            confetti1.setLayoutY(-20);
-            overlay.getChildren().add(confetti1);
-
-            TranslateTransition fall = new TranslateTransition(Duration.seconds(3), confetti1);
-            fall.setToY(overlay.getHeight() + 20);
-            fall.setOnFinished(e -> overlay.getChildren().remove(confetti1));
-            fall.play();
-
-        }));
-        confettiRain.setCycleCount(Timeline.INDEFINITE);
-        confettiRain.play();
-
         // Tạo nút "Replay" và "Quit"
         Button replayButton = MainMenu.createButton("Replay", 100, 50);
         replayButton.setOnAction(event -> {
             // Hủy scene hiện tại trước khi chuyển sang scene mới
+            overlay.getChildren().clear();
             overlay.getChildren().clear();
             stage.setScene(ModeSelectionMenu.createModeSelectionScene(stage, "Baccarat"));
             // Sau khi chuyển scene, giải phóng bộ nhớ (nếu cần)

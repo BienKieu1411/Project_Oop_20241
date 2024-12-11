@@ -24,6 +24,8 @@ public class Deck {
 			if(check) break;
 		}
 	}
+
+
 	// Phương thức xáo trộn bộ bài
 	public void shuffleDeck() {
 		Collections.shuffle(deck);

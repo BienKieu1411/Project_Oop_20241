@@ -50,30 +50,6 @@ public class Card {
 		};
 	}
 
-	public String printRank(){
-		return this.rank;
-	}
-
-	public String printSuit(){
-		return this.suit;
-	}
-
-	public boolean isRed(){
-		return this.getSuit() > 2;
-	}
-
-	// Ghi đè phương thức equals giúp dễ dàng so sánh 2 lá bài bằng nhau
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || getClass() != obj.getClass())
-			return false;
-		Card card = (Card) obj;
-		return rank.equals(card.rank) && suit.equals(card.suit);
-	}
-
-
 	public ImageView getFrontView() {
 		ImageView imageView = new ImageView(frontImage);
 		imageView.setFitWidth(70);  // Đặt chiều rộng
@@ -100,12 +76,28 @@ public class Card {
 		return isFaceUp ? getFrontView() : getBackView();
 	}
 
+
+
+	public boolean isRed(){
+		return this.getSuit() > 2;
+	}
+
 	public boolean isSelected() {
 		return isSelected;
 	}
 
 	public void setSelected(boolean selected) {
 		isSelected = selected;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		Card card = (Card) obj;
+		return rank.equals(card.rank) && suit.equals(card.suit);
 	}
 
 	// Giúp so sánh lá bài nào lớn hơn
@@ -125,5 +117,13 @@ public class Card {
 	@Override
 	public int hashCode() {
 		return java.util.Objects.hash(rank, suit);
+	}
+
+	public String printRank(){
+		return this.rank;
+	}
+
+	public String printSuit(){
+		return this.suit;
 	}
 }

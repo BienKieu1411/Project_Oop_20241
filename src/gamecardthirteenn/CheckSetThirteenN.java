@@ -27,6 +27,8 @@ public class CheckSetThirteenN extends CheckSet {
                 return false;
         return true;
     }
+
+
     @Override
     public boolean checkPine(ArrayList<Card> cards) {
         if (cards.size() % 2 == 1 || cards.size() < 6)
