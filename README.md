@@ -1,12 +1,12 @@
 # 🃏🎲 Game Card 🎮🃏🔥
 
-## 🎮 Giới Thiệu 🏆
+## 🎮 Introduction 🏆
 
-- Game bài bao gồm ba môn chơi phổ biến: Tiến Lên Miền Bắc, Ba Cây, Tiến Lên Miền Nam. Mỗi môn chơi có luật chơi riêng biệt, mang tính chiến thuật cao. Game được phát triển bằng Java với giao diện sử dụng JavaFX.
+- The game includes three popular card games: Tiến Lên Miền Bắc, Ba Cây, and Tiến Lên Miền Nam. Each game has unique rules and requires strategic thinking. The game is developed in Java with a JavaFX-based graphical interface.
 
-## 🛠⚡ Cài Đặt ⚙️
+## 🛠⚡ Installation ⚙️
 
-### 1️⃣ Yêu cầu hệ thống 💻:
+### 1️⃣ System Requirements 💻:
 
 - Windows/macOS/Linux
 
@@ -14,9 +14,9 @@
 
 - JavaFX SDK
 
-- Maven hoặc Gradle (tùy chọn)
+- Maven or Gradle (optional)
 
-### 2️⃣ Cách cài đặt 🛠:
+### 2️⃣ Installation Steps 🛠:
 
 - Clone repository:
 
@@ -25,87 +25,89 @@ git clone https://github.com/BienKieu1411/Project_Oop_20241/
 cd Project_Oop_20241
 ```
 
-- Nếu dùng Maven:
+- If using Maven:
 
 ```bash
 mvn clean install
 mvn javafx:run
 ```
 
-- Nếu dùng Gradle:
+- If using Gradle:
 
 ```bash
 ./gradlew build
 ./gradlew run
 ```
 
-## 📜🎴 Luật Chơi 🃏
+## 📜🎴 Game Rules 🃏
 
 ### 🃏 1. Tiến Lên Miền Bắc 🔥
 
-- Chơi với bộ bài 52 lá, tối đa 4 người.
+- Played with a 52-card deck, up to 4 players.
 
-- Mỗi người được chia 13 lá.
+- Each player is dealt 13 cards.
 
-- Ai có 3 Bích đánh trước.
+- The player with 3 of Spades starts first.
 
-- Bài chặn phải cùng chất và lớn hơn bài trước.
+- Cards must be played in the same suit and be higher than the previous card.
 
-- Các bộ dàn bài:
+- Valid combinations:
 
-  - Rác: Lẻ bài lẻ.
+  - Single: Any single card.
 
-  - Đôi: Hai lá giống nhau.
+  - Pair: Two cards of the same rank.
 
-  - Xám: Ba lá giống nhau.
+  - Triple: Three cards of the same rank.
 
-  - Sảnh: Bài liền tiếp nhau cùng chất.
+  - Straight: Consecutive cards of the same suit.
 
-  - Tứ Quý: Bốn lá giống nhau.
+  - Four of a Kind: Four cards of the same rank.
 
-- Thắng khi đều hết bài trước người khác.
+- The winner is the first to play all their cards.
 
 ### 🂡 2. Ba Cây 🎲
 
 - Chơi với bài 36 lá (loại bỏ bài 10, J, Q, K).
 
-- Mỗi người nhận 3 lá bài.
+- Played with a 36-card deck (cards 10, J, Q, K are removed).
 
-- Điểm tính theo tổng số điểm của bài, chỉ lấy chữ số cuối.
+- Each player is dealt 3 cards.
 
-- A = 1, 2-9 giữ nguyên, 10-K = 0 điểm.
+- The score is calculated as the sum of card values, using only the last digit.
 
-- Ai tổng điểm cao nhất thắng.
+  - A = 1, 2-9 keep their values, 10-K = 0 points.
 
-- Trường hợp bằng điểm:
+  - The player with the highest total points wins.
 
-  - So chất (Rô > Cơ > Bích > Tép).
+- In case of a tie:
+
+- Compare suits (Diamonds > Hearts > Spades > Clubs).
 
 ### 🃏 3. Tiến Lên Miền Nam ⚡
 
-- Giống với Tiến Lên Miền Bắc, nhưng có một số khác biệt:
+- Similar to Tiến Lên Miền Bắc, but with some differences:
 
-  - Không cần đánh cùng chất.
+  - No suit restrictions when playing a higher card.
 
-  - Được chặn bằng bài lớn hơn.
+  - Can play a higher-ranking card regardless of suit.
 
-  - Có thể đánh bốn đôi thông chặn 2.
+  - Four consecutive pairs (Four Double Sequence) can beat 2s.
 
-## 🎯🚀 Hướng Dẫn Sử Dụng 🕹️
+## 🎯🚀 How to Play 🕹️
 
-### 🎮 1. Mở game bằng lệnh:
+### 🎮 1. Run the game with the command:
 
-```bash
+```sh
 java MainApplication
 ```
 
-### 🎲 2. Chọn chế độ chơi.
+### 🎲 2. Select a game mode.
 
-### 🕹 3. Thực hiện các thao tác theo hướng dẫn trong game.
+### 🕹 3. Follow the in-game instructions.
 
-## 📩📨 Liên Hệ 📬
+## 📩📨 Contact 📬
 
-- ✍️ Tác giả: Kiều Giang Biên, Phạm Việt Cường, Bùi Lê Hoàng, Nguyễn Huy Kiệt, Nguyễn Ngọc Văn Quyến, Phạm Ngọc Tuyên.
+- ✍️ Authors: Kiều Giang Biên, Phạm Việt Cường, Bùi Lê Hoàng, Nguyễn Huy Kiệt, Nguyễn Ngọc Văn Quyến, Phạm Ngọc Tuyên.
 
 - 🌍 GitHub: [BienKieu1411](https://github.com/BienKieu1411)
 
